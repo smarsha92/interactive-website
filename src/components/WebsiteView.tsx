@@ -203,7 +203,7 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
               >
                 Close
               </Button>
-              <Terminal mini onCommand={onCommand} />
+              <Terminal mini={true} onCommand={onCommand} />
             </div>
           </div>
         )}

@@ -3,22 +3,12 @@ import { X, Minus, Square, Sliders } from '@phosphor-icons/react'
 import { Card } from '@/components/ui/card'
 import { Slider } from '@/components/ui/slider'
 import { Separator } from '@/components/ui/separator'
-import { ThemeBrowser } from './ThemeBrowser'
-import { NetworkSimulator } from './NetworkSimulator'
 
-interface TerminalWindowProps {
-  onStartWebsite: () => void
-  onStartHtmlOnly: () => void
-  onThemeChange: (theme: string) => void
-  currentTheme: string
-  className?: string
+interface TerminalProps {
+  onCommand: (command: string) => void
+  opacity?: number
+  blur?: number
   mini?: boolean
-  onClose?: () => void
-  onEndWebsite?: () => void
-  onMinimize?: () => void
-  isMinimized?: boolean
-  onMaximize?: () => void
-  isMaximized?: boolean
 }
 
 interface TerminalLine {
@@ -26,35 +16,18 @@ interface TerminalLine {
   text: string
 }
 
-export function TerminalWindow({ 
-  onStartWebsite,
-  onStartHtmlOnly, 
-  onThemeChange, 
-  currentTheme,
-  className = '',
-  mini = false,
-  onClose,
-  onEndWebsite,
-  onMinimize,
-  isMinimized = false,
-  onMaximize,
-  isMaximized = false
-}: TerminalWindowProps) {
+export function Terminal({ 
+  onCommand,
+  opacity: initialOpacity = 90,
+  blur: initialBlur = 20,
+  mini = false
+}: TerminalProps) {
   const [lines, setLines] = useState<TerminalLine[]>([])
   const [currentInput, setCurrentInput] = useState('')
   const [isTyping, setIsTyping] = useState(true)
-  const [showCursor, setShowCursor] = useState(true)
   const [showSettings, setShowSettings] = useState(false)
-  const [showThemeBrowser, setShowThemeBrowser] = useState(false)
-  const [showNetworkSimulator, setShowNetworkSimulator] = useState(false)
-  const [opacity, setOpacity] = useState(() => {
-    const saved = localStorage.getItem('terminal-opacity')
-    return saved ? parseInt(saved) : 90
-  })
-  const [blur, setBlur] = useState(() => {
-    const saved = localStorage.getItem('terminal-blur')
-    return saved ? parseInt(saved) : 20
-  })
+  const [opacity, setOpacity] = useState(initialOpacity)
+  const [blur, setBlur] = useState(initialBlur)
   const inputRef = useRef<HTMLInputElement>(null)
   const terminalRef = useRef<HTMLDivElement>(null)
   const [trafficLightHover, setTrafficLightHover] = useState(false)
@@ -89,14 +62,6 @@ export function TerminalWindow({
     }
   }, [mini])
 
-  useEffect(() => {
-    localStorage.setItem('terminal-opacity', opacity.toString())
-  }, [opacity])
-
-  useEffect(() => {
-    localStorage.setItem('terminal-blur', blur.toString())
-  }, [blur])
-
   const handleCommand = (cmd: string) => {
     const trimmedCmd = cmd.trim().toLowerCase()
     
@@ -109,12 +74,9 @@ export function TerminalWindow({
         const helpLines = [
           { type: 'output' as const, text: 'Available commands:' },
           { type: 'output' as const, text: '  start    - Launch the full website' },
-          { type: 'output' as const, text: '  ps       - Launch HTML-only version of website' },
           { type: 'output' as const, text: '  network  - Open network packet simulator' },
           { type: 'output' as const, text: '  themes   - View available color themes' },
           { type: 'output' as const, text: '  xmas     - Enable festive Christmas theme' },
-          { type: 'output' as const, text: '  90s      - Enable retro 8-bit pixel theme' },
-          { type: 'output' as const, text: '  effects  - Toggle 90s CRT effects (90s theme only)' },
           { type: 'output' as const, text: '  version  - Display version information' },
           { type: 'output' as const, text: '  whoami   - Display current user information' },
           { type: 'output' as const, text: '  date     - Show current date and time' },
@@ -133,128 +95,40 @@ export function TerminalWindow({
         break
       case 'start':
         setLines(prev => [...prev, { type: 'output', text: 'Launching website...' }])
-        setTimeout(() => onStartWebsite(), 500)
-        break
-      case 'ps':
-        setLines(prev => [...prev, { type: 'output', text: 'Launching HTML-only website...' }])
-        setTimeout(() => onStartHtmlOnly(), 500)
+        setTimeout(() => onCommand('__START__'), 500)
         break
       case 'network':
         setLines(prev => [...prev, { type: 'output', text: 'Initializing network simulator...' }])
-        setTimeout(() => setShowNetworkSimulator(true), 300)
+        setTimeout(() => onCommand('__NETWORK__'), 300)
         break
       case 'themes':
-        setShowThemeBrowser(true)
-        setLines(prev => [
-          ...prev,
-          { type: 'output', text: 'Opening theme browser...' }
-        ])
+        setLines(prev => [...prev, { type: 'output', text: 'Opening theme browser...' }])
+        setTimeout(() => onCommand('__THEMES__'), 300)
         break
       case 'default':
-        onThemeChange('default')
-        setLines(prev => [...prev, { type: 'output', text: 'Theme set to: Default' }])
-        break
       case 'cyan':
-        onThemeChange('cyan')
-        setLines(prev => [...prev, { type: 'output', text: 'Theme set to: Cyan' }])
-        break
       case 'matrix':
-        onThemeChange('matrix')
-        setLines(prev => [...prev, { type: 'output', text: 'Theme set to: Matrix Green' }])
-        break
       case 'amber':
-        onThemeChange('amber')
-        setLines(prev => [...prev, { type: 'output', text: 'Theme set to: Amber' }])
-        break
       case 'purple':
-        onThemeChange('purple')
-        setLines(prev => [...prev, { type: 'output', text: 'Theme set to: Purple' }])
+      case 'sunset':
+      case 'ocean':
+      case 'neon':
+      case 'forest':
+      case 'rose':
+      case 'gold':
+      case 'ice':
+      case 'synthwave':
+      case 'cyberpunk':
+        onCommand(`__THEME_${trimmedCmd.toUpperCase()}`)
+        setLines(prev => [...prev, { type: 'output', text: `Theme set to: ${trimmedCmd.charAt(0).toUpperCase() + trimmedCmd.slice(1)}` }])
         break
       case 'xmas':
-        onThemeChange('xmas')
+        onCommand('__THEME_XMAS')
         setLines(prev => [
           ...prev,
           { type: 'output', text: '🎄 Ho ho ho! Merry Christmas! 🎅' },
           { type: 'output', text: 'Festive theme activated!' }
         ])
-        break
-      case 'sunset':
-        onThemeChange('sunset')
-        setLines(prev => [...prev, { type: 'output', text: 'Theme set to: Sunset' }])
-        break
-      case 'ocean':
-        onThemeChange('ocean')
-        setLines(prev => [...prev, { type: 'output', text: 'Theme set to: Ocean' }])
-        break
-      case 'neon':
-        onThemeChange('neon')
-        setLines(prev => [...prev, { type: 'output', text: 'Theme set to: Neon' }])
-        break
-      case 'forest':
-        onThemeChange('forest')
-        setLines(prev => [...prev, { type: 'output', text: 'Theme set to: Forest' }])
-        break
-      case 'rose':
-        onThemeChange('rose')
-        setLines(prev => [...prev, { type: 'output', text: 'Theme set to: Rose' }])
-        break
-      case 'gold':
-        onThemeChange('gold')
-        setLines(prev => [...prev, { type: 'output', text: 'Theme set to: Gold' }])
-        break
-      case 'ice':
-        onThemeChange('ice')
-        setLines(prev => [...prev, { type: 'output', text: 'Theme set to: Ice' }])
-        break
-      case 'synthwave':
-        onThemeChange('synthwave')
-        setLines(prev => [...prev, { type: 'output', text: 'Theme set to: Synthwave' }])
-        break
-      case 'cyberpunk':
-        onThemeChange('cyberpunk')
-        setLines(prev => [...prev, { type: 'output', text: 'Theme set to: Cyberpunk' }])
-        break
-      case '90s':
-        onThemeChange('90s')
-        setLines(prev => [
-          ...prev,
-          { type: 'output', text: '🎮 RADICAL! Activating 8-bit pixel theme!' },
-          { type: 'output', text: 'Welcome to the 90s, dude! 🕹️' },
-          { type: 'output', text: '' },
-          { type: 'output', text: 'Tip: Type "effects" to toggle scanlines & CRT effects' }
-        ])
-        break
-      case 'effects':
-        if (currentTheme === '90s') {
-          const currentValue = localStorage.getItem('90s-effects-enabled')
-          const newValue = currentValue === 'false' ? 'true' : 'false'
-          localStorage.setItem('90s-effects-enabled', newValue)
-          
-          window.spark.kv.set('90s-effects-enabled', newValue === 'true')
-          
-          const root = document.documentElement
-          if (newValue === 'true') {
-            root.classList.add('retro-effects-enabled')
-            setLines(prev => [
-              ...prev,
-              { type: 'output', text: '📺 CRT Effects: ENABLED' },
-              { type: 'output', text: 'Scanlines, vignette, and filters activated!' }
-            ])
-          } else {
-            root.classList.remove('retro-effects-enabled')
-            setLines(prev => [
-              ...prev,
-              { type: 'output', text: '📺 CRT Effects: DISABLED' },
-              { type: 'output', text: 'Effects turned off for cleaner display' }
-            ])
-          }
-        } else {
-          setLines(prev => [
-            ...prev,
-            { type: 'error', text: 'Error: "effects" command only works with 90s theme' },
-            { type: 'output', text: 'Type "90s" to enable the retro theme first!' }
-          ])
-        }
         break
       case 'version':
         setLines(prev => [
@@ -382,10 +256,10 @@ export function TerminalWindow({
         setLines([])
         break
       case 'end':
-        if (mini && onEndWebsite) {
+        if (mini) {
           setLines(prev => [...prev, { type: 'output', text: 'Returning to terminal...' }])
-          setTimeout(() => onEndWebsite(), 500)
-        } else if (!mini) {
+          setTimeout(() => onCommand('__END__'), 500)
+        } else {
           setLines(prev => [...prev, { type: 'error', text: 'Command only available in website mode' }])
         }
         break
@@ -413,41 +287,18 @@ export function TerminalWindow({
   }, [lines])
 
   return (
-    <>
-      <ThemeBrowser
-        isOpen={showThemeBrowser}
-        onClose={() => setShowThemeBrowser(false)}
-        currentTheme={currentTheme}
-        onThemeChange={(theme) => {
-          onThemeChange(theme)
-          setShowThemeBrowser(false)
-          setLines(prev => [
-            ...prev,
-            { type: 'output', text: `Theme set to: ${theme}` }
-          ])
-        }}
-      />
-
-      {showNetworkSimulator && (
-        <NetworkSimulator onClose={() => setShowNetworkSimulator(false)} />
-      )}
-      
-      <Card 
-        className={`glassmorphic relative overflow-hidden transition-all duration-300 ${className}`}
-        style={{
-          backgroundColor: isMinimized ? `oklch(0.15 0.02 240 / 25%)` : `oklch(0.15 0.02 240 / ${opacity}%)`,
-          backdropFilter: isMinimized ? `blur(10px)` : `blur(${blur}px)`,
-        }}
-        onMouseEnter={() => setTrafficLightHover(true)}
-        onMouseLeave={() => setTrafficLightHover(false)}
-      >
+    <Card 
+      className={`relative overflow-hidden transition-all duration-300 ${mini ? 'w-96 max-w-[calc(100vw-3rem)]' : 'w-full max-w-4xl'}`}
+      style={{
+        backgroundColor: `oklch(0.15 0.02 240 / ${opacity}%)`,
+        backdropFilter: `blur(${blur}px)`,
+      }}
+      onMouseEnter={() => setTrafficLightHover(true)}
+      onMouseLeave={() => setTrafficLightHover(false)}
+    >
       <div className="absolute top-0 left-0 right-0 h-8 bg-card/30 flex items-center px-4 gap-2 border-b border-border/30">
         <div className={`flex gap-2 transition-opacity duration-150 ${trafficLightHover ? 'opacity-100' : 'opacity-40'}`}>
           <button
-            onClick={(e) => {
-              e.stopPropagation()
-              onClose?.()
-            }}
             className="w-3 h-3 rounded-full bg-[#FF5F57] hover:brightness-110 transition-all group relative"
             title="Close"
           >
@@ -458,10 +309,6 @@ export function TerminalWindow({
             />
           </button>
           <button
-            onClick={(e) => {
-              e.stopPropagation()
-              onMinimize?.()
-            }}
             className="w-3 h-3 rounded-full bg-[#FFBD2E] hover:brightness-110 transition-all group relative"
             title="Minimize"
           >
@@ -472,10 +319,6 @@ export function TerminalWindow({
             />
           </button>
           <button
-            onClick={(e) => {
-              e.stopPropagation()
-              onMaximize?.()
-            }}
             className="w-3 h-3 rounded-full bg-[#28C840] hover:brightness-110 transition-all group relative"
             title="Maximize"
           >
@@ -489,15 +332,17 @@ export function TerminalWindow({
         <div className="flex-1 text-center text-xs text-muted-foreground font-mono">
           terminal
         </div>
-        <button
-          onClick={() => setShowSettings(!showSettings)}
-          className="text-muted-foreground hover:text-primary transition-colors"
-        >
-          <Sliders size={16} />
-        </button>
+        {!mini && (
+          <button
+            onClick={() => setShowSettings(!showSettings)}
+            className="text-muted-foreground hover:text-primary transition-colors"
+          >
+            <Sliders size={16} />
+          </button>
+        )}
       </div>
 
-      {showSettings && (
+      {showSettings && !mini && (
         <div className="absolute top-8 right-0 w-64 bg-card/95 backdrop-blur-xl border border-border/50 rounded-bl-lg p-4 z-10 shadow-xl">
           <div className="space-y-4">
             <div>
@@ -533,14 +378,8 @@ export function TerminalWindow({
 
       <div 
         ref={terminalRef}
-        className={`font-mono text-sm p-6 pt-12 overflow-y-auto transition-all duration-300 ${mini ? 'h-64' : 'h-96'} ${isMinimized ? 'opacity-40' : 'opacity-100'}`}
-        onClick={() => {
-          if (isMinimized && onMinimize) {
-            onMinimize()
-          } else {
-            inputRef.current?.focus()
-          }
-        }}
+        className={`terminal-font text-sm p-6 pt-12 overflow-y-auto transition-all duration-300 ${mini ? 'h-64' : 'h-96'}`}
+        onClick={() => inputRef.current?.focus()}
       >
         {lines.map((line, idx) => (
           <div
@@ -558,7 +397,7 @@ export function TerminalWindow({
         ))}
 
         {isTyping && (
-          <span className="text-primary terminal-cursor">█</span>
+          <span className="text-primary cursor-blink">█</span>
         )}
 
         {!isTyping && (
@@ -573,11 +412,10 @@ export function TerminalWindow({
               autoFocus
               spellCheck={false}
             />
-            {showCursor && <span className="text-accent terminal-cursor">█</span>}
+            <span className="text-accent cursor-blink">█</span>
           </form>
         )}
       </div>
     </Card>
-    </>
   )
 }
