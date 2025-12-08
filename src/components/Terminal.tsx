@@ -37,8 +37,8 @@ export function Terminal({
   const [commandHistory, setCommandHistory] = useKV<string[]>('terminal-history', [])
   const [historyIndex, setHistoryIndex] = useState(-1)
   
-  const welcomeText = useTypewriter('Welcome to Networking Mastery', 120)
-  const helpText = useTypewriter('Type "help" for more commands', 120)
+  const welcomeText = useTypewriter('Welcome to networking mastery', 120)
+  const helpText = useTypewriter('type help to get started', 120)
   const miniWelcomeText = useTypewriter('Mini Terminal', 120)
   const miniHelpText = useTypewriter('Type "help" for commands or "end" to return', 120)
 
