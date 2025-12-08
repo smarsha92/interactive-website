@@ -56,9 +56,15 @@ function App() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
+            className="min-h-screen flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: 'url(https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80)'
+            }}
           >
-            <Terminal onCommand={handleCommand} opacity={opacity ?? 80} blur={blur ?? 20} />
+            <div className="absolute inset-0 bg-black/40" />
+            <div className="relative z-10">
+              <Terminal onCommand={handleCommand} opacity={opacity ?? 80} blur={blur ?? 20} />
+            </div>
           </motion.div>
         )}
 
