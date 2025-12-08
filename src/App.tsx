@@ -6,6 +6,7 @@ import { Terminal } from './components/Terminal';
 import { WebsiteView } from './components/WebsiteView';
 import { ThemeBrowser } from './components/ThemeBrowser';
 import { NetworkSimulator } from './components/NetworkSimulator';
+import { SnowEffect } from './components/SnowEffect';
 import { themes, applyTheme } from './lib/themes';
 
 type ViewMode = 'terminal' | 'website';
@@ -84,6 +85,8 @@ function App() {
         isOpen={showNetworkSim}
         onClose={() => setShowNetworkSim(false)}
       />
+
+      {currentTheme === 'xmas' && <SnowEffect />}
 
       <Toaster />
     </div>
