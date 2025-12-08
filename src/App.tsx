@@ -59,7 +59,7 @@ function App() {
             className="relative min-h-screen"
           >
             <div 
-              className="absolute inset-0 z-0"
+              className="absolute inset-0 z-0 animated-gradient"
               style={{
                 background: themes[currentTheme || 'cyan']?.gradient || 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)'
               }}
