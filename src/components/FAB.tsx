@@ -64,49 +64,56 @@ const FAB: React.FC<FABProps> = ({ onOpenTerminal, onCommand }) => {
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            className="mb-4 w-80 h-64 glass-panel rounded-xl overflow-hidden flex flex-col shadow-2xl origin-bottom-right"
+            className="mb-4 w-[540px] h-[450px] rounded-lg overflow-hidden flex flex-col shadow-[0_0_40px_rgba(0,0,0,0.8)] origin-bottom-right border border-primary/30"
+            style={{
+              background: 'oklch(0.12 0.02 240)',
+            }}
           >
-            <div className="flex items-center justify-between p-2 bg-black/20 border-b border-white/10">
-              <span className="text-xs font-mono text-[var(--color-primary)] ml-2">mini-term</span>
-              <div className="flex gap-1">
+            <div className="flex items-center justify-between px-4 py-2.5 border-b border-primary/30" style={{ background: 'oklch(0.08 0.02 240)' }}>
+              <span className="text-sm terminal-font text-primary">mini-term</span>
+              <div className="flex gap-2">
                 <button 
                    onClick={onOpenTerminal}
-                   className="p-1 hover:text-[var(--color-accent)] transition-colors"
+                   className="p-1 hover:text-accent transition-colors text-muted-foreground"
                    title="Expand to full terminal"
                 >
-                  <Maximize2 size={14} />
+                  <Maximize2 size={16} />
                 </button>
                 <button 
                   onClick={() => setIsOpen(false)}
-                  className="p-1 hover:text-red-400 transition-colors"
+                  className="p-1 hover:text-red-400 transition-colors text-muted-foreground"
                 >
-                  <X size={14} />
+                  <X size={16} />
                 </button>
               </div>
             </div>
             
             <div 
-              className="flex-1 p-3 font-mono text-xs overflow-y-auto custom-scrollbar font-bold text-[var(--color-text)]"
+              className="flex-1 p-4 terminal-font text-sm overflow-y-auto"
               ref={scrollRef}
               onClick={() => inputRef.current?.focus()}
+              style={{
+                scrollbarWidth: 'thin',
+                scrollbarColor: 'oklch(0.35 0.08 195) transparent',
+              }}
             >
-              <div className="mb-2 text-[var(--color-secondary)]">RetroTerminal Mini [v1.0]</div>
+              <div className="mb-4 text-muted-foreground">RetroTerminal Mini [v1.0]</div>
               
               {history.map((item, idx) => (
-                <div key={idx} className="mb-1 break-words leading-relaxed">
+                <div key={idx} className="mb-2 break-words leading-relaxed">
                   {item.type === 'cmd' ? (
-                    <div className="flex gap-2 text-[var(--color-secondary)]">
-                      <span className="text-[var(--color-primary)]">$</span>
-                      <span className="text-[var(--color-text)]">{item.content}</span>
+                    <div className="flex gap-2">
+                      <span className="text-primary">$</span>
+                      <span className="text-foreground">{item.content}</span>
                     </div>
                   ) : (
-                    <div className="text-[var(--color-text)] opacity-90">{item.content}</div>
+                    <div className="text-foreground/80 ml-4">{item.content}</div>
                   )}
                 </div>
               ))}
 
-              <div className="flex gap-2 items-center">
-                <span className="text-[var(--color-primary)]">$</span>
+              <div className="flex gap-2 items-start">
+                <span className="text-primary mt-0.5">$</span>
                 <div className="relative flex-1">
                   <input
                     ref={inputRef}
@@ -114,16 +121,17 @@ const FAB: React.FC<FABProps> = ({ onOpenTerminal, onCommand }) => {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    className="w-full bg-transparent border-none outline-none text-[var(--color-text)] caret-transparent p-0 m-0"
+                    className="w-full bg-transparent border-none outline-none text-foreground caret-transparent p-0 m-0 terminal-font text-sm"
                     autoFocus
                     autoComplete="off"
                     spellCheck="false"
+                    disabled={isProcessing}
                   />
                   <span 
                     className="absolute top-0 pointer-events-none"
-                    style={{ left: `${input.length}ch` }}
+                    style={{ left: `${input.length * 0.6}em` }}
                   >
-                    <span className="inline-block w-2 h-3.5 bg-[var(--color-primary)] animate-[blink_1s_step-end_infinite] align-middle" />
+                    <span className="inline-block w-2 h-4 bg-primary cursor-blink" />
                   </span>
                 </div>
               </div>
@@ -136,7 +144,7 @@ const FAB: React.FC<FABProps> = ({ onOpenTerminal, onCommand }) => {
         onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        className="w-14 h-14 rounded-full bg-[var(--color-primary)] text-black flex items-center justify-center shadow-[0_0_20px_var(--color-primary)] hover:shadow-[0_0_30px_var(--color-accent)] transition-shadow duration-300"
+        className="w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-[0_0_20px_var(--primary)] hover:shadow-[0_0_30px_var(--accent)] transition-shadow duration-300"
       >
          {isOpen ? <X size={24} /> : <TerminalIcon size={24} />}
       </motion.button>
