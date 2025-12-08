@@ -362,7 +362,7 @@ export function Terminal({
 
   return (
     <Card 
-      className={`group relative overflow-hidden transition-all duration-500 hover:shadow-[0_0_40px_rgba(100,200,255,0.15)] ${mini ? 'w-96 max-w-[calc(100vw-3rem)]' : 'w-full max-w-4xl'}`}
+      className={`group relative overflow-hidden transition-all duration-500 hover:shadow-[0_0_30px_rgba(100,200,255,0.08)] ${mini ? 'w-96 max-w-[calc(100vw-3rem)]' : 'w-full max-w-4xl'}`}
       style={{
         backgroundColor: `oklch(0.15 0.02 240 / ${opacity ?? initialOpacity}%)`,
         backdropFilter: `blur(${blur ?? initialBlur}px)`,
@@ -371,7 +371,7 @@ export function Terminal({
       onMouseLeave={() => setTrafficLightHover(false)}
     >
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/3 via-transparent to-accent/3" />
       </div>
       <div className="absolute top-0 left-0 right-0 h-8 bg-card/30 flex items-center px-4 gap-2 border-b border-border/30">
         <div className={`flex gap-2 transition-opacity duration-150 ${trafficLightHover ? 'opacity-100' : 'opacity-40'}`}>
@@ -461,12 +461,12 @@ export function Terminal({
         {lines.map((line, idx) => (
           <div
             key={idx}
-            className={`mb-1 transition-all duration-300 hover:translate-x-1 hover:brightness-125 ${
+            className={`mb-1 transition-all duration-300 hover:translate-x-1 hover:brightness-110 ${
               line.type === 'input'
-                ? 'text-accent font-bold hover:drop-shadow-[0_0_8px_rgba(100,200,255,0.6)]'
+                ? 'text-accent font-bold hover:drop-shadow-[0_0_4px_rgba(100,200,255,0.4)]'
                 : line.type === 'error'
-                ? 'text-destructive hover:drop-shadow-[0_0_8px_rgba(255,100,100,0.6)]'
-                : 'text-primary hover:drop-shadow-[0_0_8px_rgba(100,200,255,0.4)]'
+                ? 'text-destructive hover:drop-shadow-[0_0_4px_rgba(255,100,100,0.4)]'
+                : 'text-primary hover:drop-shadow-[0_0_4px_rgba(100,200,255,0.25)]'
             }`}
           >
             {line.text}
@@ -474,14 +474,14 @@ export function Terminal({
         ))}
 
         <form onSubmit={handleSubmit} className="flex items-center group/input">
-          <span className="text-accent mr-2 transition-all duration-300 group-hover/input:drop-shadow-[0_0_8px_rgba(100,200,255,0.6)]">$</span>
+          <span className="text-accent mr-2 transition-all duration-300 group-hover/input:drop-shadow-[0_0_4px_rgba(100,200,255,0.4)]">$</span>
           <input
             ref={inputRef}
             type="text"
             value={currentInput}
             onChange={(e) => setCurrentInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="flex-1 bg-transparent outline-none text-accent font-bold caret-accent transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(100,200,255,0.6)]"
+            className="flex-1 bg-transparent outline-none text-accent font-bold caret-accent transition-all duration-300 hover:drop-shadow-[0_0_4px_rgba(100,200,255,0.4)]"
             autoFocus
             spellCheck={false}
           />

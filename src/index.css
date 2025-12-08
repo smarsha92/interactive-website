@@ -21,24 +21,24 @@
 
 :root {
   --background: oklch(1.00 0 0);
-  --foreground: oklch(0.10 0.005 240);
+  --foreground: oklch(0.15 0.005 240);
   --card: oklch(1.00 0 0);
-  --card-foreground: oklch(0.10 0.005 240);
+  --card-foreground: oklch(0.15 0.005 240);
   --popover: oklch(1.00 0 0);
-  --popover-foreground: oklch(0.10 0.005 240);
-  --primary: oklch(0.45 0.15 260);
+  --popover-foreground: oklch(0.15 0.005 240);
+  --primary: oklch(0.50 0.12 260);
   --primary-foreground: oklch(1.00 0 0);
-  --secondary: oklch(0.98 0.002 240);
+  --secondary: oklch(0.96 0.002 240);
   --secondary-foreground: oklch(0.35 0.008 240);
-  --muted: oklch(0.96 0.005 240);
-  --muted-foreground: oklch(0.45 0.01 240);
-  --accent: oklch(0.10 0.005 240);
+  --muted: oklch(0.94 0.005 240);
+  --muted-foreground: oklch(0.50 0.01 240);
+  --accent: oklch(0.15 0.005 240);
   --accent-foreground: oklch(1.00 0 0);
   --destructive: oklch(0.55 0.22 25);
   --destructive-foreground: oklch(1.00 0 0);
-  --border: oklch(0.88 0.01 240);
+  --border: oklch(0.85 0.01 240);
   --input: oklch(1.00 0 0);
-  --ring: oklch(0.45 0.15 260);
+  --ring: oklch(0.50 0.12 260);
   --radius: 0.5rem;
   
   transition: 
@@ -143,10 +143,10 @@ body::before {
       0deg,
       transparent,
       transparent 2px,
-      color-mix(in oklch, var(--accent) 3%, transparent) 2px,
-      color-mix(in oklch, var(--accent) 3%, transparent) 4px
+      color-mix(in oklch, var(--accent) 2%, transparent) 2px,
+      color-mix(in oklch, var(--accent) 2%, transparent) 4px
     );
-  opacity: 0.3;
+  opacity: 0.2;
   pointer-events: none;
 }
 
