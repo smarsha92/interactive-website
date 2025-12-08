@@ -27,8 +27,8 @@ export function Terminal({
   const [lines, setLines] = useState<TerminalLine[]>([])
   const [currentInput, setCurrentInput] = useState('')
   const [showSettings, setShowSettings] = useState(false)
-  const [opacity, setOpacity] = useState(initialOpacity)
-  const [blur, setBlur] = useState(initialBlur)
+  const [opacity, setOpacity] = useKV<number>('terminal-opacity', initialOpacity)
+  const [blur, setBlur] = useKV<number>('terminal-blur', initialBlur)
   const inputRef = useRef<HTMLInputElement>(null)
   const terminalRef = useRef<HTMLDivElement>(null)
   const [trafficLightHover, setTrafficLightHover] = useState(false)
@@ -343,8 +343,8 @@ export function Terminal({
     <Card 
       className={`relative overflow-hidden transition-all duration-300 ${mini ? 'w-96 max-w-[calc(100vw-3rem)]' : 'w-full max-w-4xl'}`}
       style={{
-        backgroundColor: `oklch(0.15 0.02 240 / ${opacity}%)`,
-        backdropFilter: `blur(${blur}px)`,
+        backgroundColor: `oklch(0.15 0.02 240 / ${opacity ?? initialOpacity}%)`,
+        backdropFilter: `blur(${blur ?? initialBlur}px)`,
       }}
       onMouseEnter={() => setTrafficLightHover(true)}
       onMouseLeave={() => setTrafficLightHover(false)}
@@ -400,10 +400,10 @@ export function Terminal({
           <div className="space-y-4">
             <div>
               <label className="text-xs text-muted-foreground font-mono mb-2 block">
-                Opacity: {opacity}%
+                Opacity: {opacity ?? initialOpacity}%
               </label>
               <Slider
-                value={[opacity]}
+                value={[opacity ?? initialOpacity]}
                 onValueChange={(val) => setOpacity(val[0])}
                 min={30}
                 max={100}
@@ -414,10 +414,10 @@ export function Terminal({
             <Separator />
             <div>
               <label className="text-xs text-muted-foreground font-mono mb-2 block">
-                Blur: {blur}px
+                Blur: {blur ?? initialBlur}px
               </label>
               <Slider
-                value={[blur]}
+                value={[blur ?? initialBlur]}
                 onValueChange={(val) => setBlur(val[0])}
                 min={0}
                 max={40}
