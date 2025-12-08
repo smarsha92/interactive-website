@@ -59,12 +59,12 @@ function App() {
             className="relative min-h-screen"
           >
             <div 
-              className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+              className="absolute inset-0 z-0"
               style={{
-                backgroundImage: 'url(https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80)'
+                background: themes[currentTheme || 'cyan']?.gradient || 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)'
               }}
             />
-            <div className="absolute inset-0 z-10 bg-black/40" />
+            <div className="absolute inset-0 z-10 bg-black/20" />
             <div className="relative z-20 min-h-screen flex items-center justify-center p-4">
               <Terminal onCommand={handleCommand} opacity={opacity ?? 80} blur={blur ?? 20} />
             </div>

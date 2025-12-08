@@ -3,6 +3,7 @@ export interface Theme {
   label: string;
   welcomeMessage: string;
   helpPrompt: string;
+  gradient: string;
   colors: {
     background: string;
     foreground: string;
@@ -27,6 +28,7 @@ export const themes: Record<string, Theme> = {
     label: 'Cyan',
     welcomeMessage: 'Welcome to networking mastery',
     helpPrompt: 'type help to get started',
+    gradient: 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)',
     colors: {
       background: 'oklch(0.15 0.02 240)',
       foreground: 'oklch(0.65 0.15 195)',
@@ -49,6 +51,7 @@ export const themes: Record<string, Theme> = {
     label: 'Default',
     welcomeMessage: 'System initialized - classic terminal mode',
     helpPrompt: 'enter "help" for available commands',
+    gradient: 'linear-gradient(135deg, #1a1a1a 0%, #2d4a2b 50%, #1f3a29 100%)',
     colors: {
       background: 'oklch(0.10 0 0)',
       foreground: 'oklch(0.60 0.18 145)',
@@ -71,6 +74,7 @@ export const themes: Record<string, Theme> = {
     label: 'Matrix',
     welcomeMessage: 'Wake up, Neo... The Matrix has you',
     helpPrompt: 'follow the white rabbit - type help',
+    gradient: 'linear-gradient(135deg, #0a0e0a 0%, #1a3a1a 50%, #0f2b0f 100%)',
     colors: {
       background: 'oklch(0.08 0.02 145)',
       foreground: 'oklch(0.60 0.18 145)',
@@ -93,6 +97,7 @@ export const themes: Record<string, Theme> = {
     label: 'Amber',
     welcomeMessage: 'Retro computing vibes activated',
     helpPrompt: 'warm amber glow ready - type help',
+    gradient: 'linear-gradient(135deg, #2a1810 0%, #4a3020 50%, #6a4828 100%)',
     colors: {
       background: 'oklch(0.12 0.03 75)',
       foreground: 'oklch(0.70 0.15 75)',
@@ -115,6 +120,7 @@ export const themes: Record<string, Theme> = {
     label: 'Purple',
     welcomeMessage: 'Entering the purple haze dimension',
     helpPrompt: 'mystical commands await - type help',
+    gradient: 'linear-gradient(135deg, #2b134b 0%, #4a2070 50%, #5d2e8b 100%)',
     colors: {
       background: 'oklch(0.12 0.04 290)',
       foreground: 'oklch(0.65 0.20 290)',
@@ -137,6 +143,7 @@ export const themes: Record<string, Theme> = {
     label: 'Sunset',
     welcomeMessage: 'Golden hour computing session',
     helpPrompt: 'bask in the warm glow - type help',
+    gradient: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 25%, #f39c12 50%, #f8b500 75%, #ffd700 100%)',
     colors: {
       background: 'oklch(0.14 0.05 45)',
       foreground: 'oklch(0.70 0.20 45)',
@@ -159,6 +166,7 @@ export const themes: Record<string, Theme> = {
     label: 'Ocean',
     welcomeMessage: 'Diving into deep blue waters',
     helpPrompt: 'navigate the depths - type help',
+    gradient: 'linear-gradient(135deg, #001F3F 0%, #003D5B 35%, #0074D9 70%, #7FDBFF 100%)',
     colors: {
       background: 'oklch(0.12 0.04 230)',
       foreground: 'oklch(0.60 0.16 230)',
@@ -181,6 +189,7 @@ export const themes: Record<string, Theme> = {
     label: 'Neon',
     welcomeMessage: 'Electric dreams terminal online',
     helpPrompt: 'neon streets await - type help',
+    gradient: 'linear-gradient(135deg, #FF006E 0%, #8338EC 35%, #3A86FF 70%, #06FFA5 100%)',
     colors: {
       background: 'oklch(0.10 0.05 330)',
       foreground: 'oklch(0.75 0.25 330)',
@@ -203,6 +212,7 @@ export const themes: Record<string, Theme> = {
     label: 'Forest',
     welcomeMessage: 'Welcome to the digital forest',
     helpPrompt: 'nature and tech unite - type help',
+    gradient: 'linear-gradient(135deg, #1a2a1a 0%, #2d4a2b 50%, #3d6a3d 100%)',
     colors: {
       background: 'oklch(0.10 0.03 160)',
       foreground: 'oklch(0.58 0.14 160)',
@@ -225,6 +235,7 @@ export const themes: Record<string, Theme> = {
     label: 'Rose',
     welcomeMessage: 'Soft rose elegance terminal',
     helpPrompt: 'delicate yet powerful - type help',
+    gradient: 'linear-gradient(135deg, #4a1942 0%, #801f4f 50%, #be4d79 100%)',
     colors: {
       background: 'oklch(0.12 0.04 350)',
       foreground: 'oklch(0.68 0.20 350)',
@@ -247,6 +258,7 @@ export const themes: Record<string, Theme> = {
     label: 'Gold',
     welcomeMessage: 'Luxurious golden terminal experience',
     helpPrompt: 'premium commands ready - type help',
+    gradient: 'linear-gradient(135deg, #3a2f0b 0%, #5c4a1a 35%, #8b6f1f 70%, #b8941f 100%)',
     colors: {
       background: 'oklch(0.14 0.03 95)',
       foreground: 'oklch(0.72 0.13 95)',
@@ -269,6 +281,7 @@ export const themes: Record<string, Theme> = {
     label: 'Ice',
     welcomeMessage: 'Arctic terminal environment',
     helpPrompt: 'cool and crystalline - type help',
+    gradient: 'linear-gradient(135deg, #1a2332 0%, #2a4a68 50%, #4a7ba7 100%)',
     colors: {
       background: 'oklch(0.12 0.02 250)',
       foreground: 'oklch(0.70 0.12 250)',
@@ -291,6 +304,7 @@ export const themes: Record<string, Theme> = {
     label: 'Synthwave',
     welcomeMessage: 'Welcome to the 80s neon dreamscape',
     helpPrompt: 'retro-futuristic vibes - type help',
+    gradient: 'linear-gradient(135deg, #2b134b 0%, #4a1870 25%, #ff006e 50%, #8338ec 75%, #3a86ff 100%)',
     colors: {
       background: 'oklch(0.12 0.05 300)',
       foreground: 'oklch(0.72 0.26 330)',
@@ -313,6 +327,7 @@ export const themes: Record<string, Theme> = {
     label: 'Cyberpunk',
     welcomeMessage: 'Welcome, netrunner - system jacked in',
     helpPrompt: 'chrome and neon ready - type help',
+    gradient: 'linear-gradient(135deg, #0a1929 0%, #0f4c75 35%, #3282b8 70%, #bbe1fa 100%)',
     colors: {
       background: 'oklch(0.08 0.04 180)',
       foreground: 'oklch(0.75 0.28 180)',
@@ -335,6 +350,7 @@ export const themes: Record<string, Theme> = {
     label: 'Christmas',
     welcomeMessage: '🎄 Ho ho ho! Merry Christmas! 🎅',
     helpPrompt: 'festive commands await - type help',
+    gradient: 'linear-gradient(135deg, #165a4c 0%, #b7245c 25%, #d42426 50%, #5cb247 75%, #ffffff 100%)',
     colors: {
       background: 'oklch(0.08 0.02 290)',
       foreground: 'oklch(0.55 0.22 25)',
