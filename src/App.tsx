@@ -56,7 +56,7 @@ function App() {
 
   const handleEnterTerminal = () => {
     setHasEnteredTerminal(true);
-    setViewMode('terminal');
+    setViewMode('website');
   };
 
   const handleThemeSelect = (themeName: string) => {
