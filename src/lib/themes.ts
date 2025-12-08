@@ -350,7 +350,7 @@ export const themes: Record<string, Theme> = {
     label: 'Christmas',
     welcomeMessage: '🎄 Ho ho ho! Merry Christmas! 🎅',
     helpPrompt: 'festive commands await - type help',
-    gradient: 'radial-gradient(circle at 25% 25%, #ffffff 0%, transparent 30%), radial-gradient(ellipse at 70% 50%, #5cb247 0%, transparent 45%), radial-gradient(circle at 40% 70%, #d42426 0%, transparent 40%), radial-gradient(circle at 80% 80%, #b7245c 0%, transparent 35%), linear-gradient(135deg, #165a4c 0%, #0d2f26 100%)',
+    gradient: 'radial-gradient(circle at 25% 25%, #c41e3a 0%, transparent 40%), radial-gradient(ellipse at 70% 50%, #2d5016 0%, transparent 50%), radial-gradient(circle at 40% 70%, #e63946 0%, transparent 45%), radial-gradient(circle at 80% 80%, #3a7d44 0%, transparent 40%), linear-gradient(135deg, #1a4d2e 0%, #0f2918 100%)',
     colors: {
       background: 'oklch(0.08 0.02 290)',
       foreground: 'oklch(0.55 0.22 25)',
