@@ -34,7 +34,7 @@ function App() {
   useEffect(() => {
     if (isMobile && !hasEnteredTerminal) {
       setViewMode('landing');
-    } else {
+    } else if (!isMobile) {
       setViewMode('terminal');
     }
   }, [isMobile, hasEnteredTerminal]);
