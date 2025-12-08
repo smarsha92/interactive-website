@@ -47,7 +47,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground text-base font-mono">
       <AnimatePresence mode="wait">
         {viewMode === 'terminal' && (
           <motion.div
@@ -74,23 +74,18 @@ function App() {
           </motion.div>
         )}
       </AnimatePresence>
-
       <ThemeBrowser
         isOpen={showThemeBrowser}
         onClose={() => setShowThemeBrowser(false)}
         onSelectTheme={handleThemeSelect}
         currentTheme={currentTheme || 'cyan'}
       />
-
       <NetworkSimulator
         isOpen={showNetworkSim}
         onClose={() => setShowNetworkSim(false)}
       />
-
       {currentTheme === 'xmas' && <SnowEffect />}
-
       <HolidayMusic isHolidayTheme={currentTheme === 'xmas'} />
-
       <Toaster />
     </div>
   );
