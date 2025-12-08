@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { X, Play, Pause, RefreshCw, Activity } from 'lucide-react';
+import { X, Play, Pause, RefreshCw, Activity, Gauge } from 'lucide-react';
 import { NetNode, Packet, PacketType, NodeType } from '../types';
 
 interface NetworkSimulatorProps {
@@ -12,6 +12,7 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) 
   const [isPlaying, setIsPlaying] = useState(true);
   const [stats, setStats] = useState({ sent: 0, delivered: 0 });
   const [topology, setTopology] = useState<'mesh' | 'star' | 'ring' | 'bus'>('mesh');
+  const [speed, setSpeed] = useState<'slow' | 'normal' | 'fast'>('normal');
 
   // State refs for animation loop
   const nodesRef = useRef<NetNode[]>([]);
@@ -273,14 +274,15 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) 
       });
 
       // Spawn Packets
-      if (time - lastPacketTimeRef.current > 800) {
+      const spawnRate = speed === 'slow' ? 1600 : speed === 'fast' ? 400 : 800;
+      if (time - lastPacketTimeRef.current > spawnRate) {
         spawnPacket();
         lastPacketTimeRef.current = time;
       }
 
       // Update and Draw Packets
       packetsRef.current.forEach((pkt, i) => {
-        const speed = 3; // Slightly faster for multi-hop
+        const packetSpeed = speed === 'slow' ? 1.5 : speed === 'fast' ? 6 : 3;
         
         // Target coordinates
         const targetNode = nodes.find(n => n.id === pkt.to);
@@ -291,12 +293,12 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) 
         const dy = ty - pkt.currentY;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (dist < speed) {
+        if (dist < packetSpeed) {
           handlePacketArrival(pkt, i, nodes);
         } else {
           const angle = Math.atan2(dy, dx);
-          pkt.currentX += Math.cos(angle) * speed;
-          pkt.currentY += Math.sin(angle) * speed;
+          pkt.currentX += Math.cos(angle) * packetSpeed;
+          pkt.currentY += Math.sin(angle) * packetSpeed;
           
           ctx.fillStyle = pkt.color;
           ctx.shadowColor = pkt.color;
@@ -313,7 +315,7 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) 
 
     frameRef.current = requestAnimationFrame(render);
     return () => cancelAnimationFrame(frameRef.current);
-  }, [isPlaying, topology]);
+  }, [isPlaying, topology, speed]);
 
   const getNodeColor = (type: NodeType) => {
     switch (type) {
@@ -413,6 +415,19 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) 
                  <option value="star" className="bg-black text-white">Star Topology</option>
                  <option value="ring" className="bg-black text-white">Token Ring</option>
                  <option value="bus" className="bg-black text-white">Bus Topology</option>
+               </select>
+             </div>
+             <div className="flex items-center gap-2">
+               <Gauge className="w-4 h-4 text-white/80" />
+               <span className="text-white/80">Speed:</span>
+               <select 
+                 value={speed}
+                 onChange={(e) => setSpeed(e.target.value as any)}
+                 className="bg-black/50 border border-white/30 rounded px-2 py-1 text-white focus:outline-none focus:border-accent"
+               >
+                 <option value="slow" className="bg-black text-white">0.5x</option>
+                 <option value="normal" className="bg-black text-white">1x</option>
+                 <option value="fast" className="bg-black text-white">2x</option>
                </select>
              </div>
              <button 
