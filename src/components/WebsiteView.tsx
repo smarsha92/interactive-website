@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Terminal as TerminalIcon, ArrowDown } from '@phosphor-icons/react';
 import { Terminal } from './Terminal';
-import { useTypewriter } from '@/hooks/use-typewriter';
 
 interface WebsiteViewProps {
   onCommand: (command: string) => void;
@@ -12,54 +11,18 @@ interface WebsiteViewProps {
 
 export function WebsiteView({ onCommand }: WebsiteViewProps) {
   const [showMiniTerminal, setShowMiniTerminal] = useState(false);
-  
-  const navTitle = useTypewriter('Terminal.web', 120);
-  const navFeatures = useTypewriter('Features', 120);
-  const navAbout = useTypewriter('About', 120);
-  const navContact = useTypewriter('Contact', 120);
-  const btnGetStarted = useTypewriter('Get Started', 120);
-  const btnLearnMore = useTypewriter('Learn More', 120);
-  
-  const heroTitle1 = useTypewriter('Retro Terminal', 120);
-  const heroTitle2 = useTypewriter('Meets Modern Web', 120);
-  const heroSubtitle1 = useTypewriter('Experience the nostalgia of classic command-line interfaces', 120);
-  const heroSubtitle2 = useTypewriter('reimagined with glassmorphic design and smooth interactions', 120);
-  
-  const featuresHeading = useTypewriter('Key Features', 120);
-  const feature1Title = useTypewriter('Interactive Terminal', 120);
-  const feature1Desc = useTypewriter('Classic command-line experience with modern polish and real-time feedback', 120);
-  const feature2Title = useTypewriter('15 Unique Themes', 120);
-  const feature2Desc = useTypewriter('Customize your experience with carefully crafted color schemes', 120);
-  const feature3Title = useTypewriter('Network Simulator', 120);
-  const feature3Desc = useTypewriter('Visualize packet routing across different network topologies', 120);
-  const feature4Title = useTypewriter('Glassmorphism', 120);
-  const feature4Desc = useTypewriter('Beautiful semi-transparent effects with backdrop blur', 120);
-  const feature5Title = useTypewriter('Smooth Animations', 120);
-  const feature5Desc = useTypewriter('Purposeful transitions that enhance the user experience', 120);
-  const feature6Title = useTypewriter('Persistent State', 120);
-  const feature6Desc = useTypewriter('Your preferences and settings are saved across sessions', 120);
-  
-  const aboutHeading = useTypewriter('About This Project', 120);
-  const about1 = useTypewriter('This application bridges the gap between retro terminal aesthetics and modern web design principles.', 120);
-  const about2 = useTypewriter('Built with React, TypeScript, and Tailwind CSS, it demonstrates how nostalgia can coexist with contemporary UI patterns.', 120);
-  const about3 = useTypewriter('Every interaction is carefully crafted to feel both familiar and delightfully modern.', 120);
-  
-  const contactHeading = useTypewriter('Get In Touch', 120);
-  const contact1 = useTypewriter('Ready to explore more?', 120);
-  const contact2 = useTypewriter('Type "end" in the terminal to return', 120);
-  const contact3 = useTypewriter('Or keep scrolling to see what\'s possible', 120);
 
   return (
     <div className="min-h-screen">
       <nav className="fixed top-0 left-0 right-0 z-40 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <h1 className="text-2xl font-bold text-foreground terminal-font">
-            <span className="text-accent">{'>'}</span> {navTitle || ''}
+            <span className="text-accent">{'>'}</span> Terminal.web
           </h1>
           <div className="flex gap-6">
-            <a href="#features" className="text-foreground hover:text-accent transition-colors">{navFeatures || ''}</a>
-            <a href="#about" className="text-foreground hover:text-accent transition-colors">{navAbout || ''}</a>
-            <a href="#contact" className="text-foreground hover:text-accent transition-colors">{navContact || ''}</a>
+            <a href="#features" className="text-foreground hover:text-accent transition-colors">Features</a>
+            <a href="#about" className="text-foreground hover:text-accent transition-colors">About</a>
+            <a href="#contact" className="text-foreground hover:text-accent transition-colors">Contact</a>
           </div>
         </div>
       </nav>
@@ -72,21 +35,21 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
           className="text-center max-w-4xl"
         >
           <h2 className="text-6xl md:text-7xl font-bold mb-6 text-foreground">
-            {heroTitle1 || ''}
+            Retro Terminal
             <br />
-            <span className="text-accent">{heroTitle2 || ''}</span>
+            <span className="text-accent">Meets Modern Web</span>
           </h2>
           <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-            {heroSubtitle1 || ''}
+            Experience the nostalgia of classic command-line interfaces
             <br />
-            {heroSubtitle2 || ''}
+            reimagined with glassmorphic design and smooth interactions
           </p>
           <div className="flex gap-4 justify-center">
             <Button size="lg" className="text-lg px-8">
-              {btnGetStarted || ''}
+              Get Started
             </Button>
             <Button size="lg" variant="outline" className="text-lg px-8">
-              {btnLearnMore || ''}
+              Learn More
             </Button>
           </div>
           <motion.div
@@ -107,7 +70,7 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
             viewport={{ once: true }}
             className="text-5xl font-bold mb-16 text-center text-foreground"
           >
-            {featuresHeading || ''}
+            Key Features
           </motion.h2>
           <div className="grid md:grid-cols-3 gap-8">
             <motion.div
@@ -117,8 +80,8 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
               transition={{ delay: 0 }}
             >
               <Card className="p-6 h-full hover:scale-105 transition-transform duration-300">
-                <h3 className="text-2xl font-bold mb-3 text-foreground">{feature1Title || ''}</h3>
-                <p className="text-muted-foreground">{feature1Desc || ''}</p>
+                <h3 className="text-2xl font-bold mb-3 text-foreground">Interactive Terminal</h3>
+                <p className="text-muted-foreground">Classic command-line experience with modern polish and real-time feedback</p>
               </Card>
             </motion.div>
             <motion.div
@@ -128,8 +91,8 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
               transition={{ delay: 0.1 }}
             >
               <Card className="p-6 h-full hover:scale-105 transition-transform duration-300">
-                <h3 className="text-2xl font-bold mb-3 text-foreground">{feature2Title || ''}</h3>
-                <p className="text-muted-foreground">{feature2Desc || ''}</p>
+                <h3 className="text-2xl font-bold mb-3 text-foreground">15 Unique Themes</h3>
+                <p className="text-muted-foreground">Customize your experience with carefully crafted color schemes</p>
               </Card>
             </motion.div>
             <motion.div
@@ -139,8 +102,8 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
               transition={{ delay: 0.2 }}
             >
               <Card className="p-6 h-full hover:scale-105 transition-transform duration-300">
-                <h3 className="text-2xl font-bold mb-3 text-foreground">{feature3Title || ''}</h3>
-                <p className="text-muted-foreground">{feature3Desc || ''}</p>
+                <h3 className="text-2xl font-bold mb-3 text-foreground">Network Simulator</h3>
+                <p className="text-muted-foreground">Visualize packet routing across different network topologies</p>
               </Card>
             </motion.div>
             <motion.div
@@ -150,8 +113,8 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
               transition={{ delay: 0.3 }}
             >
               <Card className="p-6 h-full hover:scale-105 transition-transform duration-300">
-                <h3 className="text-2xl font-bold mb-3 text-foreground">{feature4Title || ''}</h3>
-                <p className="text-muted-foreground">{feature4Desc || ''}</p>
+                <h3 className="text-2xl font-bold mb-3 text-foreground">Glassmorphism</h3>
+                <p className="text-muted-foreground">Beautiful semi-transparent effects with backdrop blur</p>
               </Card>
             </motion.div>
             <motion.div
@@ -161,8 +124,8 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
               transition={{ delay: 0.4 }}
             >
               <Card className="p-6 h-full hover:scale-105 transition-transform duration-300">
-                <h3 className="text-2xl font-bold mb-3 text-foreground">{feature5Title || ''}</h3>
-                <p className="text-muted-foreground">{feature5Desc || ''}</p>
+                <h3 className="text-2xl font-bold mb-3 text-foreground">Smooth Animations</h3>
+                <p className="text-muted-foreground">Purposeful transitions that enhance the user experience</p>
               </Card>
             </motion.div>
             <motion.div
@@ -172,8 +135,8 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
               transition={{ delay: 0.5 }}
             >
               <Card className="p-6 h-full hover:scale-105 transition-transform duration-300">
-                <h3 className="text-2xl font-bold mb-3 text-foreground">{feature6Title || ''}</h3>
-                <p className="text-muted-foreground">{feature6Desc || ''}</p>
+                <h3 className="text-2xl font-bold mb-3 text-foreground">Persistent State</h3>
+                <p className="text-muted-foreground">Your preferences and settings are saved across sessions</p>
               </Card>
             </motion.div>
           </div>
@@ -188,7 +151,7 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
             viewport={{ once: true }}
             className="text-5xl font-bold mb-8 text-foreground"
           >
-            {aboutHeading || ''}
+            About This Project
           </motion.h2>
           <motion.div
             initial={{ opacity: 0 }}
@@ -199,13 +162,13 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
           >
             <Card className="p-8 text-left">
               <p className="text-foreground mb-4">
-                <span className="text-accent">{'>'}</span> {about1 || ''}
+                <span className="text-accent">{'>'}</span> This application bridges the gap between retro terminal aesthetics and modern web design principles.
               </p>
               <p className="text-foreground mb-4">
-                <span className="text-accent">{'>'}</span> {about2 || ''}
+                <span className="text-accent">{'>'}</span> Built with React, TypeScript, and Tailwind CSS, it demonstrates how nostalgia can coexist with contemporary UI patterns.
               </p>
               <p className="text-foreground">
-                <span className="text-accent">{'>'}</span> {about3 || ''}
+                <span className="text-accent">{'>'}</span> Every interaction is carefully crafted to feel both familiar and delightfully modern.
               </p>
             </Card>
           </motion.div>
@@ -220,7 +183,7 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
             viewport={{ once: true }}
             className="text-5xl font-bold mb-8 text-center text-foreground"
           >
-            {contactHeading || ''}
+            Get In Touch
           </motion.h2>
           <motion.div
             initial={{ opacity: 0 }}
@@ -230,9 +193,9 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
           >
             <Card className="p-8 terminal-font">
               <div className="space-y-4 text-foreground">
-                <p><span className="text-accent">{'>'}</span> {contact1 || ''}</p>
-                <p><span className="text-accent">{'>'}</span> {contact2 || ''}</p>
-                <p><span className="text-accent">{'>'}</span> {contact3 || ''}</p>
+                <p><span className="text-accent">{'>'}</span> Ready to explore more?</p>
+                <p><span className="text-accent">{'>'}</span> Type "end" in the terminal to return</p>
+                <p><span className="text-accent">{'>'}</span> Or keep scrolling to see what's possible</p>
               </div>
             </Card>
           </motion.div>

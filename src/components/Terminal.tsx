@@ -3,7 +3,6 @@ import { X, Minus, Square, Sliders } from '@phosphor-icons/react'
 import { Card } from '@/components/ui/card'
 import { Slider } from '@/components/ui/slider'
 import { Separator } from '@/components/ui/separator'
-import { useTypewriter } from '@/hooks/use-typewriter'
 import { useKV } from '@github/spark/hooks'
 import { themes } from '@/lib/themes'
 
@@ -27,47 +26,28 @@ export function Terminal({
 }: TerminalProps) {
   const [lines, setLines] = useState<TerminalLine[]>([])
   const [currentInput, setCurrentInput] = useState('')
-  const [isTyping, setIsTyping] = useState(true)
   const [showSettings, setShowSettings] = useState(false)
   const [opacity, setOpacity] = useState(initialOpacity)
   const [blur, setBlur] = useState(initialBlur)
   const inputRef = useRef<HTMLInputElement>(null)
   const terminalRef = useRef<HTMLDivElement>(null)
   const [trafficLightHover, setTrafficLightHover] = useState(false)
-  const [showWelcome, setShowWelcome] = useState(!mini)
   const [commandHistory, setCommandHistory] = useKV<string[]>('terminal-history', [])
   const [historyIndex, setHistoryIndex] = useState(-1)
   const [currentTheme] = useKV<string>('terminal-theme', 'cyan')
   
   const theme = themes[currentTheme || 'cyan']
-  const welcomeText = useTypewriter(mini ? 'Mini Terminal' : theme.welcomeMessage, 120)
-  const helpText = useTypewriter(mini ? 'Type "help" for commands or "end" to return' : theme.helpPrompt, 120)
 
   useEffect(() => {
-    if (!mini && showWelcome && welcomeText && helpText) {
-      const timer = setTimeout(() => {
-        setLines([
-          { type: 'output', text: welcomeText },
-          { type: 'output', text: '' },
-          { type: 'output', text: helpText }
-        ])
-        setIsTyping(false)
-        setShowWelcome(false)
-      }, 3500)
-      return () => clearTimeout(timer)
-    } else if (mini && showWelcome && welcomeText && helpText) {
-      const timer = setTimeout(() => {
-        setLines([
-          { type: 'output', text: welcomeText },
-          { type: 'output', text: '' },
-          { type: 'output', text: helpText }
-        ])
-        setIsTyping(false)
-        setShowWelcome(false)
-      }, 2500)
-      return () => clearTimeout(timer)
-    }
-  }, [mini, welcomeText, helpText, showWelcome])
+    const welcomeText = mini ? 'Mini Terminal' : theme.welcomeMessage
+    const helpText = mini ? 'Type "help" for commands or "end" to return' : theme.helpPrompt
+    
+    setLines([
+      { type: 'output', text: welcomeText },
+      { type: 'output', text: '' },
+      { type: 'output', text: helpText }
+    ])
+  }, [mini, theme.welcomeMessage, theme.helpPrompt])
 
   const handleCommand = (cmd: string) => {
     const trimmedCmd = cmd.trim().toLowerCase()
@@ -443,13 +423,6 @@ export function Terminal({
         className={`terminal-font text-sm p-6 pt-12 overflow-y-auto transition-all duration-300 ${mini ? 'h-64' : 'h-96'}`}
         onClick={() => inputRef.current?.focus()}
       >
-        {showWelcome && isTyping && (
-          <div className="text-primary">
-            {welcomeText}
-            <span className="cursor-blink">█</span>
-          </div>
-        )}
-        
         {lines.map((line, idx) => (
           <div
             key={idx}
@@ -465,26 +438,20 @@ export function Terminal({
           </div>
         ))}
 
-        {!showWelcome && isTyping && (
-          <span className="text-primary cursor-blink">█</span>
-        )}
-
-        {!isTyping && (
-          <form onSubmit={handleSubmit} className="flex items-center">
-            <span className="text-accent mr-2">$</span>
-            <input
-              ref={inputRef}
-              type="text"
-              value={currentInput}
-              onChange={(e) => setCurrentInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              className="flex-1 bg-transparent outline-none text-accent font-bold caret-accent"
-              autoFocus
-              spellCheck={false}
-            />
-            <span className="text-accent cursor-blink">█</span>
-          </form>
-        )}
+        <form onSubmit={handleSubmit} className="flex items-center">
+          <span className="text-accent mr-2">$</span>
+          <input
+            ref={inputRef}
+            type="text"
+            value={currentInput}
+            onChange={(e) => setCurrentInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            className="flex-1 bg-transparent outline-none text-accent font-bold caret-accent"
+            autoFocus
+            spellCheck={false}
+          />
+          <span className="text-accent cursor-blink">█</span>
+        </form>
       </div>
     </Card>
   )
