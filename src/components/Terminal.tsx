@@ -3,6 +3,7 @@ import { X, Minus, Square, Sliders } from '@phosphor-icons/react'
 import { Card } from '@/components/ui/card'
 import { Slider } from '@/components/ui/slider'
 import { Separator } from '@/components/ui/separator'
+import { useTypewriter } from '@/hooks/use-typewriter'
 
 interface TerminalProps {
   onCommand: (command: string) => void
@@ -31,36 +32,38 @@ export function Terminal({
   const inputRef = useRef<HTMLInputElement>(null)
   const terminalRef = useRef<HTMLDivElement>(null)
   const [trafficLightHover, setTrafficLightHover] = useState(false)
-
-  const welcomeMessage = "Welcome to Networking Mastery"
+  const [showWelcome, setShowWelcome] = useState(!mini)
+  
+  const welcomeText = useTypewriter('Welcome to Networking Mastery', 120)
+  const helpText = useTypewriter('Type "help" for more commands', 120)
+  const miniWelcomeText = useTypewriter('Mini Terminal', 120)
+  const miniHelpText = useTypewriter('Type "help" for commands or "end" to return', 120)
 
   useEffect(() => {
-    if (!mini) {
-      let index = 0
-      const interval = setInterval(() => {
-        if (index <= welcomeMessage.length) {
-          setLines([{ type: 'output', text: welcomeMessage.slice(0, index) }])
-          index++
-        } else {
-          clearInterval(interval)
-          setIsTyping(false)
-          setLines(prev => [
-            ...prev,
-            { type: 'output', text: '' },
-            { type: 'output', text: 'Type "help" for more commands' }
-          ])
-        }
-      }, 50)
-      return () => clearInterval(interval)
-    } else {
-      setIsTyping(false)
-      setLines([
-        { type: 'output', text: 'Mini Terminal' },
-        { type: 'output', text: '' },
-        { type: 'output', text: 'Type "help" for commands or "end" to return' }
-      ])
+    if (!mini && showWelcome && welcomeText && helpText) {
+      const timer = setTimeout(() => {
+        setLines([
+          { type: 'output', text: welcomeText },
+          { type: 'output', text: '' },
+          { type: 'output', text: helpText }
+        ])
+        setIsTyping(false)
+        setShowWelcome(false)
+      }, 3500)
+      return () => clearTimeout(timer)
+    } else if (mini && showWelcome && miniWelcomeText && miniHelpText) {
+      const timer = setTimeout(() => {
+        setLines([
+          { type: 'output', text: miniWelcomeText },
+          { type: 'output', text: '' },
+          { type: 'output', text: miniHelpText }
+        ])
+        setIsTyping(false)
+        setShowWelcome(false)
+      }, 2500)
+      return () => clearTimeout(timer)
     }
-  }, [mini])
+  }, [mini, welcomeText, helpText, miniWelcomeText, miniHelpText, showWelcome])
 
   const handleCommand = (cmd: string) => {
     const trimmedCmd = cmd.trim().toLowerCase()
@@ -381,6 +384,20 @@ export function Terminal({
         className={`terminal-font text-sm p-6 pt-12 overflow-y-auto transition-all duration-300 ${mini ? 'h-64' : 'h-96'}`}
         onClick={() => inputRef.current?.focus()}
       >
+        {showWelcome && isTyping && !mini && (
+          <div className="text-primary">
+            {welcomeText}
+            <span className="cursor-blink">█</span>
+          </div>
+        )}
+        
+        {showWelcome && isTyping && mini && (
+          <div className="text-primary">
+            {miniWelcomeText}
+            <span className="cursor-blink">█</span>
+          </div>
+        )}
+        
         {lines.map((line, idx) => (
           <div
             key={idx}
@@ -396,7 +413,7 @@ export function Terminal({
           </div>
         ))}
 
-        {isTyping && (
+        {!showWelcome && isTyping && (
           <span className="text-primary cursor-blink">█</span>
         )}
 

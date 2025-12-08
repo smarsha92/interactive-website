@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { X, Play, Pause, Plus } from '@phosphor-icons/react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
+import { useTypewriter } from '@/hooks/use-typewriter';
 
 interface Node {
   id: string;
@@ -100,6 +101,14 @@ export function NetworkSimulator({ isOpen, onClose }: NetworkSimulatorProps) {
   const [speed, setSpeed] = useState([50]);
   const [packets, setPackets] = useState<Packet[]>([]);
   const [stats, setStats] = useState({ sent: 0, delivered: 0, inTransit: 0, dropped: 0 });
+  
+  const heading = useTypewriter('Network Packet Simulator', 120);
+  const labelTopology = useTypewriter('Topology', 120);
+  const labelSpeed = useTypewriter(`Speed: ${speed}%`, 120);
+  const labelSent = useTypewriter('Sent', 120);
+  const labelInTransit = useTypewriter('In Transit', 120);
+  const labelDelivered = useTypewriter('Delivered', 120);
+  const labelDropped = useTypewriter('Dropped', 120);
 
   const currentTopology = TOPOLOGIES[topology];
 
@@ -361,7 +370,7 @@ export function NetworkSimulator({ isOpen, onClose }: NetworkSimulatorProps) {
           >
             <Card className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold text-foreground">Network Packet Simulator</h2>
+                <h2 className="text-2xl font-bold text-foreground">{heading}</h2>
                 <Button size="sm" variant="ghost" onClick={onClose} className="h-8 w-8 p-0">
                   <X className="w-5 h-5" />
                 </Button>
@@ -369,7 +378,7 @@ export function NetworkSimulator({ isOpen, onClose }: NetworkSimulatorProps) {
 
               <div className="flex gap-4 mb-4">
                 <div className="flex-1">
-                  <label className="text-sm text-muted-foreground mb-2 block">Topology</label>
+                  <label className="text-sm text-muted-foreground mb-2 block">{labelTopology}</label>
                   <Select value={topology} onValueChange={handleTopologyChange}>
                     <SelectTrigger>
                       <SelectValue />
@@ -398,7 +407,7 @@ export function NetworkSimulator({ isOpen, onClose }: NetworkSimulatorProps) {
               </div>
 
               <div className="mb-4">
-                <label className="text-sm text-muted-foreground mb-2 block">Speed: {speed}%</label>
+                <label className="text-sm text-muted-foreground mb-2 block">{labelSpeed}</label>
                 <Slider value={speed} onValueChange={setSpeed} min={10} max={100} step={10} />
               </div>
 
@@ -412,19 +421,19 @@ export function NetworkSimulator({ isOpen, onClose }: NetworkSimulatorProps) {
 
               <div className="grid grid-cols-4 gap-4 terminal-font text-sm">
                 <div className="p-3 rounded bg-muted/30">
-                  <div className="text-muted-foreground">Sent</div>
+                  <div className="text-muted-foreground">{labelSent}</div>
                   <div className="text-2xl font-bold text-foreground">{stats.sent}</div>
                 </div>
                 <div className="p-3 rounded bg-muted/30">
-                  <div className="text-muted-foreground">In Transit</div>
+                  <div className="text-muted-foreground">{labelInTransit}</div>
                   <div className="text-2xl font-bold text-accent">{stats.inTransit}</div>
                 </div>
                 <div className="p-3 rounded bg-muted/30">
-                  <div className="text-muted-foreground">Delivered</div>
+                  <div className="text-muted-foreground">{labelDelivered}</div>
                   <div className="text-2xl font-bold" style={{ color: '#00ff00' }}>{stats.delivered}</div>
                 </div>
                 <div className="p-3 rounded bg-muted/30">
-                  <div className="text-muted-foreground">Dropped</div>
+                  <div className="text-muted-foreground">{labelDropped}</div>
                   <div className="text-2xl font-bold text-destructive">{stats.dropped}</div>
                 </div>
               </div>

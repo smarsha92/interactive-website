@@ -4,6 +4,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { X, Check } from '@phosphor-icons/react';
 import { themes, type Theme } from '@/lib/themes';
+import { useTypewriter } from '@/hooks/use-typewriter';
 
 interface ThemeBrowserProps {
   isOpen: boolean;
@@ -14,6 +15,7 @@ interface ThemeBrowserProps {
 
 export function ThemeBrowser({ isOpen, onClose, onSelectTheme, currentTheme }: ThemeBrowserProps) {
   const [hoveredTheme, setHoveredTheme] = useState<string | null>(null);
+  const heading = useTypewriter('Choose Your Theme', 120);
 
   useEffect(() => {
     if (isOpen) {
@@ -56,7 +58,7 @@ export function ThemeBrowser({ isOpen, onClose, onSelectTheme, currentTheme }: T
           >
             <Card className="p-8 relative">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-3xl font-bold text-foreground">Choose Your Theme</h2>
+                <h2 className="text-3xl font-bold text-foreground">{heading}</h2>
                 <Button
                   size="sm"
                   variant="ghost"

@@ -1,19 +1,27 @@
 import { useState, useEffect } from 'react';
 
-export function useTypewriter(text: string, speed = 30) {
+export function useTypewriter(text: string, speed = 100) {
   const [displayedText, setDisplayedText] = useState('');
   
   useEffect(() => {
-    let i = 0;
+    const words = text.split(' ');
+    let currentWordIndex = 0;
     setDisplayedText('');
+    
     const timer = setInterval(() => {
-      if (i < text.length) {
-        setDisplayedText((prev) => prev + text.charAt(i));
-        i++;
+      if (currentWordIndex < words.length) {
+        setDisplayedText((prev) => {
+          if (currentWordIndex === 0) {
+            return words[currentWordIndex];
+          }
+          return prev + ' ' + words[currentWordIndex];
+        });
+        currentWordIndex++;
       } else {
         clearInterval(timer);
       }
     }, speed);
+    
     return () => clearInterval(timer);
   }, [text, speed]);
   
