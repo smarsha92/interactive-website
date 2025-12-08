@@ -11,6 +11,7 @@ export const HELP_TEXT = [
   '  network  - Open network packet simulator',
   '  clear    - Clear the terminal screen',
   '  about    - Learn about this project',
+  '  random   - Apply a random theme',
   '',
   'Theme commands (or use "themes" for visual browser):',
   '  cyan, default, matrix, amber, purple, sunset',
@@ -33,6 +34,12 @@ export const WELCOME_TEXT = [
   'Type "help" for available commands.',
   'Type "start" to launch the full website.',
   'Type "themes" to browse visual theme options.',
+];
+
+const THEME_NAMES = [
+  'cyan', 'default', 'matrix', 'amber', 'purple', 'sunset',
+  'ocean', 'neon', 'forest', 'rose', 'gold', 'ice',
+  'synthwave', 'cyberpunk', 'xmas'
 ];
 
 export function processCommand(input: string): CommandResult {
@@ -63,6 +70,10 @@ export function processCommand(input: string): CommandResult {
     
     case 'network':
       return { output: ['__NETWORK__'] };
+    
+    case 'random':
+      const randomTheme = THEME_NAMES[Math.floor(Math.random() * THEME_NAMES.length)];
+      return { output: [`Randomly selected: ${randomTheme}`, `__THEME_${randomTheme.toUpperCase()}__`] };
     
     case 'cyan':
     case 'default':
