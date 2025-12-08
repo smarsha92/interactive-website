@@ -41,6 +41,78 @@ export function HolidayMusic({ isHolidayTheme }: HolidayMusicProps) {
     { note: 'E4', duration: 0.25 },
     { note: 'D4', duration: 0.5 },
     { note: 'G4', duration: 0.5 },
+    { note: 'E4', duration: 0.25 },
+    { note: 'E4', duration: 0.25 },
+    { note: 'E4', duration: 0.5 },
+    { note: 'E4', duration: 0.25 },
+    { note: 'E4', duration: 0.25 },
+    { note: 'E4', duration: 0.5 },
+    { note: 'E4', duration: 0.25 },
+    { note: 'G4', duration: 0.25 },
+    { note: 'C4', duration: 0.25 },
+    { note: 'D4', duration: 0.25 },
+    { note: 'E4', duration: 1 },
+    { note: 'F4', duration: 0.25 },
+    { note: 'F4', duration: 0.25 },
+    { note: 'F4', duration: 0.25 },
+    { note: 'F4', duration: 0.25 },
+    { note: 'F4', duration: 0.25 },
+    { note: 'E4', duration: 0.25 },
+    { note: 'E4', duration: 0.25 },
+    { note: 'E4', duration: 0.125 },
+    { note: 'E4', duration: 0.125 },
+    { note: 'G4', duration: 0.25 },
+    { note: 'G4', duration: 0.25 },
+    { note: 'F4', duration: 0.25 },
+    { note: 'D4', duration: 0.25 },
+    { note: 'C4', duration: 1 },
+    { note: 'REST', duration: 0.5 },
+    { note: 'D4', duration: 0.25 },
+    { note: 'D4', duration: 0.25 },
+    { note: 'E4', duration: 0.25 },
+    { note: 'D4', duration: 0.25 },
+    { note: 'C4', duration: 0.5 },
+    { note: 'A4', duration: 0.5 },
+    { note: 'REST', duration: 0.25 },
+    { note: 'G4', duration: 0.25 },
+    { note: 'G4', duration: 0.25 },
+    { note: 'F4', duration: 0.25 },
+    { note: 'E4', duration: 0.25 },
+    { note: 'C4', duration: 0.75 },
+    { note: 'REST', duration: 0.25 },
+    { note: 'D4', duration: 0.25 },
+    { note: 'D4', duration: 0.25 },
+    { note: 'E4', duration: 0.25 },
+    { note: 'D4', duration: 0.25 },
+    { note: 'E4', duration: 0.5 },
+    { note: 'G4', duration: 0.5 },
+    { note: 'REST', duration: 0.25 },
+    { note: 'E4', duration: 0.25 },
+    { note: 'E4', duration: 0.25 },
+    { note: 'E4', duration: 0.5 },
+    { note: 'E4', duration: 0.25 },
+    { note: 'E4', duration: 0.25 },
+    { note: 'E4', duration: 0.5 },
+    { note: 'E4', duration: 0.25 },
+    { note: 'G4', duration: 0.25 },
+    { note: 'C4', duration: 0.25 },
+    { note: 'D4', duration: 0.25 },
+    { note: 'E4', duration: 1 },
+    { note: 'F4', duration: 0.25 },
+    { note: 'F4', duration: 0.25 },
+    { note: 'F4', duration: 0.25 },
+    { note: 'F4', duration: 0.25 },
+    { note: 'F4', duration: 0.25 },
+    { note: 'E4', duration: 0.25 },
+    { note: 'E4', duration: 0.25 },
+    { note: 'E4', duration: 0.125 },
+    { note: 'E4', duration: 0.125 },
+    { note: 'G4', duration: 0.25 },
+    { note: 'G4', duration: 0.25 },
+    { note: 'F4', duration: 0.25 },
+    { note: 'D4', duration: 0.25 },
+    { note: 'C4', duration: 1 },
+    { note: 'REST', duration: 0.5 },
   ];
 
   const noteFrequencies: Record<string, number> = {
@@ -92,12 +164,14 @@ export function HolidayMusic({ isHolidayTheme }: HolidayMusicProps) {
     let totalDuration = 0;
 
     melody.forEach(({ note, duration }) => {
-      const frequency = noteFrequencies[note];
-      if (frequency) {
-        playNote(frequency, currentTime, duration);
-        currentTime += duration;
-        totalDuration += duration;
+      if (note !== 'REST') {
+        const frequency = noteFrequencies[note];
+        if (frequency) {
+          playNote(frequency, currentTime, duration);
+        }
       }
+      currentTime += duration;
+      totalDuration += duration;
     });
 
     timeoutRef.current = setTimeout(() => {
