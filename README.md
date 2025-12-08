@@ -1,23 +1,90 @@
-# ✨ Welcome to Your Spark Template!
-You've just launched your brand-new Spark Template Codespace — everything’s fired up and ready for you to explore, build, and create with Spark!
+# Terminal Interface
 
-This template is your blank canvas. It comes with a minimal setup to help you get started quickly with Spark development.
+A retro-inspired terminal interface web application that transitions between a command-line experience and a modern website, featuring theme customization, network simulation, and interactive elements with glassmorphic design aesthetics.
 
-🚀 What's Inside?
-- A clean, minimal Spark environment
-- Pre-configured for local development
-- Ready to scale with your ideas
-  
-🧠 What Can You Do?
+## Features
 
-Right now, this is just a starting point — the perfect place to begin building and testing your Spark applications.
+### 🖥️ Interactive Terminal
+- Classic command-line interface with typing animations
+- Real-time command processing
+- Command history navigation (↑/↓ arrows)
+- Persistent command history
 
-🧹 Just Exploring?
-No problem! If you were just checking things out and don’t need to keep this code:
+### 🎨 15 Beautiful Themes
+Choose from a variety of carefully crafted themes:
+- **Cyan** - Classic terminal blue aesthetic (default)
+- **Default** - Classic black & green terminal
+- **Matrix** - Iconic green terminal
+- **Amber** - Warm retro amber glow
+- **Purple** - Deep purple haze
+- **Sunset** - Orange and red warmth
+- **Ocean** - Deep blue waters
+- **Neon** - Electric pink and cyan cyberpunk
+- **Forest** - Natural green tones
+- **Rose** - Soft pink elegance
+- **Gold** - Luxurious golden glow
+- **Ice** - Cool arctic blue
+- **Synthwave** - Retro 80s neon vibes
+- **Cyberpunk** - Futuristic neon streets
+- **Xmas** - Festive Christmas theme
 
-- Simply delete your Spark.
-- Everything will be cleaned up — no traces left behind.
+### 🌐 Network Packet Simulator
+- Real-time visualization of network packet routing
+- Multiple topology options (Mesh, Star, Ring)
+- Interactive controls (play/pause, speed adjustment)
+- Packet statistics tracking
+- Different packet types (TCP, UDP, HTTP, DNS)
 
-📄 License For Spark Template Resources 
+### ✨ Modern Design
+- Glassmorphic effects with backdrop blur
+- Smooth animations and transitions
+- macOS-style traffic light controls
+- Floating action button for mini-terminal
+- Responsive design for all devices
 
-The Spark Template files and resources from GitHub are licensed under the terms of the MIT license, Copyright GitHub, Inc.
+## Available Commands
+
+Type these commands in the terminal:
+
+- `help` - Show available commands
+- `start` - Launch the full website view
+- `themes` - Browse and select themes visually
+- `network` - Open the network packet simulator
+- `clear` - Clear the terminal screen
+- `about` - Learn about this project
+- `end` - Return to terminal from website view
+
+### Theme Commands
+You can also change themes directly by typing the theme name:
+- `cyan`, `default`, `matrix`, `amber`, `purple`, `sunset`
+- `ocean`, `neon`, `forest`, `rose`, `gold`, `ice`
+- `synthwave`, `cyberpunk`, `xmas`
+
+## Getting Started
+
+1. The app opens with an interactive terminal
+2. Type `help` to see all available commands
+3. Type `themes` to browse and select a visual theme
+4. Type `start` to explore the full website
+5. Use the floating terminal button in website mode to access commands
+6. Type `end` to return to the terminal view
+
+## Technology Stack
+
+- **React** - UI framework
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Styling
+- **Framer Motion** - Animations
+- **shadcn/ui** - Component library
+- **Phosphor Icons** - Icon set
+- **JetBrains Mono** - Terminal font
+- **Space Grotesk** - Website font
+
+## Design Philosophy
+
+This application bridges classic terminal aesthetics with modern web design:
+- **Nostalgic** - Authentic terminal interactions with typing animations
+- **Polished** - Glassmorphic effects and refined UI details
+- **Playful** - Festive themes and whimsical elements
+
+Built with attention to detail, every interaction is carefully crafted to feel both familiar and delightfully modern.
