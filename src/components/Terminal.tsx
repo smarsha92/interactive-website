@@ -4,6 +4,7 @@ import { Card } from '@/components/ui/card'
 import { Slider } from '@/components/ui/slider'
 import { Separator } from '@/components/ui/separator'
 import { useTypewriter } from '@/hooks/use-typewriter'
+import { useKV } from '@github/spark/hooks'
 
 interface TerminalProps {
   onCommand: (command: string) => void
@@ -33,6 +34,8 @@ export function Terminal({
   const terminalRef = useRef<HTMLDivElement>(null)
   const [trafficLightHover, setTrafficLightHover] = useState(false)
   const [showWelcome, setShowWelcome] = useState(!mini)
+  const [commandHistory, setCommandHistory] = useKV<string[]>('terminal-history', [])
+  const [historyIndex, setHistoryIndex] = useState(-1)
   
   const welcomeText = useTypewriter('Welcome to Networking Mastery', 120)
   const helpText = useTypewriter('Type "help" for more commands', 120)
@@ -87,6 +90,7 @@ export function Terminal({
           { type: 'output' as const, text: '  joke     - Hear a networking joke' },
           { type: 'output' as const, text: '  status   - Check system status' },
           { type: 'output' as const, text: '  about    - Learn about this terminal' },
+          { type: 'output' as const, text: '  history  - View command history' },
           { type: 'output' as const, text: '  secret   - ???' },
           { type: 'output' as const, text: '  clear    - Clear the terminal' },
           { type: 'output' as const, text: '  help     - Show this help message' }
@@ -258,6 +262,22 @@ export function Terminal({
       case 'clear':
         setLines([])
         break
+      case 'history':
+        if (!commandHistory || commandHistory.length === 0) {
+          setLines(prev => [...prev, { type: 'output', text: 'No command history yet.' }])
+        } else {
+          const historyLines = [
+            { type: 'output' as const, text: 'Command History:' },
+            { type: 'output' as const, text: '═══════════════════════════════════' }
+          ]
+          commandHistory.forEach((cmd, idx) => {
+            historyLines.push({ type: 'output' as const, text: `  ${idx + 1}. ${cmd}` })
+          })
+          historyLines.push({ type: 'output' as const, text: '' })
+          historyLines.push({ type: 'output' as const, text: 'Use ↑/↓ arrows to navigate history' })
+          setLines(prev => [...prev, ...historyLines])
+        }
+        break
       case 'end':
         if (mini) {
           setLines(prev => [...prev, { type: 'output', text: 'Returning to terminal...' }])
@@ -278,8 +298,46 @@ export function Terminal({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (currentInput.trim()) {
-      handleCommand(currentInput)
+      const trimmedInput = currentInput.trim()
+      handleCommand(trimmedInput)
+      
+      setCommandHistory((prevHistory) => {
+        const history = prevHistory || []
+        const newHistory = [...history, trimmedInput]
+        return newHistory.slice(-50)
+      })
+      
       setCurrentInput('')
+      setHistoryIndex(-1)
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      if (!commandHistory || commandHistory.length === 0) return
+      
+      const newIndex = historyIndex === -1 
+        ? commandHistory.length - 1 
+        : Math.max(0, historyIndex - 1)
+      
+      setHistoryIndex(newIndex)
+      setCurrentInput(commandHistory[newIndex])
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      if (!commandHistory || commandHistory.length === 0) return
+      
+      if (historyIndex === -1) return
+      
+      const newIndex = historyIndex + 1
+      
+      if (newIndex >= commandHistory.length) {
+        setHistoryIndex(-1)
+        setCurrentInput('')
+      } else {
+        setHistoryIndex(newIndex)
+        setCurrentInput(commandHistory[newIndex])
+      }
     }
   }
 
@@ -425,6 +483,7 @@ export function Terminal({
               type="text"
               value={currentInput}
               onChange={(e) => setCurrentInput(e.target.value)}
+              onKeyDown={handleKeyDown}
               className="flex-1 bg-transparent outline-none text-accent font-bold caret-accent"
               autoFocus
               spellCheck={false}
