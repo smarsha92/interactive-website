@@ -1,455 +1,462 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { X, Play, Pause, Plus } from '@phosphor-icons/react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Slider } from '@/components/ui/slider';
-import { useTypewriter } from '@/hooks/use-typewriter';
-
-interface Node {
-  id: string;
-  x: number;
-  y: number;
-  type: 'router' | 'switch' | 'server' | 'client';
-  label: string;
-}
-
-interface Edge {
-  from: string;
-  to: string;
-}
-
-interface Packet {
-  id: string;
-  type: 'TCP' | 'UDP' | 'HTTP' | 'DNS';
-  path: string[];
-  currentIndex: number;
-  progress: number;
-  color: string;
-}
+import React, { useEffect, useRef, useState } from 'react';
+import { X, Play, Pause, RefreshCw, Activity } from 'lucide-react';
+import { NetNode, Packet, PacketType, NodeType } from '../types';
 
 interface NetworkSimulatorProps {
-  isOpen: boolean;
   onClose: () => void;
 }
 
-const PACKET_COLORS = {
-  TCP: '#00f5ff',
-  UDP: '#ff00ff',
-  HTTP: '#00ff00',
-  DNS: '#ff8800',
-};
-
-const TOPOLOGIES = {
-  mesh: {
-    nodes: [
-      { id: 'r1', x: 150, y: 100, type: 'router' as const, label: 'Router 1' },
-      { id: 'r2', x: 450, y: 100, type: 'router' as const, label: 'Router 2' },
-      { id: 'r3', x: 300, y: 250, type: 'router' as const, label: 'Router 3' },
-      { id: 's1', x: 150, y: 350, type: 'server' as const, label: 'Server' },
-      { id: 'c1', x: 450, y: 350, type: 'client' as const, label: 'Client' },
-    ],
-    edges: [
-      { from: 'r1', to: 'r2' },
-      { from: 'r1', to: 'r3' },
-      { from: 'r2', to: 'r3' },
-      { from: 'r3', to: 's1' },
-      { from: 'r3', to: 'c1' },
-      { from: 'r1', to: 's1' },
-      { from: 'r2', to: 'c1' },
-    ],
-  },
-  star: {
-    nodes: [
-      { id: 'sw1', x: 300, y: 200, type: 'switch' as const, label: 'Switch' },
-      { id: 'c1', x: 150, y: 100, type: 'client' as const, label: 'Client 1' },
-      { id: 'c2', x: 450, y: 100, type: 'client' as const, label: 'Client 2' },
-      { id: 'c3', x: 100, y: 300, type: 'client' as const, label: 'Client 3' },
-      { id: 's1', x: 500, y: 300, type: 'server' as const, label: 'Server' },
-    ],
-    edges: [
-      { from: 'sw1', to: 'c1' },
-      { from: 'sw1', to: 'c2' },
-      { from: 'sw1', to: 'c3' },
-      { from: 'sw1', to: 's1' },
-    ],
-  },
-  ring: {
-    nodes: [
-      { id: 'r1', x: 300, y: 80, type: 'router' as const, label: 'Router 1' },
-      { id: 'r2', x: 480, y: 200, type: 'router' as const, label: 'Router 2' },
-      { id: 'r3', x: 400, y: 370, type: 'router' as const, label: 'Router 3' },
-      { id: 'r4', x: 200, y: 370, type: 'router' as const, label: 'Router 4' },
-      { id: 'r5', x: 120, y: 200, type: 'router' as const, label: 'Router 5' },
-    ],
-    edges: [
-      { from: 'r1', to: 'r2' },
-      { from: 'r2', to: 'r3' },
-      { from: 'r3', to: 'r4' },
-      { from: 'r4', to: 'r5' },
-      { from: 'r5', to: 'r1' },
-    ],
-  },
-};
-
-export function NetworkSimulator({ isOpen, onClose }: NetworkSimulatorProps) {
+const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ onClose }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number | undefined>(undefined);
-  const [topology, setTopology] = useState<'mesh' | 'star' | 'ring'>('mesh');
   const [isPlaying, setIsPlaying] = useState(true);
-  const [speed, setSpeed] = useState([50]);
-  const [packets, setPackets] = useState<Packet[]>([]);
-  const [stats, setStats] = useState({ sent: 0, delivered: 0, inTransit: 0, dropped: 0 });
-  
-  const heading = useTypewriter('Network Packet Simulator', 120);
-  const labelTopology = useTypewriter('Topology', 120);
-  const labelSpeed = useTypewriter(`Speed: ${speed}%`, 120);
-  const labelSent = useTypewriter('Sent', 120);
-  const labelInTransit = useTypewriter('In Transit', 120);
-  const labelDelivered = useTypewriter('Delivered', 120);
-  const labelDropped = useTypewriter('Dropped', 120);
+  const [stats, setStats] = useState({ sent: 0, delivered: 0 });
+  const [topology, setTopology] = useState<'mesh' | 'star' | 'ring' | 'bus'>('mesh');
 
-  const currentTopology = TOPOLOGIES[topology];
+  // State refs for animation loop
+  const nodesRef = useRef<NetNode[]>([]);
+  const packetsRef = useRef<Packet[]>([]);
+  const frameRef = useRef<number>(0);
+  const lastPacketTimeRef = useRef<number>(0);
 
+  // Initialize Topology
   useEffect(() => {
-    if (!isOpen) return;
+    initTopology(topology);
+  }, [topology]);
 
+  const initTopology = (type: 'mesh' | 'star' | 'ring' | 'bus') => {
+    const width = 800;
+    const height = 500;
+    const cx = width / 2;
+    const cy = height / 2;
+    
+    let newNodes: NetNode[] = [];
+
+    if (type === 'mesh') {
+      newNodes = [
+        { id: 'r1', type: 'router', x: cx, y: cy, label: 'Core Router' },
+        { id: 's1', type: 'switch', x: cx - 150, y: cy - 100, label: 'Switch A' },
+        { id: 's2', type: 'switch', x: cx + 150, y: cy - 100, label: 'Switch B' },
+        { id: 'srv1', type: 'server', x: cx - 250, y: cy + 100, label: 'DB Server' },
+        { id: 'srv2', type: 'server', x: cx + 250, y: cy + 100, label: 'Web Server' },
+        { id: 'c1', type: 'client', x: cx - 300, y: cy - 150, label: 'Client 1' },
+        { id: 'c2', type: 'client', x: cx + 300, y: cy - 150, label: 'Client 2' },
+      ];
+    } else if (type === 'star') {
+      newNodes = [
+        { id: 'hub', type: 'router', x: cx, y: cy, label: 'Central Hub' },
+        { id: 'n1', type: 'client', x: cx, y: cy - 180, label: 'Node 1' },
+        { id: 'n2', type: 'client', x: cx + 170, y: cy - 60, label: 'Node 2' },
+        { id: 'n3', type: 'client', x: cx + 170, y: cy + 140, label: 'Node 3' },
+        { id: 'n4', type: 'client', x: cx - 170, y: cy + 140, label: 'Node 4' },
+        { id: 'n5', type: 'client', x: cx - 170, y: cy - 60, label: 'Node 5' },
+      ];
+    } else if (type === 'ring') {
+      const radius = 180;
+      const count = 6;
+      for (let i = 0; i < count; i++) {
+        const angle = (i * 2 * Math.PI) / count;
+        newNodes.push({
+          id: `r${i}`,
+          type: 'router',
+          x: cx + radius * Math.cos(angle),
+          y: cy + radius * Math.sin(angle),
+          label: `Node ${i + 1}`
+        });
+      }
+    } else if (type === 'bus') {
+      const count = 5;
+      const spacing = 140;
+      const startX = cx - ((count - 1) * spacing) / 2;
+      
+      for (let i = 0; i < count; i++) {
+        // Backbone node (tap) - these act as connectors on the bus line
+        newNodes.push({
+          id: `tap_${i}`,
+          type: 'switch', 
+          x: startX + i * spacing,
+          y: cy,
+          label: ''
+        });
+        
+        // Device attached to the tap
+        const isTop = i % 2 === 0;
+        newNodes.push({
+          id: `dev_${i}`,
+          type: i === 0 || i === count - 1 ? 'server' : 'client',
+          x: startX + i * spacing,
+          y: isTop ? cy - 120 : cy + 120,
+          label: i === 0 ? 'File Server' : i === count - 1 ? 'Backup' : `Workstation ${i}`
+        });
+      }
+    }
+
+    nodesRef.current = newNodes;
+    packetsRef.current = [];
+    setStats({ sent: 0, delivered: 0 });
+  };
+
+  // Helper to determine next routing hop
+  const getNextHop = (currentId: string, finalId: string, nodes: NetNode[]): string => {
+    if (currentId === finalId) return currentId;
+
+    if (topology === 'star') {
+       if (currentId === 'hub') return finalId;
+       return 'hub';
+    }
+
+    if (topology === 'ring') {
+       const currentIdx = nodes.findIndex(n => n.id === currentId);
+       if (currentIdx === -1) return finalId;
+       const nextIdx = (currentIdx + 1) % nodes.length;
+       return nodes[nextIdx].id;
+    }
+
+    if (topology === 'bus') {
+       // From Device to its Tap
+       if (currentId.startsWith('dev_')) {
+          const idx = currentId.split('_')[1];
+          return `tap_${idx}`;
+       }
+       // From Tap to Tap or Device
+       if (currentId.startsWith('tap_')) {
+          const currentTapIdx = parseInt(currentId.split('_')[1]);
+          // If this tap connects to the destination device
+          if (finalId === `dev_${currentTapIdx}`) return finalId;
+          
+          // Otherwise, travel along the bus
+          const destDevIdx = parseInt(finalId.split('_')[1]);
+          if (destDevIdx > currentTapIdx) return `tap_${currentTapIdx + 1}`;
+          return `tap_${currentTapIdx - 1}`;
+       }
+    }
+
+    if (topology === 'mesh') {
+        // Routing Table Logic for Mesh
+        if (currentId === 'r1') {
+            if (['c1', 's1'].includes(finalId)) return 's1';
+            if (['c2', 's2'].includes(finalId)) return 's2';
+            if (finalId === 'srv1') return 'srv1';
+            if (finalId === 'srv2') return 'srv2';
+            return finalId; 
+        }
+        if (currentId === 's1') {
+            if (finalId === 'c1') return 'c1';
+            return 'r1';
+        }
+        if (currentId === 's2') {
+            if (finalId === 'c2') return 'c2';
+            return 'r1';
+        }
+        // Leaf nodes
+        if (currentId === 'c1') return 's1';
+        if (currentId === 'c2') return 's2';
+        if (currentId === 'srv1' || currentId === 'srv2') return 'r1';
+    }
+
+    return finalId;
+  };
+
+  // Animation Loop
+  useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const animate = () => {
+    const render = (time: number) => {
+      if (!isPlaying) {
+        frameRef.current = requestAnimationFrame(render);
+        return;
+      }
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const computedStyle = window.getComputedStyle(document.documentElement);
-      const accentColor = computedStyle.getPropertyValue('--accent').trim();
-      const foregroundColor = computedStyle.getPropertyValue('--foreground').trim();
-
-      currentTopology.edges.forEach(edge => {
-        const fromNode = currentTopology.nodes.find(n => n.id === edge.from);
-        const toNode = currentTopology.nodes.find(n => n.id === edge.to);
-        if (fromNode && toNode) {
-          ctx.strokeStyle = accentColor || '#00f5ff';
-          ctx.lineWidth = 2;
-          ctx.setLineDash([5, 5]);
-          ctx.beginPath();
-          ctx.moveTo(fromNode.x, fromNode.y);
-          ctx.lineTo(toNode.x, toNode.y);
-          ctx.stroke();
-          ctx.setLineDash([]);
-        }
-      });
-
-      currentTopology.nodes.forEach(node => {
-        const nodeColors = {
-          router: accentColor || '#00f5ff',
-          switch: '#ff00ff',
-          server: '#00ff00',
-          client: foregroundColor || '#ffffff',
-        };
-
-        ctx.fillStyle = nodeColors[node.type];
-        ctx.strokeStyle = nodeColors[node.type];
-        ctx.lineWidth = 3;
-
-        if (node.type === 'router') {
-          ctx.beginPath();
-          ctx.moveTo(node.x, node.y - 15);
-          ctx.lineTo(node.x + 13, node.y + 7);
-          ctx.lineTo(node.x - 13, node.y + 7);
-          ctx.closePath();
-          ctx.stroke();
-          ctx.globalAlpha = 0.3;
-          ctx.fill();
-          ctx.globalAlpha = 1;
-        } else if (node.type === 'switch') {
-          ctx.strokeRect(node.x - 15, node.y - 10, 30, 20);
-          ctx.globalAlpha = 0.3;
-          ctx.fillRect(node.x - 15, node.y - 10, 30, 20);
-          ctx.globalAlpha = 1;
-        } else if (node.type === 'server') {
-          ctx.strokeRect(node.x - 12, node.y - 15, 24, 30);
-          ctx.globalAlpha = 0.3;
-          ctx.fillRect(node.x - 12, node.y - 15, 24, 30);
-          ctx.globalAlpha = 1;
-          ctx.beginPath();
-          ctx.moveTo(node.x - 8, node.y - 8);
-          ctx.lineTo(node.x + 8, node.y - 8);
-          ctx.moveTo(node.x - 8, node.y);
-          ctx.lineTo(node.x + 8, node.y);
-          ctx.moveTo(node.x - 8, node.y + 8);
-          ctx.lineTo(node.x + 8, node.y + 8);
-          ctx.stroke();
-        } else {
-          ctx.beginPath();
-          ctx.arc(node.x, node.y, 12, 0, Math.PI * 2);
-          ctx.stroke();
-          ctx.globalAlpha = 0.3;
-          ctx.fill();
-          ctx.globalAlpha = 1;
-        }
-
-        ctx.fillStyle = foregroundColor || '#ffffff';
-        ctx.font = '12px JetBrains Mono, monospace';
-        ctx.textAlign = 'center';
-        ctx.fillText(node.label, node.x, node.y + 30);
-      });
-
-      packets.forEach(packet => {
-        if (packet.currentIndex < packet.path.length - 1) {
-          const fromNode = currentTopology.nodes.find(n => n.id === packet.path[packet.currentIndex]);
-          const toNode = currentTopology.nodes.find(n => n.id === packet.path[packet.currentIndex + 1]);
-
-          if (fromNode && toNode) {
-            const x = fromNode.x + (toNode.x - fromNode.x) * packet.progress;
-            const y = fromNode.y + (toNode.y - fromNode.y) * packet.progress;
-
-            ctx.fillStyle = packet.color;
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = packet.color;
-            ctx.beginPath();
-            ctx.arc(x, y, 6, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.shadowBlur = 0;
-
-            ctx.fillStyle = packet.color;
-            ctx.font = 'bold 10px JetBrains Mono, monospace';
-            ctx.textAlign = 'center';
-            ctx.fillText(packet.type, x, y - 12);
+      
+      const nodes = nodesRef.current;
+      
+      // Draw Connections
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+      ctx.lineWidth = 1;
+      
+      ctx.beginPath();
+      if (topology === 'bus') {
+          // Draw Backbone (Thicker)
+          ctx.lineWidth = 4;
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+          const taps = nodes.filter(n => n.id.startsWith('tap_'));
+          for (let i = 0; i < taps.length - 1; i++) {
+             ctx.moveTo(taps[i].x, taps[i].y);
+             ctx.lineTo(taps[i+1].x, taps[i+1].y);
           }
+          ctx.stroke();
+          
+          // Draw Drop Lines (Thinner)
+          ctx.beginPath();
+          ctx.lineWidth = 1;
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+          const devs = nodes.filter(n => n.id.startsWith('dev_'));
+          devs.forEach(dev => {
+             const idx = dev.id.split('_')[1];
+             const tap = nodes.find(n => n.id === `tap_${idx}`);
+             if (tap) {
+                 ctx.moveTo(dev.x, dev.y);
+                 ctx.lineTo(tap.x, tap.y);
+             }
+          });
+      } else if (topology === 'mesh') {
+        const r1 = nodes.find(n => n.id === 'r1');
+        if (r1) {
+           nodes.forEach(n => {
+             if (n.id !== 'r1') {
+               let target = r1;
+               if (n.type === 'client') {
+                 const s = nodes.find(sw => sw.type === 'switch' && Math.abs(sw.x - n.x) < 200);
+                 if (s) target = s;
+               } else if (n.type === 'switch') {
+                 target = r1;
+               } else if (n.type === 'server') {
+                 const s = nodes.find(sw => sw.type === 'switch' && Math.abs(sw.x - n.x) < 200);
+                 if (s) target = s;
+                 else target = r1;
+               }
+               ctx.moveTo(n.x, n.y);
+               ctx.lineTo(target.x, target.y);
+             }
+           });
         }
-      });
-
-      animationRef.current = requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-    };
-  }, [isOpen, currentTopology, packets]);
-
-  useEffect(() => {
-    if (!isOpen || !isPlaying) return;
-
-    const interval = setInterval(() => {
-      setPackets(prev => {
-        const updated = prev.map(packet => {
-          const newProgress = packet.progress + (speed[0] / 1000);
-
-          if (newProgress >= 1) {
-            if (packet.currentIndex < packet.path.length - 2) {
-              return { ...packet, currentIndex: packet.currentIndex + 1, progress: 0 };
-            } else {
-              setStats(s => ({ ...s, delivered: s.delivered + 1, inTransit: s.inTransit - 1 }));
-              return null;
+      } else if (topology === 'star') {
+        const hub = nodes.find(n => n.id === 'hub');
+        if (hub) {
+          nodes.forEach(n => {
+            if (n.id !== 'hub') {
+              ctx.moveTo(n.x, n.y);
+              ctx.lineTo(hub.x, hub.y);
             }
-          }
-
-          return { ...packet, progress: newProgress };
-        }).filter(Boolean) as Packet[];
-
-        setStats(s => ({ ...s, inTransit: updated.length }));
-        return updated;
-      });
-    }, 16);
-
-    return () => clearInterval(interval);
-  }, [isOpen, isPlaying, speed]);
-
-  useEffect(() => {
-    if (!isOpen || !isPlaying) return;
-
-    const interval = setInterval(() => {
-      addPacket();
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, [isOpen, isPlaying, topology]);
-
-  const addPacket = () => {
-    const types: Array<'TCP' | 'UDP' | 'HTTP' | 'DNS'> = ['TCP', 'UDP', 'HTTP', 'DNS'];
-    const type = types[Math.floor(Math.random() * types.length)];
-    
-    const nodes = currentTopology.nodes;
-    const sourceNode = nodes[Math.floor(Math.random() * nodes.length)];
-    const destNode = nodes.filter(n => n.id !== sourceNode.id)[Math.floor(Math.random() * (nodes.length - 1))];
-
-    const path = findPath(sourceNode.id, destNode.id);
-
-    if (path.length > 1) {
-      const newPacket: Packet = {
-        id: Date.now().toString(),
-        type,
-        path,
-        currentIndex: 0,
-        progress: 0,
-        color: PACKET_COLORS[type],
-      };
-
-      setPackets(prev => [...prev, newPacket]);
-      setStats(s => ({ ...s, sent: s.sent + 1, inTransit: s.inTransit + 1 }));
-    }
-  };
-
-  const findPath = (start: string, end: string): string[] => {
-    const visited = new Set<string>();
-    const queue: string[][] = [[start]];
-
-    while (queue.length > 0) {
-      const path = queue.shift()!;
-      const node = path[path.length - 1];
-
-      if (node === end) {
-        return path;
-      }
-
-      if (!visited.has(node)) {
-        visited.add(node);
-
-        const neighbors = currentTopology.edges
-          .filter(e => e.from === node || e.to === node)
-          .map(e => e.from === node ? e.to : e.from);
-
-        for (const neighbor of neighbors) {
-          if (!visited.has(neighbor)) {
-            queue.push([...path, neighbor]);
-          }
+          });
         }
+      } else if (topology === 'ring') {
+         for (let i = 0; i < nodes.length; i++) {
+           const next = nodes[(i + 1) % nodes.length];
+           ctx.moveTo(nodes[i].x, nodes[i].y);
+           ctx.lineTo(next.x, next.y);
+         }
       }
-    }
+      ctx.stroke();
 
-    return [start];
+      // Draw Nodes
+      nodes.forEach(node => {
+        // Taps are smaller
+        const isTap = node.id.startsWith('tap_');
+        
+        ctx.fillStyle = getNodeColor(node.type);
+        ctx.shadowBlur = isTap ? 5 : 10;
+        ctx.shadowColor = getNodeColor(node.type);
+        ctx.beginPath();
+        
+        if (isTap) {
+             ctx.arc(node.x, node.y, 6, 0, Math.PI * 2);
+        } else if (node.type === 'switch' || node.type === 'router') {
+            ctx.arc(node.x, node.y, 12, 0, Math.PI * 2);
+        } else {
+            ctx.rect(node.x - 10, node.y - 10, 20, 20);
+        }
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Label
+        if (node.label) {
+            ctx.fillStyle = 'rgba(255,255,255,0.7)';
+            ctx.font = '10px JetBrains Mono';
+            ctx.textAlign = 'center';
+            ctx.fillText(node.label, node.x, node.y + 25);
+        }
+      });
+
+      // Spawn Packets
+      if (time - lastPacketTimeRef.current > 800) {
+        spawnPacket();
+        lastPacketTimeRef.current = time;
+      }
+
+      // Update and Draw Packets
+      packetsRef.current.forEach((pkt, i) => {
+        const speed = 3; // Slightly faster for multi-hop
+        
+        // Target coordinates
+        const targetNode = nodes.find(n => n.id === pkt.to);
+        const tx = targetNode?.x || 0;
+        const ty = targetNode?.y || 0;
+        
+        const dx = tx - pkt.currentX;
+        const dy = ty - pkt.currentY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < speed) {
+          handlePacketArrival(pkt, i, nodes);
+        } else {
+          const angle = Math.atan2(dy, dx);
+          pkt.currentX += Math.cos(angle) * speed;
+          pkt.currentY += Math.sin(angle) * speed;
+          
+          ctx.fillStyle = pkt.color;
+          ctx.shadowColor = pkt.color;
+          ctx.shadowBlur = 5;
+          ctx.beginPath();
+          ctx.arc(pkt.currentX, pkt.currentY, 4, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+      });
+
+      frameRef.current = requestAnimationFrame(render);
+    };
+
+    frameRef.current = requestAnimationFrame(render);
+    return () => cancelAnimationFrame(frameRef.current);
+  }, [isPlaying, topology]);
+
+  const getNodeColor = (type: NodeType) => {
+    switch (type) {
+      case 'router': return 'var(--color-accent)';
+      case 'switch': return '#FFBD2E';
+      case 'server': return '#FF5F57';
+      default: return 'var(--color-primary)';
+    }
   };
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen]);
+  const spawnPacket = () => {
+    const nodes = nodesRef.current;
+    if (nodes.length < 2) return;
+    
+    // Pick valid endpoints (ignore infrastructure nodes for traffic generation usually)
+    const endpoints = nodes.filter(n => ['client', 'server'].includes(n.type));
+    // Fallback if no endpoints (like Ring of only routers)
+    const validNodes = endpoints.length > 1 ? endpoints : nodes;
 
-  const handleTopologyChange = (value: string) => {
-    setTopology(value as 'mesh' | 'star' | 'ring');
-    setPackets([]);
-    setStats({ sent: 0, delivered: 0, inTransit: 0, dropped: 0 });
+    const startNode = validNodes[Math.floor(Math.random() * validNodes.length)];
+    let endNode = validNodes[Math.floor(Math.random() * validNodes.length)];
+    // Retry once to avoid self-loop, but allow if only 1 node
+    let retries = 0;
+    while (endNode.id === startNode.id && retries < 5) {
+        endNode = validNodes[Math.floor(Math.random() * validNodes.length)];
+        retries++;
+    }
+    
+    if (endNode.id === startNode.id) return;
+
+    const types: PacketType[] = ['TCP', 'UDP', 'HTTP', 'DNS'];
+    const type = types[Math.floor(Math.random() * types.length)];
+    const colors = { TCP: '#61dafb', UDP: '#ff80bf', HTTP: '#50fa7b', DNS: '#f1fa8c' };
+
+    const firstHop = getNextHop(startNode.id, endNode.id, nodes);
+
+    packetsRef.current.push({
+      id: Math.random().toString(36),
+      from: startNode.id,
+      to: firstHop,
+      currentX: startNode.x,
+      currentY: startNode.y,
+      progress: 0,
+      type,
+      color: colors[type],
+      finalDest: endNode.id
+    });
+    setStats(s => ({ ...s, sent: s.sent + 1 }));
+  };
+
+  const handlePacketArrival = (pkt: Packet, idx: number, nodes: NetNode[]) => {
+      // Arrived at current hop
+      if (pkt.to === pkt.finalDest) {
+          // Reached final destination
+          packetsRef.current.splice(idx, 1);
+          setStats(s => ({ ...s, delivered: s.delivered + 1 }));
+      } else {
+          // Hop to next node
+          pkt.from = pkt.to;
+          pkt.to = getNextHop(pkt.to, pkt.finalDest, nodes);
+          // Snap to current node position for precision
+          const currentNode = nodes.find(n => n.id === pkt.from);
+          if (currentNode) {
+              pkt.currentX = currentNode.x;
+              pkt.currentY = currentNode.y;
+          }
+      }
   };
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{
-            backgroundColor: 'color-mix(in oklch, var(--background) 80%, transparent)',
-            backdropFilter: 'blur(12px)',
-          }}
-          onClick={onClose}
-        >
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="w-full max-w-4xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Card className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold text-foreground">{heading}</h2>
-                <Button size="sm" variant="ghost" onClick={onClose} className="h-8 w-8 p-0">
-                  <X className="w-5 h-5" />
-                </Button>
-              </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+      <div className="relative w-full max-w-5xl glass-panel rounded-xl overflow-hidden flex flex-col h-[80vh]">
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b border-white/10 bg-white/5">
+          <div className="flex items-center gap-3">
+            <Activity className="w-5 h-5 text-[var(--color-accent)]" />
+            <h2 className="text-xl font-bold font-mono text-[var(--color-primary)]">Network Simulator v1.0</h2>
+          </div>
+          <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition-colors">
+            <X className="w-5 h-5 text-white/70" />
+          </button>
+        </div>
 
-              <div className="flex gap-4 mb-4">
-                <div className="flex-1">
-                  <label className="text-sm text-muted-foreground mb-2 block">{labelTopology}</label>
-                  <Select value={topology} onValueChange={handleTopologyChange}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="mesh">Mesh Network</SelectItem>
-                      <SelectItem value="star">Star Network</SelectItem>
-                      <SelectItem value="ring">Ring Network</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+        {/* Controls */}
+        <div className="flex items-center justify-between p-4 bg-black/20 font-mono text-sm">
+          <div className="flex gap-4">
+             <div className="flex items-center gap-2">
+               <span className="text-white/50">Topology:</span>
+               <select 
+                 value={topology}
+                 onChange={(e) => setTopology(e.target.value as any)}
+                 className="bg-black/30 border border-white/20 rounded px-2 py-1 text-[var(--color-accent)] focus:outline-none"
+               >
+                 <option value="mesh">Mesh Network</option>
+                 <option value="star">Star Topology</option>
+                 <option value="ring">Token Ring</option>
+                 <option value="bus">Bus Topology</option>
+               </select>
+             </div>
+             <button 
+               onClick={() => setIsPlaying(!isPlaying)}
+               className="flex items-center gap-2 px-3 py-1 rounded bg-[var(--color-primary)] text-black font-bold hover:opacity-90"
+             >
+               {isPlaying ? <Pause size={14} /> : <Play size={14} />}
+               {isPlaying ? 'PAUSE' : 'RESUME'}
+             </button>
+             <button 
+               onClick={() => initTopology(topology)}
+               className="p-1 hover:text-[var(--color-accent)] transition-colors"
+               title="Reset"
+             >
+               <RefreshCw size={16} />
+             </button>
+          </div>
+          
+          <div className="flex gap-6 text-[var(--color-secondary)]">
+            <span>PKTS_SENT: <span className="text-white">{stats.sent}</span></span>
+            <span>DELIVERED: <span className="text-[var(--color-accent)]">{stats.delivered}</span></span>
+            <span className="animate-pulse text-green-400">● LIVE</span>
+          </div>
+        </div>
 
-                <div className="flex gap-2 items-end">
-                  <Button
-                    variant={isPlaying ? 'default' : 'outline'}
-                    onClick={() => setIsPlaying(!isPlaying)}
-                  >
-                    {isPlaying ? <Pause className="w-4 h-4 mr-2" /> : <Play className="w-4 h-4 mr-2" />}
-                    {isPlaying ? 'Pause' : 'Play'}
-                  </Button>
-                  <Button variant="outline" onClick={addPacket}>
-                    <Plus className="w-4 h-4 mr-2" />
-                    Send Packet
-                  </Button>
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <label className="text-sm text-muted-foreground mb-2 block">{labelSpeed}</label>
-                <Slider value={speed} onValueChange={setSpeed} min={10} max={100} step={10} />
-              </div>
-
-              <canvas
-                ref={canvasRef}
-                width={600}
-                height={450}
-                className="w-full border border-border rounded-lg mb-4"
-                style={{ backgroundColor: 'var(--card)' }}
-              />
-
-              <div className="grid grid-cols-4 gap-4 terminal-font text-sm">
-                <div className="p-3 rounded bg-muted/30">
-                  <div className="text-muted-foreground">{labelSent}</div>
-                  <div className="text-2xl font-bold text-foreground">{stats.sent}</div>
-                </div>
-                <div className="p-3 rounded bg-muted/30">
-                  <div className="text-muted-foreground">{labelInTransit}</div>
-                  <div className="text-2xl font-bold text-accent">{stats.inTransit}</div>
-                </div>
-                <div className="p-3 rounded bg-muted/30">
-                  <div className="text-muted-foreground">{labelDelivered}</div>
-                  <div className="text-2xl font-bold" style={{ color: '#00ff00' }}>{stats.delivered}</div>
-                </div>
-                <div className="p-3 rounded bg-muted/30">
-                  <div className="text-muted-foreground">{labelDropped}</div>
-                  <div className="text-2xl font-bold text-destructive">{stats.dropped}</div>
-                </div>
-              </div>
-
-              <div className="mt-4 p-3 rounded bg-muted/20 terminal-font text-xs">
-                <div className="flex gap-4">
-                  <span><span style={{ color: PACKET_COLORS.TCP }}>●</span> TCP</span>
-                  <span><span style={{ color: PACKET_COLORS.UDP }}>●</span> UDP</span>
-                  <span><span style={{ color: PACKET_COLORS.HTTP }}>●</span> HTTP</span>
-                  <span><span style={{ color: PACKET_COLORS.DNS }}>●</span> DNS</span>
-                </div>
-              </div>
-            </Card>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+        {/* Canvas */}
+        <div className="flex-1 relative bg-black/40 overflow-hidden cursor-crosshair">
+          <canvas 
+            ref={canvasRef} 
+            width={800} 
+            height={500} 
+            className="w-full h-full object-contain"
+          />
+          {/* Legend */}
+          <div className="absolute bottom-4 left-4 p-3 rounded bg-black/60 border border-white/10 text-xs font-mono pointer-events-none">
+             <div className="mb-2 font-bold text-white/70">Packet Types</div>
+             <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+               <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#61dafb]"></span>TCP</div>
+               <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#ff80bf]"></span>UDP</div>
+               <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#50fa7b]"></span>HTTP</div>
+               <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#f1fa8c]"></span>DNS</div>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
-}
+};
+
+export default NetworkSimulator;
