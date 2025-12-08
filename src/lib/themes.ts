@@ -368,6 +368,29 @@ export const themes: Record<string, Theme> = {
       mutedForeground: 'oklch(0.52 0.09 150)',
     },
   },
+  highcontrast: {
+    name: 'highcontrast',
+    label: 'High Contrast',
+    welcomeMessage: 'Maximum readability mode enabled',
+    helpPrompt: 'crystal clear commands - type help',
+    gradient: 'linear-gradient(180deg, #000000 0%, #0a0a0a 100%)',
+    colors: {
+      background: 'oklch(0 0 0)',
+      foreground: 'oklch(1 0 0)',
+      card: 'oklch(0.08 0 0)',
+      cardForeground: 'oklch(1 0 0)',
+      primary: 'oklch(1 0 0)',
+      primaryForeground: 'oklch(0 0 0)',
+      accent: 'oklch(0.95 0.03 120)',
+      accentForeground: 'oklch(0 0 0)',
+      secondary: 'oklch(0.20 0 0)',
+      border: 'oklch(0.85 0 0)',
+      input: 'oklch(0.85 0 0)',
+      ring: 'oklch(1 0 0)',
+      muted: 'oklch(0.20 0 0)',
+      mutedForeground: 'oklch(0.85 0 0)',
+    },
+  },
 };
 
 export function applyTheme(theme: Theme) {

@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
-import { X, Minus, Square, Sliders } from '@phosphor-icons/react'
+import { X, Minus, Square, Sliders, Eye } from '@phosphor-icons/react'
 import { Card } from '@/components/ui/card'
 import { Slider } from '@/components/ui/slider'
 import { Separator } from '@/components/ui/separator'
+import { Button } from '@/components/ui/button'
 import { useKV } from '@github/spark/hooks'
 import { themes } from '@/lib/themes'
 
@@ -81,22 +82,23 @@ export function Terminal({
       case 'help':
         const helpLines = [
           { type: 'output' as const, text: 'Available commands:' },
-          { type: 'output' as const, text: '  start    - Launch the full website' },
-          { type: 'output' as const, text: '  network  - Open network packet simulator' },
-          { type: 'output' as const, text: '  themes   - View available color themes' },
-          { type: 'output' as const, text: '  random   - Apply a random theme' },
-          { type: 'output' as const, text: '  xmas     - Enable festive Christmas theme' },
-          { type: 'output' as const, text: '  version  - Display version information' },
-          { type: 'output' as const, text: '  whoami   - Display current user information' },
-          { type: 'output' as const, text: '  date     - Show current date and time' },
-          { type: 'output' as const, text: '  fortune  - Get a random fortune' },
-          { type: 'output' as const, text: '  joke     - Hear a networking joke' },
-          { type: 'output' as const, text: '  status   - Check system status' },
-          { type: 'output' as const, text: '  about    - Learn about this terminal' },
-          { type: 'output' as const, text: '  history  - View command history' },
-          { type: 'output' as const, text: '  secret   - ???' },
-          { type: 'output' as const, text: '  clear    - Clear the terminal' },
-          { type: 'output' as const, text: '  help     - Show this help message' }
+          { type: 'output' as const, text: '  start        - Launch the full website' },
+          { type: 'output' as const, text: '  network      - Open network packet simulator' },
+          { type: 'output' as const, text: '  themes       - View available color themes' },
+          { type: 'output' as const, text: '  random       - Apply a random theme' },
+          { type: 'output' as const, text: '  highcontrast - Toggle high contrast mode' },
+          { type: 'output' as const, text: '  xmas         - Enable festive Christmas theme' },
+          { type: 'output' as const, text: '  version      - Display version information' },
+          { type: 'output' as const, text: '  whoami       - Display current user information' },
+          { type: 'output' as const, text: '  date         - Show current date and time' },
+          { type: 'output' as const, text: '  fortune      - Get a random fortune' },
+          { type: 'output' as const, text: '  joke         - Hear a networking joke' },
+          { type: 'output' as const, text: '  status       - Check system status' },
+          { type: 'output' as const, text: '  about        - Learn about this terminal' },
+          { type: 'output' as const, text: '  history      - View command history' },
+          { type: 'output' as const, text: '  secret       - ???' },
+          { type: 'output' as const, text: '  clear        - Clear the terminal' },
+          { type: 'output' as const, text: '  help         - Show this help message' }
         ]
         if (mini) {
           helpLines.splice(1, 0, { type: 'output' as const, text: '  end      - Return to main terminal' })
@@ -139,6 +141,7 @@ export function Terminal({
       case 'ice':
       case 'synthwave':
       case 'cyberpunk':
+      case 'highcontrast':
         onCommand(`__THEME_${trimmedCmd.toUpperCase()}`)
         setLines(prev => [...prev, { type: 'output', text: `Theme set to: ${trimmedCmd.charAt(0).toUpperCase() + trimmedCmd.slice(1)}` }])
         break
@@ -422,6 +425,28 @@ export function Terminal({
       {showSettings && !mini && (
         <div className="absolute top-8 right-0 w-64 bg-card/95 backdrop-blur-xl border border-border/50 rounded-bl-lg p-4 z-10 shadow-xl">
           <div className="space-y-4">
+            <div>
+              <label className="text-xs text-muted-foreground font-mono mb-3 block">
+                Accessibility
+              </label>
+              <Button
+                onClick={() => {
+                  if (currentTheme === 'highcontrast') {
+                    onCommand('__THEME_CYAN')
+                  } else {
+                    onCommand('__THEME_HIGHCONTRAST')
+                  }
+                  setShowSettings(false)
+                }}
+                variant={currentTheme === 'highcontrast' ? 'default' : 'outline'}
+                size="sm"
+                className="w-full justify-start gap-2"
+              >
+                <Eye size={16} weight="bold" />
+                {currentTheme === 'highcontrast' ? 'Disable' : 'Enable'} High Contrast
+              </Button>
+            </div>
+            <Separator />
             <div>
               <label className="text-xs text-muted-foreground font-mono mb-2 block">
                 Opacity: {opacity ?? initialOpacity}%
