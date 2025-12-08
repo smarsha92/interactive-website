@@ -461,7 +461,6 @@ export function Terminal({
             autoFocus
             spellCheck={false}
           />
-          <span className="text-accent cursor-blink">█</span>
         </form>
       </div>
     </Card>
