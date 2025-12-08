@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { X, Minus, Square, Sliders, Eye } from '@phosphor-icons/react'
+import { X, Minus, Square, Sliders, Eye, CaretRight } from '@phosphor-icons/react'
 import { Card } from '@/components/ui/card'
 import { Slider } from '@/components/ui/slider'
 import { Separator } from '@/components/ui/separator'
@@ -499,7 +499,9 @@ export function Terminal({
         ))}
 
         <form onSubmit={handleSubmit} className="flex items-center group/input">
-          <span className="text-accent mr-2 transition-all duration-300 group-hover/input:drop-shadow-[0_0_4px_rgba(100,200,255,0.4)]">$</span>
+          <span className="text-accent mr-2 transition-all duration-300 group-hover/input:drop-shadow-[0_0_4px_rgba(100,200,255,0.4)] pulsate">
+            <CaretRight size={16} weight="bold" />
+          </span>
           <input
             ref={inputRef}
             type="text"
