@@ -19,10 +19,12 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) 
   const packetsRef = useRef<Packet[]>([]);
   const frameRef = useRef<number>(0);
   const lastPacketTimeRef = useRef<number>(0);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Initialize Topology
   useEffect(() => {
     initTopology(topology);
+    setIsInitialized(true);
   }, [topology]);
 
   const initTopology = (type: 'mesh' | 'star' | 'ring' | 'bus') => {
@@ -160,6 +162,8 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) 
 
   // Animation Loop
   useEffect(() => {
+    if (!isInitialized) return;
+    
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -315,7 +319,7 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) 
 
     frameRef.current = requestAnimationFrame(render);
     return () => cancelAnimationFrame(frameRef.current);
-  }, [isPlaying, topology, speed]);
+  }, [isPlaying, topology, speed, isInitialized]);
 
   const getNodeColor = (type: NodeType) => {
     switch (type) {
