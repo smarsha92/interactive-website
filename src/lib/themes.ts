@@ -28,7 +28,7 @@ export const themes: Record<string, Theme> = {
     label: 'Cyan',
     welcomeMessage: 'Welcome to networking mastery',
     helpPrompt: 'type help to get started',
-    gradient: 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)',
+    gradient: 'radial-gradient(circle at 20% 50%, #2c5364 0%, transparent 50%), radial-gradient(circle at 80% 80%, #203a43 0%, transparent 50%), linear-gradient(135deg, #0f2027 0%, #1a2b35 100%)',
     colors: {
       background: 'oklch(0.15 0.02 240)',
       foreground: 'oklch(0.65 0.15 195)',
@@ -51,7 +51,7 @@ export const themes: Record<string, Theme> = {
     label: 'Default',
     welcomeMessage: 'System initialized - classic terminal mode',
     helpPrompt: 'enter "help" for available commands',
-    gradient: 'linear-gradient(135deg, #1a1a1a 0%, #2d4a2b 50%, #1f3a29 100%)',
+    gradient: 'radial-gradient(ellipse at 70% 30%, #2d4a2b 0%, transparent 60%), radial-gradient(circle at 30% 70%, #1f3a29 0%, transparent 50%), linear-gradient(180deg, #1a1a1a 0%, #0f1a0f 100%)',
     colors: {
       background: 'oklch(0.10 0 0)',
       foreground: 'oklch(0.60 0.18 145)',
@@ -74,7 +74,7 @@ export const themes: Record<string, Theme> = {
     label: 'Matrix',
     welcomeMessage: 'Wake up, Neo... The Matrix has you',
     helpPrompt: 'follow the white rabbit - type help',
-    gradient: 'linear-gradient(135deg, #0a0e0a 0%, #1a3a1a 50%, #0f2b0f 100%)',
+    gradient: 'radial-gradient(circle at 50% 20%, #1a3a1a 0%, transparent 70%), radial-gradient(ellipse at 20% 80%, #0f2b0f 0%, transparent 60%), radial-gradient(circle at 80% 60%, #1a3a1a 0%, transparent 50%), linear-gradient(180deg, #0a0e0a 0%, #050805 100%)',
     colors: {
       background: 'oklch(0.08 0.02 145)',
       foreground: 'oklch(0.60 0.18 145)',
@@ -97,7 +97,7 @@ export const themes: Record<string, Theme> = {
     label: 'Amber',
     welcomeMessage: 'Retro computing vibes activated',
     helpPrompt: 'warm amber glow ready - type help',
-    gradient: 'linear-gradient(135deg, #2a1810 0%, #4a3020 50%, #6a4828 100%)',
+    gradient: 'radial-gradient(ellipse at 30% 40%, #6a4828 0%, transparent 55%), radial-gradient(circle at 70% 70%, #4a3020 0%, transparent 60%), linear-gradient(135deg, #2a1810 0%, #1a0f08 100%)',
     colors: {
       background: 'oklch(0.12 0.03 75)',
       foreground: 'oklch(0.70 0.15 75)',
@@ -120,7 +120,7 @@ export const themes: Record<string, Theme> = {
     label: 'Purple',
     welcomeMessage: 'Entering the purple haze dimension',
     helpPrompt: 'mystical commands await - type help',
-    gradient: 'linear-gradient(135deg, #2b134b 0%, #4a2070 50%, #5d2e8b 100%)',
+    gradient: 'radial-gradient(circle at 60% 30%, #5d2e8b 0%, transparent 50%), radial-gradient(ellipse at 30% 80%, #4a2070 0%, transparent 65%), linear-gradient(180deg, #2b134b 0%, #1a0a2f 100%)',
     colors: {
       background: 'oklch(0.12 0.04 290)',
       foreground: 'oklch(0.65 0.20 290)',
@@ -143,7 +143,7 @@ export const themes: Record<string, Theme> = {
     label: 'Sunset',
     welcomeMessage: 'Golden hour computing session',
     helpPrompt: 'bask in the warm glow - type help',
-    gradient: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 25%, #f39c12 50%, #f8b500 75%, #ffd700 100%)',
+    gradient: 'radial-gradient(ellipse at 50% 70%, #ffd700 0%, transparent 40%), radial-gradient(circle at 30% 50%, #f8b500 0%, transparent 45%), radial-gradient(circle at 70% 40%, #ee5a24 0%, transparent 50%), linear-gradient(180deg, #ff6b6b 0%, #c44569 100%)',
     colors: {
       background: 'oklch(0.14 0.05 45)',
       foreground: 'oklch(0.70 0.20 45)',
@@ -166,7 +166,7 @@ export const themes: Record<string, Theme> = {
     label: 'Ocean',
     welcomeMessage: 'Diving into deep blue waters',
     helpPrompt: 'navigate the depths - type help',
-    gradient: 'linear-gradient(135deg, #001F3F 0%, #003D5B 35%, #0074D9 70%, #7FDBFF 100%)',
+    gradient: 'radial-gradient(circle at 80% 20%, #7FDBFF 0%, transparent 45%), radial-gradient(ellipse at 20% 60%, #0074D9 0%, transparent 60%), radial-gradient(circle at 60% 80%, #003D5B 0%, transparent 50%), linear-gradient(135deg, #001F3F 0%, #001528 100%)',
     colors: {
       background: 'oklch(0.12 0.04 230)',
       foreground: 'oklch(0.60 0.16 230)',
@@ -189,7 +189,7 @@ export const themes: Record<string, Theme> = {
     label: 'Neon',
     welcomeMessage: 'Electric dreams terminal online',
     helpPrompt: 'neon streets await - type help',
-    gradient: 'linear-gradient(135deg, #FF006E 0%, #8338EC 35%, #3A86FF 70%, #06FFA5 100%)',
+    gradient: 'radial-gradient(circle at 75% 25%, #06FFA5 0%, transparent 35%), radial-gradient(ellipse at 25% 75%, #3A86FF 0%, transparent 50%), radial-gradient(circle at 50% 50%, #8338EC 0%, transparent 40%), linear-gradient(135deg, #FF006E 0%, #8B0048 100%)',
     colors: {
       background: 'oklch(0.10 0.05 330)',
       foreground: 'oklch(0.75 0.25 330)',
@@ -212,7 +212,7 @@ export const themes: Record<string, Theme> = {
     label: 'Forest',
     welcomeMessage: 'Welcome to the digital forest',
     helpPrompt: 'nature and tech unite - type help',
-    gradient: 'linear-gradient(135deg, #1a2a1a 0%, #2d4a2b 50%, #3d6a3d 100%)',
+    gradient: 'radial-gradient(ellipse at 40% 30%, #3d6a3d 0%, transparent 55%), radial-gradient(circle at 70% 70%, #2d4a2b 0%, transparent 60%), linear-gradient(180deg, #1a2a1a 0%, #0d150d 100%)',
     colors: {
       background: 'oklch(0.10 0.03 160)',
       foreground: 'oklch(0.58 0.14 160)',
@@ -235,7 +235,7 @@ export const themes: Record<string, Theme> = {
     label: 'Rose',
     welcomeMessage: 'Soft rose elegance terminal',
     helpPrompt: 'delicate yet powerful - type help',
-    gradient: 'linear-gradient(135deg, #4a1942 0%, #801f4f 50%, #be4d79 100%)',
+    gradient: 'radial-gradient(circle at 65% 35%, #be4d79 0%, transparent 50%), radial-gradient(ellipse at 25% 75%, #801f4f 0%, transparent 60%), linear-gradient(135deg, #4a1942 0%, #2a0f26 100%)',
     colors: {
       background: 'oklch(0.12 0.04 350)',
       foreground: 'oklch(0.68 0.20 350)',
@@ -258,7 +258,7 @@ export const themes: Record<string, Theme> = {
     label: 'Gold',
     welcomeMessage: 'Luxurious golden terminal experience',
     helpPrompt: 'premium commands ready - type help',
-    gradient: 'linear-gradient(135deg, #3a2f0b 0%, #5c4a1a 35%, #8b6f1f 70%, #b8941f 100%)',
+    gradient: 'radial-gradient(ellipse at 50% 40%, #b8941f 0%, transparent 50%), radial-gradient(circle at 30% 70%, #8b6f1f 0%, transparent 55%), radial-gradient(circle at 75% 65%, #5c4a1a 0%, transparent 50%), linear-gradient(180deg, #3a2f0b 0%, #1f1805 100%)',
     colors: {
       background: 'oklch(0.14 0.03 95)',
       foreground: 'oklch(0.72 0.13 95)',
@@ -281,7 +281,7 @@ export const themes: Record<string, Theme> = {
     label: 'Ice',
     welcomeMessage: 'Arctic terminal environment',
     helpPrompt: 'cool and crystalline - type help',
-    gradient: 'linear-gradient(135deg, #1a2332 0%, #2a4a68 50%, #4a7ba7 100%)',
+    gradient: 'radial-gradient(circle at 40% 30%, #4a7ba7 0%, transparent 50%), radial-gradient(ellipse at 70% 70%, #2a4a68 0%, transparent 60%), linear-gradient(135deg, #1a2332 0%, #0f1419 100%)',
     colors: {
       background: 'oklch(0.12 0.02 250)',
       foreground: 'oklch(0.70 0.12 250)',
@@ -304,7 +304,7 @@ export const themes: Record<string, Theme> = {
     label: 'Synthwave',
     welcomeMessage: 'Welcome to the 80s neon dreamscape',
     helpPrompt: 'retro-futuristic vibes - type help',
-    gradient: 'linear-gradient(135deg, #2b134b 0%, #4a1870 25%, #ff006e 50%, #8338ec 75%, #3a86ff 100%)',
+    gradient: 'radial-gradient(circle at 80% 30%, #3a86ff 0%, transparent 40%), radial-gradient(ellipse at 20% 70%, #8338ec 0%, transparent 45%), radial-gradient(circle at 50% 50%, #ff006e 0%, transparent 35%), linear-gradient(135deg, #2b134b 0%, #1a0a2f 100%)',
     colors: {
       background: 'oklch(0.12 0.05 300)',
       foreground: 'oklch(0.72 0.26 330)',
@@ -327,7 +327,7 @@ export const themes: Record<string, Theme> = {
     label: 'Cyberpunk',
     welcomeMessage: 'Welcome, netrunner - system jacked in',
     helpPrompt: 'chrome and neon ready - type help',
-    gradient: 'linear-gradient(135deg, #0a1929 0%, #0f4c75 35%, #3282b8 70%, #bbe1fa 100%)',
+    gradient: 'radial-gradient(circle at 70% 25%, #bbe1fa 0%, transparent 40%), radial-gradient(ellipse at 30% 65%, #3282b8 0%, transparent 55%), radial-gradient(circle at 60% 80%, #0f4c75 0%, transparent 50%), linear-gradient(180deg, #0a1929 0%, #040d14 100%)',
     colors: {
       background: 'oklch(0.08 0.04 180)',
       foreground: 'oklch(0.75 0.28 180)',
@@ -350,7 +350,7 @@ export const themes: Record<string, Theme> = {
     label: 'Christmas',
     welcomeMessage: '🎄 Ho ho ho! Merry Christmas! 🎅',
     helpPrompt: 'festive commands await - type help',
-    gradient: 'linear-gradient(135deg, #165a4c 0%, #b7245c 25%, #d42426 50%, #5cb247 75%, #ffffff 100%)',
+    gradient: 'radial-gradient(circle at 25% 25%, #ffffff 0%, transparent 30%), radial-gradient(ellipse at 70% 50%, #5cb247 0%, transparent 45%), radial-gradient(circle at 40% 70%, #d42426 0%, transparent 40%), radial-gradient(circle at 80% 80%, #b7245c 0%, transparent 35%), linear-gradient(135deg, #165a4c 0%, #0d2f26 100%)',
     colors: {
       background: 'oklch(0.08 0.02 290)',
       foreground: 'oklch(0.55 0.22 25)',
