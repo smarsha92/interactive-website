@@ -54,12 +54,12 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
       <nav className="fixed top-0 left-0 right-0 z-40 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <h1 className="text-2xl font-bold text-foreground terminal-font">
-            <span className="text-accent">{'>'}</span> {navTitle}
+            <span className="text-accent">{'>'}</span> {navTitle || ''}
           </h1>
           <div className="flex gap-6">
-            <a href="#features" className="text-foreground hover:text-accent transition-colors">{navFeatures}</a>
-            <a href="#about" className="text-foreground hover:text-accent transition-colors">{navAbout}</a>
-            <a href="#contact" className="text-foreground hover:text-accent transition-colors">{navContact}</a>
+            <a href="#features" className="text-foreground hover:text-accent transition-colors">{navFeatures || ''}</a>
+            <a href="#about" className="text-foreground hover:text-accent transition-colors">{navAbout || ''}</a>
+            <a href="#contact" className="text-foreground hover:text-accent transition-colors">{navContact || ''}</a>
           </div>
         </div>
       </nav>
@@ -72,21 +72,21 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
           className="text-center max-w-4xl"
         >
           <h2 className="text-6xl md:text-7xl font-bold mb-6 text-foreground">
-            {heroTitle1}
+            {heroTitle1 || ''}
             <br />
-            <span className="text-accent">{heroTitle2}</span>
+            <span className="text-accent">{heroTitle2 || ''}</span>
           </h2>
           <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-            {heroSubtitle1}
+            {heroSubtitle1 || ''}
             <br />
-            {heroSubtitle2}
+            {heroSubtitle2 || ''}
           </p>
           <div className="flex gap-4 justify-center">
             <Button size="lg" className="text-lg px-8">
-              {btnGetStarted}
+              {btnGetStarted || ''}
             </Button>
             <Button size="lg" variant="outline" className="text-lg px-8">
-              {btnLearnMore}
+              {btnLearnMore || ''}
             </Button>
           </div>
           <motion.div
@@ -107,7 +107,7 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
             viewport={{ once: true }}
             className="text-5xl font-bold mb-16 text-center text-foreground"
           >
-            {featuresHeading}
+            {featuresHeading || ''}
           </motion.h2>
           <div className="grid md:grid-cols-3 gap-8">
             <motion.div
@@ -117,8 +117,8 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
               transition={{ delay: 0 }}
             >
               <Card className="p-6 h-full hover:scale-105 transition-transform duration-300">
-                <h3 className="text-2xl font-bold mb-3 text-foreground">{feature1Title}</h3>
-                <p className="text-muted-foreground">{feature1Desc}</p>
+                <h3 className="text-2xl font-bold mb-3 text-foreground">{feature1Title || ''}</h3>
+                <p className="text-muted-foreground">{feature1Desc || ''}</p>
               </Card>
             </motion.div>
             <motion.div
@@ -128,8 +128,8 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
               transition={{ delay: 0.1 }}
             >
               <Card className="p-6 h-full hover:scale-105 transition-transform duration-300">
-                <h3 className="text-2xl font-bold mb-3 text-foreground">{feature2Title}</h3>
-                <p className="text-muted-foreground">{feature2Desc}</p>
+                <h3 className="text-2xl font-bold mb-3 text-foreground">{feature2Title || ''}</h3>
+                <p className="text-muted-foreground">{feature2Desc || ''}</p>
               </Card>
             </motion.div>
             <motion.div
@@ -139,8 +139,8 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
               transition={{ delay: 0.2 }}
             >
               <Card className="p-6 h-full hover:scale-105 transition-transform duration-300">
-                <h3 className="text-2xl font-bold mb-3 text-foreground">{feature3Title}</h3>
-                <p className="text-muted-foreground">{feature3Desc}</p>
+                <h3 className="text-2xl font-bold mb-3 text-foreground">{feature3Title || ''}</h3>
+                <p className="text-muted-foreground">{feature3Desc || ''}</p>
               </Card>
             </motion.div>
             <motion.div
@@ -150,8 +150,8 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
               transition={{ delay: 0.3 }}
             >
               <Card className="p-6 h-full hover:scale-105 transition-transform duration-300">
-                <h3 className="text-2xl font-bold mb-3 text-foreground">{feature4Title}</h3>
-                <p className="text-muted-foreground">{feature4Desc}</p>
+                <h3 className="text-2xl font-bold mb-3 text-foreground">{feature4Title || ''}</h3>
+                <p className="text-muted-foreground">{feature4Desc || ''}</p>
               </Card>
             </motion.div>
             <motion.div
@@ -161,8 +161,8 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
               transition={{ delay: 0.4 }}
             >
               <Card className="p-6 h-full hover:scale-105 transition-transform duration-300">
-                <h3 className="text-2xl font-bold mb-3 text-foreground">{feature5Title}</h3>
-                <p className="text-muted-foreground">{feature5Desc}</p>
+                <h3 className="text-2xl font-bold mb-3 text-foreground">{feature5Title || ''}</h3>
+                <p className="text-muted-foreground">{feature5Desc || ''}</p>
               </Card>
             </motion.div>
             <motion.div
@@ -172,8 +172,8 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
               transition={{ delay: 0.5 }}
             >
               <Card className="p-6 h-full hover:scale-105 transition-transform duration-300">
-                <h3 className="text-2xl font-bold mb-3 text-foreground">{feature6Title}</h3>
-                <p className="text-muted-foreground">{feature6Desc}</p>
+                <h3 className="text-2xl font-bold mb-3 text-foreground">{feature6Title || ''}</h3>
+                <p className="text-muted-foreground">{feature6Desc || ''}</p>
               </Card>
             </motion.div>
           </div>
@@ -188,7 +188,7 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
             viewport={{ once: true }}
             className="text-5xl font-bold mb-8 text-foreground"
           >
-            {aboutHeading}
+            {aboutHeading || ''}
           </motion.h2>
           <motion.div
             initial={{ opacity: 0 }}
@@ -199,13 +199,13 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
           >
             <Card className="p-8 text-left">
               <p className="text-foreground mb-4">
-                <span className="text-accent">{'>'}</span> {about1}
+                <span className="text-accent">{'>'}</span> {about1 || ''}
               </p>
               <p className="text-foreground mb-4">
-                <span className="text-accent">{'>'}</span> {about2}
+                <span className="text-accent">{'>'}</span> {about2 || ''}
               </p>
               <p className="text-foreground">
-                <span className="text-accent">{'>'}</span> {about3}
+                <span className="text-accent">{'>'}</span> {about3 || ''}
               </p>
             </Card>
           </motion.div>
@@ -220,7 +220,7 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
             viewport={{ once: true }}
             className="text-5xl font-bold mb-8 text-center text-foreground"
           >
-            {contactHeading}
+            {contactHeading || ''}
           </motion.h2>
           <motion.div
             initial={{ opacity: 0 }}
@@ -230,9 +230,9 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
           >
             <Card className="p-8 terminal-font">
               <div className="space-y-4 text-foreground">
-                <p><span className="text-accent">{'>'}</span> {contact1}</p>
-                <p><span className="text-accent">{'>'}</span> {contact2}</p>
-                <p><span className="text-accent">{'>'}</span> {contact3}</p>
+                <p><span className="text-accent">{'>'}</span> {contact1 || ''}</p>
+                <p><span className="text-accent">{'>'}</span> {contact2 || ''}</p>
+                <p><span className="text-accent">{'>'}</span> {contact3 || ''}</p>
               </div>
             </Card>
           </motion.div>
