@@ -423,6 +423,13 @@ export function Terminal({
         className={`terminal-font text-sm p-6 pt-12 overflow-y-auto transition-all duration-300 ${mini ? 'h-64' : 'h-96'}`}
         onClick={() => inputRef.current?.focus()}
       >
+        {lines.map((line, idx) => (
+          <div
+            key={idx}
+            className={`mb-1 ${
+              line.type === 'input'
+                ? 'text-accent font-bold'
+                : line.type === 'error'
                 ? 'text-destructive'
                 : 'text-primary'
             }`}
@@ -438,15 +445,14 @@ export function Terminal({
             type="text"
             value={currentInput}
             onChange={(e) => setCurrentInput(e.target.value)}
-        <form onSubmit={handleSubmit} className="flex items-center">
-          <span className="text-accent mr-2">$</span>
-          <input
-            ref={inputRef}lse}
-            type="text"
-            value={currentInput}
-            onChange={(e) => setCurrentInput(e.target.value)}
             onKeyDown={handleKeyDown}
             className="flex-1 bg-transparent outline-none text-accent font-bold caret-accent"
             autoFocus
             spellCheck={false}
-          />          <span className="text-accent cursor-blink">█</span>        </form>
+          />
+          <span className="text-accent cursor-blink">█</span>
+        </form>
+      </div>
+    </Card>
+  )
+}
