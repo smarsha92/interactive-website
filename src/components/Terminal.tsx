@@ -63,6 +63,7 @@ export function Terminal({
           { type: 'output' as const, text: '  start    - Launch the full website' },
           { type: 'output' as const, text: '  network  - Open network packet simulator' },
           { type: 'output' as const, text: '  themes   - View available color themes' },
+          { type: 'output' as const, text: '  random   - Apply a random theme' },
           { type: 'output' as const, text: '  xmas     - Enable festive Christmas theme' },
           { type: 'output' as const, text: '  version  - Display version information' },
           { type: 'output' as const, text: '  whoami   - Display current user information' },
@@ -92,6 +93,16 @@ export function Terminal({
       case 'themes':
         setLines(prev => [...prev, { type: 'output', text: 'Opening theme browser...' }])
         setTimeout(() => onCommand('__THEMES__'), 300)
+        break
+      case 'random':
+        const themeKeys = Object.keys(themes)
+        const randomTheme = themeKeys[Math.floor(Math.random() * themeKeys.length)]
+        onCommand(`__THEME_${randomTheme.toUpperCase()}`)
+        setLines(prev => [
+          ...prev,
+          { type: 'output', text: '🎲 Rolling the dice...' },
+          { type: 'output', text: `Theme randomly set to: ${themes[randomTheme].label}` }
+        ])
         break
       case 'default':
       case 'cyan':
