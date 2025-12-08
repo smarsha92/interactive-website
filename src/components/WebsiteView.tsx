@@ -189,9 +189,6 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
             size="lg"
             className="h-14 w-14 rounded-full shadow-2xl"
             onClick={() => setShowMiniTerminal(true)}
-            style={{
-              boxShadow: '0 0 30px var(--accent)',
-            }}
           >
             <TerminalIcon className="w-6 h-6" weight="bold" />
           </Button>

@@ -171,10 +171,9 @@ function ColorSwatch({ color, label }: ColorSwatchProps) {
   return (
     <div className="flex flex-col items-center gap-1">
       <div
-        className="w-full h-12 rounded glow-pulse transition-transform hover:scale-105"
+        className="w-full h-12 rounded transition-transform hover:scale-105"
         style={{
           backgroundColor: color,
-          boxShadow: `0 0 10px ${color}`,
         }}
         title={label}
       />

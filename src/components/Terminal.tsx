@@ -124,7 +124,7 @@ export function Terminal({ onCommand, mini = false, opacity = 80, blur = 20 }: T
         style={{
           backgroundColor: `color-mix(in oklch, var(--card) ${opacity}%, transparent)`,
           backdropFilter: `blur(${blur}px)`,
-          boxShadow: '0 0 20px rgba(0, 0, 0, 0.5), 0 0 40px var(--accent)',
+          boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)',
         }}
       >
         <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-black/20 to-transparent flex items-center px-4 gap-2">

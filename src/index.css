@@ -106,19 +106,6 @@ body::before {
   animation: bounce-slow 1.5s ease-in-out infinite;
 }
 
-@keyframes glow-pulse {
-  0%, 100% { 
-    box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent);
-  }
-  50% { 
-    box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent), 0 0 30px var(--accent);
-  }
-}
-
-.glow-pulse {
-  animation: glow-pulse 2s ease-in-out infinite;
-}
-
 @keyframes gradient-sweep {
   0% { background-position: 0% 50%; }
   100% { background-position: 200% 50%; }
