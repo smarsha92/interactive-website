@@ -3,10 +3,11 @@ import { X, Play, Pause, RefreshCw, Activity } from 'lucide-react';
 import { NetNode, Packet, PacketType, NodeType } from '../types';
 
 interface NetworkSimulatorProps {
+  isOpen: boolean;
   onClose: () => void;
 }
 
-const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ onClose }) => {
+const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [stats, setStats] = useState({ sent: 0, delivered: 0 });
@@ -382,6 +383,8 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ onClose }) => {
       }
   };
 
+  if (!isOpen) return null;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
       <div className="relative w-full max-w-5xl glass-panel rounded-xl overflow-hidden flex flex-col h-[80vh]">
@@ -459,4 +462,5 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ onClose }) => {
   );
 };
 
+export { NetworkSimulator };
 export default NetworkSimulator;
