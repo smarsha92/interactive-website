@@ -265,8 +265,8 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) 
 
         // Label
         if (node.label) {
-            ctx.fillStyle = 'rgba(255,255,255,0.7)';
-            ctx.font = '10px JetBrains Mono';
+            ctx.fillStyle = 'rgba(255,255,255,0.95)';
+            ctx.font = '11px JetBrains Mono';
             ctx.textAlign = 'center';
             ctx.fillText(node.label, node.x, node.y + 25);
         }
@@ -391,50 +391,50 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) 
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-white/10 bg-white/5">
           <div className="flex items-center gap-3">
-            <Activity className="w-5 h-5 text-[var(--color-accent)]" />
-            <h2 className="text-xl font-bold font-mono text-[var(--color-primary)]">Network Simulator v1.0</h2>
+            <Activity className="w-5 h-5 text-accent" />
+            <h2 className="text-xl font-bold font-mono text-white">Network Simulator v1.0</h2>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition-colors">
-            <X className="w-5 h-5 text-white/70" />
+            <X className="w-5 h-5 text-white" />
           </button>
         </div>
 
         {/* Controls */}
-        <div className="flex items-center justify-between p-4 bg-black/20 font-mono text-sm">
+        <div className="flex items-center justify-between p-4 bg-black/20 font-mono text-sm text-white">
           <div className="flex gap-4">
              <div className="flex items-center gap-2">
-               <span className="text-white/50">Topology:</span>
+               <span className="text-white/80">Topology:</span>
                <select 
                  value={topology}
                  onChange={(e) => setTopology(e.target.value as any)}
-                 className="bg-black/30 border border-white/20 rounded px-2 py-1 text-[var(--color-accent)] focus:outline-none"
+                 className="bg-black/50 border border-white/30 rounded px-2 py-1 text-white focus:outline-none focus:border-accent"
                >
-                 <option value="mesh">Mesh Network</option>
-                 <option value="star">Star Topology</option>
-                 <option value="ring">Token Ring</option>
-                 <option value="bus">Bus Topology</option>
+                 <option value="mesh" className="bg-black text-white">Mesh Network</option>
+                 <option value="star" className="bg-black text-white">Star Topology</option>
+                 <option value="ring" className="bg-black text-white">Token Ring</option>
+                 <option value="bus" className="bg-black text-white">Bus Topology</option>
                </select>
              </div>
              <button 
                onClick={() => setIsPlaying(!isPlaying)}
-               className="flex items-center gap-2 px-3 py-1 rounded bg-[var(--color-primary)] text-black font-bold hover:opacity-90"
+               className="flex items-center gap-2 px-3 py-1 rounded bg-accent text-black font-bold hover:opacity-90"
              >
                {isPlaying ? <Pause size={14} /> : <Play size={14} />}
                {isPlaying ? 'PAUSE' : 'RESUME'}
              </button>
              <button 
                onClick={() => initTopology(topology)}
-               className="p-1 hover:text-[var(--color-accent)] transition-colors"
+               className="p-1 text-white hover:text-accent transition-colors"
                title="Reset"
              >
                <RefreshCw size={16} />
              </button>
           </div>
           
-          <div className="flex gap-6 text-[var(--color-secondary)]">
-            <span>PKTS_SENT: <span className="text-white">{stats.sent}</span></span>
-            <span>DELIVERED: <span className="text-[var(--color-accent)]">{stats.delivered}</span></span>
-            <span className="animate-pulse text-green-400">● LIVE</span>
+          <div className="flex gap-6 text-white/80">
+            <span>PKTS_SENT: <span className="text-white font-bold">{stats.sent}</span></span>
+            <span>DELIVERED: <span className="text-accent font-bold">{stats.delivered}</span></span>
+            <span className="animate-pulse text-green-400 font-bold">● LIVE</span>
           </div>
         </div>
 
@@ -447,8 +447,8 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) 
             className="w-full h-full object-contain"
           />
           {/* Legend */}
-          <div className="absolute bottom-4 left-4 p-3 rounded bg-black/60 border border-white/10 text-xs font-mono pointer-events-none">
-             <div className="mb-2 font-bold text-white/70">Packet Types</div>
+          <div className="absolute bottom-4 left-4 p-3 rounded bg-black/80 border border-white/20 text-xs font-mono pointer-events-none text-white">
+             <div className="mb-2 font-bold text-white">Packet Types</div>
              <div className="grid grid-cols-2 gap-x-4 gap-y-1">
                <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#61dafb]"></span>TCP</div>
                <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#ff80bf]"></span>UDP</div>
