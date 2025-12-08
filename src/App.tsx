@@ -56,13 +56,16 @@ function App() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="min-h-screen flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat"
-            style={{
-              backgroundImage: 'url(https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80)'
-            }}
+            className="relative min-h-screen"
           >
-            <div className="absolute inset-0 bg-black/40" />
-            <div className="relative z-10">
+            <div 
+              className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+              style={{
+                backgroundImage: 'url(https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80)'
+              }}
+            />
+            <div className="absolute inset-0 z-10 bg-black/40" />
+            <div className="relative z-20 min-h-screen flex items-center justify-center p-4">
               <Terminal onCommand={handleCommand} opacity={opacity ?? 80} blur={blur ?? 20} />
             </div>
           </motion.div>
