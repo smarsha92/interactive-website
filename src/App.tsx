@@ -17,7 +17,7 @@ function App() {
   const [showThemeBrowser, setShowThemeBrowser] = useState(false);
   const [showNetworkSim, setShowNetworkSim] = useState(false);
   const [currentTheme, setCurrentTheme] = useKV<string>('terminal-theme', 'cyan');
-  const [opacity] = useKV<number>('terminal-opacity', 80);
+  const [opacity] = useKV<number>('terminal-opacity', 90);
   const [blur] = useKV<number>('terminal-blur', 20);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ function App() {
       <AnimatePresence mode="wait">
         {viewMode === 'terminal' && (
           <motion.div
-            key={`terminal-${currentTheme}`}
+            key={`terminal-${currentTheme}-${opacity}-${blur}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -66,7 +66,7 @@ function App() {
             />
             <div className="absolute inset-0 z-10 bg-black/20" />
             <div className="relative z-20 min-h-screen flex items-center justify-center p-4">
-              <Terminal onCommand={handleCommand} opacity={opacity ?? 80} blur={blur ?? 20} />
+              <Terminal onCommand={handleCommand} opacity={opacity ?? 90} blur={blur ?? 20} />
             </div>
           </motion.div>
         )}
