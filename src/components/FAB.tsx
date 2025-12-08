@@ -64,12 +64,16 @@ const FAB: React.FC<FABProps> = ({ onOpenTerminal, onCommand }) => {
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            className="mb-4 w-[540px] h-[450px] rounded-lg overflow-hidden flex flex-col shadow-[0_0_40px_rgba(0,0,0,0.8)] origin-bottom-right border border-primary/30"
+            className="mb-4 w-[540px] h-[450px] rounded-lg overflow-hidden flex flex-col shadow-[0_0_40px_rgba(0,0,0,0.8)] origin-bottom-right border border-primary/30 theme-transition"
             style={{
               background: 'oklch(0.12 0.02 240)',
+              transition: 'background-color 0.6s ease-in-out, border-color 0.6s ease-in-out'
             }}
           >
-            <div className="flex items-center justify-between px-4 py-2.5 border-b border-primary/30" style={{ background: 'oklch(0.08 0.02 240)' }}>
+            <div className="flex items-center justify-between px-4 py-2.5 border-b border-primary/30 theme-transition" style={{ 
+              background: 'oklch(0.08 0.02 240)',
+              transition: 'background-color 0.6s ease-in-out, border-color 0.6s ease-in-out'
+            }}>
               <span className="text-sm terminal-font text-primary">mini-term</span>
               <div className="flex gap-2">
                 <button 
@@ -144,7 +148,10 @@ const FAB: React.FC<FABProps> = ({ onOpenTerminal, onCommand }) => {
         onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        className="w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-[0_0_20px_var(--primary)] hover:shadow-[0_0_30px_var(--accent)] transition-shadow duration-300"
+        className="w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-[0_0_20px_var(--primary)] hover:shadow-[0_0_30px_var(--accent)] transition-all duration-500"
+        style={{
+          transition: 'background-color 0.6s ease-in-out, color 0.6s ease-in-out, box-shadow 0.6s ease-in-out, transform 0.2s ease-in-out'
+        }}
       >
          {isOpen ? <X size={24} /> : <TerminalIcon size={24} />}
       </motion.button>
