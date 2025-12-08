@@ -3,10 +3,12 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Gear } from '@phosphor-icons/react';
 import { processCommand, WELCOME_TEXT } from '@/lib/commands';
+import { useTypewriter } from '@/hooks/use-typewriter';
 
 interface TerminalLine {
   type: 'input' | 'output' | 'error';
   content: string;
+  animated?: boolean;
 }
 
 interface TerminalProps {
@@ -14,6 +16,11 @@ interface TerminalProps {
   mini?: boolean;
   opacity?: number;
   blur?: number;
+}
+
+function TypewriterLine({ content, className }: { content: string; className?: string }) {
+  const displayedText = useTypewriter(content, 30);
+  return <div className={className}>{displayedText}</div>;
 }
 
 export function Terminal({ onCommand, mini = false, opacity = 80, blur = 20 }: TerminalProps) {
@@ -64,12 +71,14 @@ export function Terminal({ onCommand, mini = false, opacity = 80, blur = 20 }: T
       return;
     }
 
+    const shouldAnimate = input.trim().toLowerCase() === 'help';
+
     if (result.output.some(line => line.startsWith('__'))) {
       const specialCommands = result.output.filter(line => line.startsWith('__'));
       const normalOutput = result.output.filter(line => !line.startsWith('__'));
 
       normalOutput.forEach(line => {
-        setLines(prev => [...prev, { type: result.error ? 'error' : 'output', content: line }]);
+        setLines(prev => [...prev, { type: result.error ? 'error' : 'output', content: line, animated: shouldAnimate }]);
       });
 
       specialCommands.forEach(cmd => {
@@ -79,7 +88,7 @@ export function Terminal({ onCommand, mini = false, opacity = 80, blur = 20 }: T
       });
     } else {
       result.output.forEach(line => {
-        setLines(prev => [...prev, { type: result.error ? 'error' : 'output', content: line }]);
+        setLines(prev => [...prev, { type: result.error ? 'error' : 'output', content: line, animated: shouldAnimate }]);
       });
     }
   };
@@ -157,6 +166,11 @@ export function Terminal({ onCommand, mini = false, opacity = 80, blur = 20 }: T
                   <span className="text-accent">{'>'}</span>
                   <span className="text-foreground font-bold">{line.content}</span>
                 </div>
+              ) : line.animated ? (
+                <TypewriterLine 
+                  content={line.content} 
+                  className={line.type === 'error' ? 'text-destructive' : 'text-foreground opacity-80'}
+                />
               ) : (
                 <div className={line.type === 'error' ? 'text-destructive' : 'text-foreground opacity-80'}>
                   {line.content}
