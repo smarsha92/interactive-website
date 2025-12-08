@@ -71,13 +71,13 @@ function App() {
                 opacity: { duration: 0.4 },
                 background: { duration: 0.8, ease: 'easeInOut' },
                 backgroundSize: { 
-                  duration: 20, 
+                  duration: 120, 
                   ease: 'easeInOut', 
                   repeat: Infinity,
                   repeatType: 'reverse'
                 },
                 backgroundPosition: { 
-                  duration: 20, 
+                  duration: 120, 
                   ease: 'easeInOut', 
                   repeat: Infinity,
                   repeatType: 'reverse'
