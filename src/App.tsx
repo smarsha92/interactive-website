@@ -58,10 +58,30 @@ function App() {
             transition={{ duration: 0.4 }}
             className="relative min-h-screen"
           >
-            <div 
-              className="absolute inset-0 z-0 animated-gradient"
-              style={{
-                background: themes[currentTheme || 'cyan']?.gradient || 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)'
+            <motion.div 
+              className="absolute inset-0 z-0"
+              initial={{ opacity: 0 }}
+              animate={{ 
+                opacity: 1,
+                background: themes[currentTheme || 'cyan']?.gradient || 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)',
+                backgroundSize: ['200% 200%', '220% 220%', '200% 200%'],
+                backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
+              }}
+              transition={{
+                opacity: { duration: 0.4 },
+                background: { duration: 0.8, ease: 'easeInOut' },
+                backgroundSize: { 
+                  duration: 20, 
+                  ease: 'easeInOut', 
+                  repeat: Infinity,
+                  repeatType: 'reverse'
+                },
+                backgroundPosition: { 
+                  duration: 20, 
+                  ease: 'easeInOut', 
+                  repeat: Infinity,
+                  repeatType: 'reverse'
+                }
               }}
             />
             <div className="absolute inset-0 z-10 bg-black/20" />

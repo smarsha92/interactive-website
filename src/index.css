@@ -138,30 +138,7 @@ body::before {
   animation: gradient-sweep 2s ease-in-out;
 }
 
-@keyframes gradient-shift {
-  0% { 
-    background-position: 0% 50%, 100% 50%, 50% 100%;
-    transform: scale(1);
-  }
-  33% { 
-    background-position: 100% 50%, 0% 50%, 75% 25%;
-    transform: scale(1.05);
-  }
-  66% { 
-    background-position: 50% 100%, 50% 0%, 25% 75%;
-    transform: scale(0.95);
-  }
-  100% { 
-    background-position: 0% 50%, 100% 50%, 50% 100%;
-    transform: scale(1);
-  }
-}
 
-.animated-gradient {
-  background-size: 200% 200%;
-  animation: gradient-shift 20s ease-in-out infinite;
-  transition: background 0.8s ease-in-out;
-}
 
 .theme-transition {
   transition: all 0.6s ease-in-out;
