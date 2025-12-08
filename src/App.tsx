@@ -7,6 +7,7 @@ import { WebsiteView } from './components/WebsiteView';
 import { ThemeBrowser } from './components/ThemeBrowser';
 import { NetworkSimulator } from './components/NetworkSimulator';
 import { SnowEffect } from './components/SnowEffect';
+import { HolidayMusic } from './components/HolidayMusic';
 import { themes, applyTheme } from './lib/themes';
 
 type ViewMode = 'terminal' | 'website';
@@ -87,6 +88,8 @@ function App() {
       />
 
       {currentTheme === 'xmas' && <SnowEffect />}
+
+      <HolidayMusic isHolidayTheme={currentTheme === 'xmas'} />
 
       <Toaster />
     </div>

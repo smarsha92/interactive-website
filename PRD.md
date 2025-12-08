@@ -85,6 +85,13 @@ Available themes:
 - Progression: Command entered → Simulator modal opens with canvas → Network topology renders with labeled nodes → Packets auto-generate and animate along paths → Users can play/pause, change speed, switch topologies, manually send packets → Statistics track packets sent, delivered, in transit, and dropped → Close returns to terminal
 - Success criteria: Smooth 60fps canvas animations, accurate pathfinding algorithms, intuitive topology switching, responsive controls, clear visual distinction between node types (routers, switches, servers, clients) and packet types (TCP, UDP, HTTP, DNS)
 
+**Holiday Music Toggle**
+- Functionality: Floating action button that plays synthesized holiday music (Jingle Bells melody) using Web Audio API
+- Purpose: Adds festive ambiance and audio feedback during the Christmas theme experience
+- Trigger: Automatically appears when Christmas theme is active (xmas)
+- Progression: Christmas theme activated → Music button fades in bottom-right → User clicks button → Music starts playing in loop → Button animates with pulsing icon and musical note emoji → Click again to stop → Music stops and button returns to muted state
+- Success criteria: Smooth synthesized melody loop, responsive toggle, synchronized visual feedback, automatic cleanup when theme changes
+
 ## Edge Case Handling
 - **Invalid Commands**: Display "Command not found" message with suggestion to type 'help'
 - **Empty Input**: Ignore empty submissions, keep cursor blinking
@@ -92,6 +99,9 @@ Available themes:
 - **Missing localStorage**: Gracefully fallback to default settings if storage is unavailable
 - **Long Content Overflow**: Terminal window scrolls automatically, maintains cursor visibility
 - **Mobile Responsiveness**: Terminal scales appropriately, touch-friendly controls
+- **Audio Context Suspension**: Resume audio context when user interacts with music button
+- **Music Cleanup**: Properly stop and dispose of audio oscillators and context when theme changes or component unmounts
+- **Multiple Audio Instances**: Prevent multiple simultaneous audio loops through proper state management
 
 ## Design Direction
 The design should evoke the aesthetic of classic terminal emulators reimagined with modern glassmorphism effects, creating a bridge between retro computing nostalgia and contemporary web design. It should feel technical yet approachable, mysterious yet inviting.
@@ -136,6 +146,9 @@ Animations should feel purposeful and technically inspired - terminal typing eff
 - Color swatch glow: 2s infinite pulse animation cycling box-shadow intensity
 - Theme card hover: 200ms scale to 1.02, gradient sweep animation across surface
 - Active theme indicator: Scale from 0 to 1 with 200ms spring animation
+- Music button: 300ms fade-in/out, pulsing scale animation (1 to 1.2) every 0.5s when playing
+- Music note emoji: 1s rotate animation (-10° to 10°) with infinite repeat when playing
+- Music button shimmer: 2s linear gradient sweep from left to right when playing
 
 ## Component Selection
 
@@ -171,6 +184,7 @@ Animations should feel purposeful and technically inspired - terminal typing eff
 - Theme Browser: Closed (hidden), Opening (fade in with scale), Open (fully visible), Closing (fade out)
 - Theme Preview Card: Default (subtle border), Hover (scaled 1.02, gradient sweep, enhanced glow), Active (highlighted border, check badge), Selected (border-primary)
 - Color Swatches: Default (static color), Animated (pulsing glow 2s infinite), Hover (scaled 1.05)
+- Music Button: Hidden (non-xmas theme), Visible (xmas theme active), Playing (icon pulsing, note animating, shimmer effect), Muted (static muted icon)
 
 **Icon Selection**:
 - Terminal: `Terminal` icon for FAB
@@ -179,6 +193,9 @@ Animations should feel purposeful and technically inspired - terminal typing eff
 - Traffic lights: Custom circular divs with color fills (red #FF5F57, yellow #FFBD2E, green #28C840)
 - Close modal: `X` icon for theme browser exit
 - Active theme: `Check` icon with circular background
+- Music on: `SpeakerHigh` icon (filled) for playing state
+- Music off: `SpeakerSlash` icon (filled) for muted state
+- Music note: 🎵 emoji for visual feedback when playing
 
 **Spacing**:
 - Terminal padding: p-6 (24px) for content area
