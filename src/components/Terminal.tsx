@@ -35,18 +35,39 @@ export function Terminal({
   const [commandHistory, setCommandHistory] = useKV<string[]>('terminal-history', [])
   const [historyIndex, setHistoryIndex] = useState(-1)
   const [currentTheme] = useKV<string>('terminal-theme', 'cyan')
+  const [lastLogin, setLastLogin] = useKV<string>('last-login', '')
   
   const theme = themes[currentTheme || 'cyan']
 
   useEffect(() => {
+    const now = new Date()
+    const currentLoginTime = now.toLocaleString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      year: 'numeric'
+    })
+    
     const welcomeText = mini ? 'Mini Terminal' : theme.welcomeMessage
     const helpText = mini ? 'Type "help" for commands or "end" to return' : theme.helpPrompt
     
-    setLines([
-      { type: 'output', text: welcomeText },
-      { type: 'output', text: '' },
-      { type: 'output', text: helpText }
-    ])
+    const initialLines: TerminalLine[] = []
+    
+    if (lastLogin) {
+      initialLines.push({ type: 'output', text: `Last login: ${lastLogin}` })
+      initialLines.push({ type: 'output', text: '' })
+    }
+    
+    initialLines.push({ type: 'output', text: welcomeText })
+    initialLines.push({ type: 'output', text: '' })
+    initialLines.push({ type: 'output', text: helpText })
+    
+    setLines(initialLines)
+    
+    setLastLogin(currentLoginTime)
   }, [mini, theme.welcomeMessage, theme.helpPrompt])
 
   const handleCommand = (cmd: string) => {
