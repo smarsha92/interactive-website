@@ -8,12 +8,16 @@ import { ThemeBrowser } from './components/ThemeBrowser';
 import { NetworkSimulator } from './components/NetworkSimulator';
 import { SnowEffect } from './components/SnowEffect';
 import { HolidayMusic } from './components/HolidayMusic';
+import { MobileLanding } from './components/MobileLanding';
 import { themes, applyTheme } from './lib/themes';
+import { useIsMobile } from './hooks/use-mobile';
 
-type ViewMode = 'terminal' | 'website';
+type ViewMode = 'landing' | 'terminal' | 'website';
 
 function App() {
-  const [viewMode, setViewMode] = useState<ViewMode>('terminal');
+  const isMobile = useIsMobile();
+  const [hasEnteredTerminal, setHasEnteredTerminal] = useKV<boolean>('has-entered-terminal', false);
+  const [viewMode, setViewMode] = useState<ViewMode>('landing');
   const [showThemeBrowser, setShowThemeBrowser] = useState(false);
   const [showNetworkSim, setShowNetworkSim] = useState(false);
   const [currentTheme, setCurrentTheme] = useKV<string>('terminal-theme', 'cyan');
@@ -26,6 +30,14 @@ function App() {
       applyTheme(theme);
     }
   }, [currentTheme]);
+
+  useEffect(() => {
+    if (isMobile && !hasEnteredTerminal) {
+      setViewMode('landing');
+    } else {
+      setViewMode('terminal');
+    }
+  }, [isMobile, hasEnteredTerminal]);
 
   const handleCommand = (command: string) => {
     if (command === '__START__') {
@@ -42,6 +54,11 @@ function App() {
     }
   };
 
+  const handleEnterTerminal = () => {
+    setHasEnteredTerminal(true);
+    setViewMode('terminal');
+  };
+
   const handleThemeSelect = (themeName: string) => {
     setCurrentTheme(themeName);
   };
@@ -49,6 +66,22 @@ function App() {
   return (
     <div className="min-h-screen bg-background text-foreground text-base font-mono">
       <AnimatePresence mode="wait">
+        {viewMode === 'landing' && (
+          <motion.div
+            key="landing"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <MobileLanding 
+              onEnter={handleEnterTerminal}
+              currentTheme={currentTheme || 'cyan'}
+              gradient={themes[currentTheme || 'cyan']?.gradient || 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)'}
+            />
+          </motion.div>
+        )}
+
         {viewMode === 'terminal' && (
           <motion.div
             key={`terminal-${currentTheme}-${opacity}-${blur}`}
