@@ -56,7 +56,7 @@ function App() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="min-h-screen flex items-center justify-center p-4"
+            className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
           >
             <Terminal onCommand={handleCommand} opacity={opacity ?? 80} blur={blur ?? 20} />
           </motion.div>
