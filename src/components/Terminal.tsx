@@ -499,8 +499,9 @@ export function Terminal({
         ))}
 
         <form onSubmit={handleSubmit} className="flex items-center group/input">
-          <span className="text-accent mr-2 transition-all duration-300 group-hover/input:drop-shadow-[0_0_4px_rgba(100,200,255,0.4)] pulsate">
+          <span className="text-accent mr-2 transition-all duration-300 group-hover/input:drop-shadow-[0_0_4px_rgba(100,200,255,0.4)] pulsate flex items-center">
             <CaretRight size={16} weight="bold" />
+            <span>_</span>
           </span>
           <input
             ref={inputRef}
