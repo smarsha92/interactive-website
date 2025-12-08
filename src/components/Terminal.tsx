@@ -5,6 +5,7 @@ import { Slider } from '@/components/ui/slider'
 import { Separator } from '@/components/ui/separator'
 import { useTypewriter } from '@/hooks/use-typewriter'
 import { useKV } from '@github/spark/hooks'
+import { themes } from '@/lib/themes'
 
 interface TerminalProps {
   onCommand: (command: string) => void
@@ -36,11 +37,11 @@ export function Terminal({
   const [showWelcome, setShowWelcome] = useState(!mini)
   const [commandHistory, setCommandHistory] = useKV<string[]>('terminal-history', [])
   const [historyIndex, setHistoryIndex] = useState(-1)
+  const [currentTheme] = useKV<string>('terminal-theme', 'cyan')
   
-  const welcomeText = useTypewriter('Welcome to networking mastery', 120)
-  const helpText = useTypewriter('type help to get started', 120)
-  const miniWelcomeText = useTypewriter('Mini Terminal', 120)
-  const miniHelpText = useTypewriter('Type "help" for commands or "end" to return', 120)
+  const theme = themes[currentTheme || 'cyan']
+  const welcomeText = useTypewriter(mini ? 'Mini Terminal' : theme.welcomeMessage, 120)
+  const helpText = useTypewriter(mini ? 'Type "help" for commands or "end" to return' : theme.helpPrompt, 120)
 
   useEffect(() => {
     if (!mini && showWelcome && welcomeText && helpText) {
@@ -54,19 +55,19 @@ export function Terminal({
         setShowWelcome(false)
       }, 3500)
       return () => clearTimeout(timer)
-    } else if (mini && showWelcome && miniWelcomeText && miniHelpText) {
+    } else if (mini && showWelcome && welcomeText && helpText) {
       const timer = setTimeout(() => {
         setLines([
-          { type: 'output', text: miniWelcomeText },
+          { type: 'output', text: welcomeText },
           { type: 'output', text: '' },
-          { type: 'output', text: miniHelpText }
+          { type: 'output', text: helpText }
         ])
         setIsTyping(false)
         setShowWelcome(false)
       }, 2500)
       return () => clearTimeout(timer)
     }
-  }, [mini, welcomeText, helpText, miniWelcomeText, miniHelpText, showWelcome])
+  }, [mini, welcomeText, helpText, showWelcome])
 
   const handleCommand = (cmd: string) => {
     const trimmedCmd = cmd.trim().toLowerCase()
@@ -442,16 +443,9 @@ export function Terminal({
         className={`terminal-font text-sm p-6 pt-12 overflow-y-auto transition-all duration-300 ${mini ? 'h-64' : 'h-96'}`}
         onClick={() => inputRef.current?.focus()}
       >
-        {showWelcome && isTyping && !mini && (
+        {showWelcome && isTyping && (
           <div className="text-primary">
             {welcomeText}
-            <span className="cursor-blink">█</span>
-          </div>
-        )}
-        
-        {showWelcome && isTyping && mini && (
-          <div className="text-primary">
-            {miniWelcomeText}
             <span className="cursor-blink">█</span>
           </div>
         )}

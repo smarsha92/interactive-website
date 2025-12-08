@@ -1,6 +1,8 @@
 export interface Theme {
   name: string;
   label: string;
+  welcomeMessage: string;
+  helpPrompt: string;
   colors: {
     background: string;
     foreground: string;
@@ -23,6 +25,8 @@ export const themes: Record<string, Theme> = {
   cyan: {
     name: 'cyan',
     label: 'Cyan',
+    welcomeMessage: 'Welcome to networking mastery',
+    helpPrompt: 'type help to get started',
     colors: {
       background: 'oklch(0.15 0.02 240)',
       foreground: 'oklch(0.65 0.15 195)',
@@ -43,6 +47,8 @@ export const themes: Record<string, Theme> = {
   default: {
     name: 'default',
     label: 'Default',
+    welcomeMessage: 'System initialized - classic terminal mode',
+    helpPrompt: 'enter "help" for available commands',
     colors: {
       background: 'oklch(0.10 0 0)',
       foreground: 'oklch(0.60 0.18 145)',
@@ -63,6 +69,8 @@ export const themes: Record<string, Theme> = {
   matrix: {
     name: 'matrix',
     label: 'Matrix',
+    welcomeMessage: 'Wake up, Neo... The Matrix has you',
+    helpPrompt: 'follow the white rabbit - type help',
     colors: {
       background: 'oklch(0.08 0.02 145)',
       foreground: 'oklch(0.60 0.18 145)',
@@ -83,6 +91,8 @@ export const themes: Record<string, Theme> = {
   amber: {
     name: 'amber',
     label: 'Amber',
+    welcomeMessage: 'Retro computing vibes activated',
+    helpPrompt: 'warm amber glow ready - type help',
     colors: {
       background: 'oklch(0.12 0.03 75)',
       foreground: 'oklch(0.70 0.15 75)',
@@ -103,6 +113,8 @@ export const themes: Record<string, Theme> = {
   purple: {
     name: 'purple',
     label: 'Purple',
+    welcomeMessage: 'Entering the purple haze dimension',
+    helpPrompt: 'mystical commands await - type help',
     colors: {
       background: 'oklch(0.12 0.04 290)',
       foreground: 'oklch(0.65 0.20 290)',
@@ -123,6 +135,8 @@ export const themes: Record<string, Theme> = {
   sunset: {
     name: 'sunset',
     label: 'Sunset',
+    welcomeMessage: 'Golden hour computing session',
+    helpPrompt: 'bask in the warm glow - type help',
     colors: {
       background: 'oklch(0.14 0.05 45)',
       foreground: 'oklch(0.70 0.20 45)',
@@ -143,6 +157,8 @@ export const themes: Record<string, Theme> = {
   ocean: {
     name: 'ocean',
     label: 'Ocean',
+    welcomeMessage: 'Diving into deep blue waters',
+    helpPrompt: 'navigate the depths - type help',
     colors: {
       background: 'oklch(0.12 0.04 230)',
       foreground: 'oklch(0.60 0.16 230)',
@@ -163,6 +179,8 @@ export const themes: Record<string, Theme> = {
   neon: {
     name: 'neon',
     label: 'Neon',
+    welcomeMessage: 'Electric dreams terminal online',
+    helpPrompt: 'neon streets await - type help',
     colors: {
       background: 'oklch(0.10 0.05 330)',
       foreground: 'oklch(0.75 0.25 330)',
@@ -183,6 +201,8 @@ export const themes: Record<string, Theme> = {
   forest: {
     name: 'forest',
     label: 'Forest',
+    welcomeMessage: 'Welcome to the digital forest',
+    helpPrompt: 'nature and tech unite - type help',
     colors: {
       background: 'oklch(0.10 0.03 160)',
       foreground: 'oklch(0.58 0.14 160)',
@@ -203,6 +223,8 @@ export const themes: Record<string, Theme> = {
   rose: {
     name: 'rose',
     label: 'Rose',
+    welcomeMessage: 'Soft rose elegance terminal',
+    helpPrompt: 'delicate yet powerful - type help',
     colors: {
       background: 'oklch(0.12 0.04 350)',
       foreground: 'oklch(0.68 0.20 350)',
@@ -223,6 +245,8 @@ export const themes: Record<string, Theme> = {
   gold: {
     name: 'gold',
     label: 'Gold',
+    welcomeMessage: 'Luxurious golden terminal experience',
+    helpPrompt: 'premium commands ready - type help',
     colors: {
       background: 'oklch(0.14 0.03 95)',
       foreground: 'oklch(0.72 0.13 95)',
@@ -243,6 +267,8 @@ export const themes: Record<string, Theme> = {
   ice: {
     name: 'ice',
     label: 'Ice',
+    welcomeMessage: 'Arctic terminal environment',
+    helpPrompt: 'cool and crystalline - type help',
     colors: {
       background: 'oklch(0.12 0.02 250)',
       foreground: 'oklch(0.70 0.12 250)',
@@ -263,6 +289,8 @@ export const themes: Record<string, Theme> = {
   synthwave: {
     name: 'synthwave',
     label: 'Synthwave',
+    welcomeMessage: 'Welcome to the 80s neon dreamscape',
+    helpPrompt: 'retro-futuristic vibes - type help',
     colors: {
       background: 'oklch(0.12 0.05 300)',
       foreground: 'oklch(0.72 0.26 330)',
@@ -283,6 +311,8 @@ export const themes: Record<string, Theme> = {
   cyberpunk: {
     name: 'cyberpunk',
     label: 'Cyberpunk',
+    welcomeMessage: 'Welcome, netrunner - system jacked in',
+    helpPrompt: 'chrome and neon ready - type help',
     colors: {
       background: 'oklch(0.08 0.04 180)',
       foreground: 'oklch(0.75 0.28 180)',
@@ -303,6 +333,8 @@ export const themes: Record<string, Theme> = {
   xmas: {
     name: 'xmas',
     label: 'Christmas',
+    welcomeMessage: '🎄 Ho ho ho! Merry Christmas! 🎅',
+    helpPrompt: 'festive commands await - type help',
     colors: {
       background: 'oklch(0.08 0.02 290)',
       foreground: 'oklch(0.55 0.22 25)',

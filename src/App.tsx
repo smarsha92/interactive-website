@@ -49,7 +49,7 @@ function App() {
       <AnimatePresence mode="wait">
         {viewMode === 'terminal' && (
           <motion.div
-            key="terminal"
+            key={`terminal-${currentTheme}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
