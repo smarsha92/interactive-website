@@ -450,13 +450,6 @@ export function Terminal({
           </div>
         )}
         
-        {lines.map((line, idx) => (
-          <div
-            key={idx}
-            className={`mb-1 ${
-              line.type === 'input'
-                ? 'text-accent font-bold'
-                : line.type === 'error'
                 ? 'text-destructive'
                 : 'text-primary'
             }`}
