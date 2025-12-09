@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Terminal as TerminalIcon, ArrowDown } from '@phosphor-icons/react';
 import { Terminal } from './Terminal';
+import { Error404 } from './Error404';
 
 interface WebsiteViewProps {
   onCommand: (command: string) => void;
@@ -11,13 +12,20 @@ interface WebsiteViewProps {
 
 export function WebsiteView({ onCommand }: WebsiteViewProps) {
   const [showMiniTerminal, setShowMiniTerminal] = useState(false);
+  const [show404, setShow404] = useState(false);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, page: string) => {
     e.preventDefault();
     if (page === 'theme') {
       onCommand('__THEMES__');
+    } else if (page === 'learning') {
+      setShow404(true);
     }
   };
+
+  if (show404) {
+    return <Error404 onBack={() => setShow404(false)} />;
+  }
 
   return (
     <div className="min-h-screen">
