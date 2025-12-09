@@ -37,6 +37,9 @@ export function Terminal({
   const [historyIndex, setHistoryIndex] = useState(-1)
   const [currentTheme] = useKV<string>('terminal-theme', 'cyan')
   const [lastLogin, setLastLogin] = useKV<string>('last-login', '')
+  const [lastJokeIndex, setLastJokeIndex] = useKV<number>('last-joke-index', -1)
+  const [lastFortuneIndex, setLastFortuneIndex] = useKV<number>('last-fortune-index', -1)
+  const [lastSecretIndex, setLastSecretIndex] = useKV<number>('last-secret-index', -1)
   
   const theme = themes[currentTheme || 'cyan']
 
@@ -199,7 +202,12 @@ export function Terminal({
           'Your bandwidth capacity exceeds your current utilization - reach higher!',
           'The best time to learn networking was yesterday. The second best time is now.'
         ]
-        const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)]
+        let fortuneIndex = Math.floor(Math.random() * fortunes.length)
+        if (fortunes.length > 1 && fortuneIndex === lastFortuneIndex) {
+          fortuneIndex = (fortuneIndex + 1) % fortunes.length
+        }
+        setLastFortuneIndex(fortuneIndex)
+        const randomFortune = fortunes[fortuneIndex]
         setLines(prev => [
           ...prev,
           { type: 'output', text: '🔮 Your Fortune:' },
@@ -218,7 +226,12 @@ export function Terminal({
           'Why was the subnet always calm?\nBecause it knew how to mask its feelings!',
           'What\'s a network\'s favorite type of music?\nHeavy packet metal!'
         ]
-        const randomJoke = jokes[Math.floor(Math.random() * jokes.length)]
+        let jokeIndex = Math.floor(Math.random() * jokes.length)
+        if (jokes.length > 1 && jokeIndex === lastJokeIndex) {
+          jokeIndex = (jokeIndex + 1) % jokes.length
+        }
+        setLastJokeIndex(jokeIndex)
+        const randomJoke = jokes[jokeIndex]
         setLines(prev => [
           ...prev,
           { type: 'output', text: '😄 Here\'s one for you:' },
@@ -272,7 +285,12 @@ export function Terminal({
           ['👾 EASTER EGG FOUND!', '', 'Congratulations, explorer!', 'The best admins always check the docs.', '', 'Here\'s a virtual cookie: 🍪'],
           ['🌟 SECRET UNLOCKED', '', 'You\'ve discovered the hidden command!', 'May your packets always find their destination', 'and your latency remain low.', '', '- The Networking Mastery Team']
         ]
-        const randomSecret = secrets[Math.floor(Math.random() * secrets.length)]
+        let secretIndex = Math.floor(Math.random() * secrets.length)
+        if (secrets.length > 1 && secretIndex === lastSecretIndex) {
+          secretIndex = (secretIndex + 1) % secrets.length
+        }
+        setLastSecretIndex(secretIndex)
+        const randomSecret = secrets[secretIndex]
         setLines(prev => [...prev, ...randomSecret.map(text => ({ type: 'output' as const, text }))])
         break
       case 'clear':
