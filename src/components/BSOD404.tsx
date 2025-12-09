@@ -1,38 +1,38 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { SmileyXEyes } from '@phosphor-icons/react';
 
-interface BSOD404Props {
-  onBack: () => void;
-  pageName: string;
+
 }
-
-export function BSOD404({ onBack, pageName }: BSOD404Props) {
-  return (
+export function BSOD4
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 bg-[#0078D7] text-white flex items-center justify-center p-8"
-    >
+ 
+
       <div className="max-w-3xl w-full">
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-          className="space-y-8"
+          
+          trans
         >
-          <div className="flex items-center gap-4">
-            <SmileyXEyes className="w-24 h-24 md:w-32 md:h-32" weight="thin" />
-            <div className="flex-1">
-              <h1 className="text-4xl md:text-6xl font-light mb-2">:(</h1>
-              <p className="text-lg md:text-xl font-light">
+            <SmileyXEyes class
+              <h1 className
                 Your PC ran into a problem and needs to restart. We're
-                <br className="hidden md:block" />
-                just collecting some error info, and then we'll restart for you.
-              </p>
+     
             </div>
-          </div>
+
+            <div className="space-y-2">
+                <span className="inline-bloc
+              </p>
+                <span className
+         
+                <span className="inline-block w-32"
+              </p>
+
+              <p className="text-xs md:text-sm opacity-90">
+              </p>
+                The requested module is currently under construction a
+              <p className="text-xs md:text-sm opa
+              </p>
+
+              init
+              tr
 
           <div className="space-y-6 font-mono text-sm md:text-base">
             <div className="space-y-2">
@@ -70,35 +70,35 @@ export function BSOD404({ onBack, pageName }: BSOD404Props) {
             />
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button
-                onClick={onBack}
-                variant="secondary"
-                size="lg"
-                className="bg-white text-[#0078D7] hover:bg-white/90 font-semibold"
-              >
-                Return to Home
-              </Button>
-              <Button
-                onClick={onBack}
-                variant="ghost"
-                size="lg"
-                className="text-white hover:bg-white/20 border border-white/30"
-              >
-                Restart Terminal
-              </Button>
-            </div>
-          </div>
 
-          <div className="text-xs md:text-sm opacity-60 font-mono space-y-1">
-            <p>For more information about this issue and possible fixes, visit:</p>
-            <p className="underline">https://terminal.web/support/404</p>
-            <p className="mt-4">
-              If you call a support person, give them this info:
-            </p>
-            <p>Stop code: PAGE_NOT_FOUND_EXCEPTION</p>
-          </div>
-        </motion.div>
-      </div>
-    </motion.div>
-  );
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
