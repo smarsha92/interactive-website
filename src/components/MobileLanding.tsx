@@ -15,34 +15,6 @@ export function MobileLanding({ onEnter, currentTheme, gradient }: MobileLanding
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      <motion.div 
-        className="absolute inset-0 z-0"
-        initial={{ opacity: 0 }}
-        animate={{ 
-          opacity: 1,
-          background: gradient,
-          backgroundSize: ['200% 200%', '220% 220%', '200% 200%'],
-          backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
-        }}
-        transition={{
-          opacity: { duration: 0.4 },
-          backgroundSize: { 
-            duration: 120, 
-            ease: 'easeInOut', 
-            repeat: Infinity,
-            repeatType: 'reverse'
-          },
-          backgroundPosition: { 
-            duration: 120, 
-            ease: 'easeInOut', 
-            repeat: Infinity,
-            repeatType: 'reverse'
-          }
-        }}
-      />
-      
-      <div className="absolute inset-0 z-10 bg-black/30" />
-      
       <div className="absolute inset-0 z-20 pointer-events-none opacity-20">
         <div 
           className="absolute inset-0" 

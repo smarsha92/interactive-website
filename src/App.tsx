@@ -63,92 +63,86 @@ function App() {
     setCurrentTheme(themeName);
   };
 
+  const globalGradient = 'radial-gradient(circle at 50% 45%, #00d4ff 0%, transparent 25%), radial-gradient(ellipse at 40% 50%, #0099cc 0%, transparent 35%), radial-gradient(ellipse at 60% 50%, #6b5aff 0%, transparent 35%), radial-gradient(circle at 50% 55%, #4d3dcc 0%, transparent 30%), linear-gradient(180deg, #001428 0%, #000811 100%)'
+
   return (
-    <div className="min-h-screen bg-background text-foreground text-base font-mono">
-      <AnimatePresence mode="wait">
-        {viewMode === 'landing' && (
-          <motion.div
-            key="landing"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <MobileLanding 
-              onEnter={handleEnterTerminal}
-              currentTheme={currentTheme || 'cyan'}
-              gradient={themes[currentTheme || 'cyan']?.gradient || 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)'}
-            />
-          </motion.div>
-        )}
-
-        {viewMode === 'terminal' && (
-          <motion.div
-            key={`terminal-${currentTheme}-${opacity}-${blur}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="relative min-h-screen"
-          >
-            <motion.div 
-              className="absolute inset-0 z-0"
+    <div className="min-h-screen bg-background text-foreground text-base font-mono relative">
+      <motion.div 
+        className="fixed inset-0 z-0"
+        initial={{ opacity: 0 }}
+        animate={{ 
+          opacity: 1,
+        }}
+        transition={{
+          opacity: { duration: 0.6 }
+        }}
+        style={{
+          background: globalGradient,
+          backgroundSize: '100% 100%',
+          backgroundPosition: 'center center',
+          backgroundAttachment: 'fixed'
+        }}
+      />
+      
+      <div className="relative z-10">
+        <AnimatePresence mode="wait">
+          {viewMode === 'landing' && (
+            <motion.div
+              key="landing"
               initial={{ opacity: 0 }}
-              animate={{ 
-                opacity: 1,
-                background: themes[currentTheme || 'cyan']?.gradient || 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)',
-                backgroundSize: ['200% 200%', '220% 220%', '200% 200%'],
-                backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
-              }}
-              transition={{
-                opacity: { duration: 0.4 },
-                background: { duration: 0.8, ease: 'easeInOut' },
-                backgroundSize: { 
-                  duration: 120, 
-                  ease: 'easeInOut', 
-                  repeat: Infinity,
-                  repeatType: 'reverse'
-                },
-                backgroundPosition: { 
-                  duration: 120, 
-                  ease: 'easeInOut', 
-                  repeat: Infinity,
-                  repeatType: 'reverse'
-                }
-              }}
-            />
-            <div className="absolute inset-0 z-10 bg-black/20" />
-            <div className="relative z-20 min-h-screen flex items-center justify-center p-3 sm:p-4 md:p-6">
-              <Terminal onCommand={handleCommand} opacity={opacity ?? 90} blur={blur ?? 20} />
-            </div>
-          </motion.div>
-        )}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              <MobileLanding 
+                onEnter={handleEnterTerminal}
+                currentTheme={currentTheme || 'cyan'}
+                gradient={globalGradient}
+              />
+            </motion.div>
+          )}
 
-        {viewMode === 'website' && (
-          <motion.div
-            key="website"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <WebsiteView onCommand={handleCommand} />
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <ThemeBrowser
-        isOpen={showThemeBrowser}
-        onClose={() => setShowThemeBrowser(false)}
-        onSelectTheme={handleThemeSelect}
-        currentTheme={currentTheme || 'cyan'}
-      />
-      <NetworkSimulator
-        isOpen={showNetworkSim}
-        onClose={() => setShowNetworkSim(false)}
-      />
-      {currentTheme === 'xmas' && <SnowEffect />}
-      <HolidayMusic isHolidayTheme={currentTheme === 'xmas'} />
-      <Toaster />
+          {viewMode === 'terminal' && (
+            <motion.div
+              key={`terminal-${currentTheme}-${opacity}-${blur}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              className="relative min-h-screen"
+            >
+              <div className="relative z-20 min-h-screen flex items-center justify-center p-3 sm:p-4 md:p-6">
+                <Terminal onCommand={handleCommand} opacity={opacity ?? 90} blur={blur ?? 20} />
+              </div>
+            </motion.div>
+          )}
+
+          {viewMode === 'website' && (
+            <motion.div
+              key="website"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              <WebsiteView onCommand={handleCommand} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <ThemeBrowser
+          isOpen={showThemeBrowser}
+          onClose={() => setShowThemeBrowser(false)}
+          onSelectTheme={handleThemeSelect}
+          currentTheme={currentTheme || 'cyan'}
+        />
+        <NetworkSimulator
+          isOpen={showNetworkSim}
+          onClose={() => setShowNetworkSim(false)}
+        />
+        {currentTheme === 'xmas' && <SnowEffect />}
+        <HolidayMusic isHolidayTheme={currentTheme === 'xmas'} />
+        <Toaster />
+      </div>
     </div>
   );
 }

@@ -40,8 +40,8 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
   }
 
   return (
-    <div className="min-h-screen">
-      <nav className="fixed top-0 left-0 right-0 z-40 backdrop-blur-md border-b border-border bg-background/80">
+    <div className="min-h-screen relative">
+      <nav className="fixed top-0 left-0 right-0 z-40 backdrop-blur-md border-b border-border bg-background/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
           <h1 className="text-base sm:text-xl md:text-2xl font-bold text-foreground terminal-font">
             <span className="text-accent">{'>'}</span> Terminal.web

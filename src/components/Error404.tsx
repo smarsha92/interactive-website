@@ -8,7 +8,7 @@ interface Error404Props {
 
 export function Error404({ onBack }: Error404Props) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4 sm:p-6">
+    <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 relative">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
