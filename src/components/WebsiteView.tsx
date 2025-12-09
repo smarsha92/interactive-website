@@ -56,19 +56,6 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
             <br />
             <span className="text-accent">Welcome to Networking Mastery</span>
           </h2>
-          <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-            Experience the nostalgia of classic command-line interfaces
-            <br />
-            reimagined with glassmorphic design and smooth interactions
-          </p>
-          <div className="flex gap-4 justify-center">
-            <Button size="lg" className="text-lg px-8">
-              Get Started
-            </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8">
-              Learn More
-            </Button>
-          </div>
           <motion.div
             className="mt-16 bounce-slow"
             animate={{ y: [0, 10, 0] }}
