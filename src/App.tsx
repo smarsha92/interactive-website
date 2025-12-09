@@ -118,7 +118,7 @@ function App() {
               }}
             />
             <div className="absolute inset-0 z-10 bg-black/20" />
-            <div className="relative z-20 min-h-screen flex items-center justify-center p-4">
+            <div className="relative z-20 min-h-screen flex items-center justify-center p-3 sm:p-4 md:p-6">
               <Terminal onCommand={handleCommand} opacity={opacity ?? 90} blur={blur ?? 20} />
             </div>
           </motion.div>

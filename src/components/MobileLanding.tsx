@@ -58,7 +58,7 @@ export function MobileLanding({ onEnter, currentTheme, gradient }: MobileLanding
         />
       </div>
 
-      <div className="relative z-30 min-h-screen flex flex-col items-center justify-center p-6">
+      <div className="relative z-30 min-h-screen flex flex-col items-center justify-center p-4 sm:p-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -66,14 +66,14 @@ export function MobileLanding({ onEnter, currentTheme, gradient }: MobileLanding
           className="w-full max-w-md"
         >
           <Card 
-            className="p-8 space-y-8"
+            className="p-6 sm:p-8 space-y-6 sm:space-y-8"
             style={{
               background: `rgba(0, 0, 0, ${0.4})`,
               backdropFilter: `blur(20px)`,
               borderColor: 'var(--border)',
             }}
           >
-            <div className="text-center space-y-4">
+            <div className="text-center space-y-3 sm:space-y-4">
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
@@ -85,8 +85,8 @@ export function MobileLanding({ onEnter, currentTheme, gradient }: MobileLanding
                 }}
                 className="flex justify-center"
               >
-                <div className="p-4 rounded-2xl bg-primary/20 border-2 border-primary">
-                  <TerminalIcon size={48} className="text-primary" weight="duotone" />
+                <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-primary/20 border-2 border-primary">
+                  <TerminalIcon size={40} className="sm:w-12 sm:h-12 text-primary" weight="duotone" />
                 </div>
               </motion.div>
 
@@ -96,10 +96,10 @@ export function MobileLanding({ onEnter, currentTheme, gradient }: MobileLanding
                 transition={{ delay: 0.5 }}
                 className="space-y-2"
               >
-                <h1 className="text-3xl font-bold text-foreground terminal-font">
+                <h1 className="text-2xl sm:text-3xl font-bold text-foreground terminal-font">
                   Terminal Interface
                 </h1>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-muted-foreground text-xs sm:text-sm">
                   A powerful command-line experience
                 </p>
               </motion.div>
@@ -109,10 +109,10 @@ export function MobileLanding({ onEnter, currentTheme, gradient }: MobileLanding
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7 }}
-              className="space-y-4"
+              className="space-y-3 sm:space-y-4"
             >
-              <div className="p-4 rounded-lg bg-secondary/30 border border-border">
-                <div className="space-y-2 text-sm text-muted-foreground">
+              <div className="p-3 sm:p-4 rounded-lg bg-secondary/30 border border-border">
+                <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                     <span>Multiple themes</span>
@@ -139,7 +139,7 @@ export function MobileLanding({ onEnter, currentTheme, gradient }: MobileLanding
               >
                 <Button
                   size="lg"
-                  className="w-full text-base font-semibold h-14 group relative overflow-hidden"
+                  className="w-full text-sm sm:text-base font-semibold h-12 sm:h-14 group relative overflow-hidden"
                   style={{
                     background: isPressed 
                       ? 'var(--primary)' 
@@ -163,15 +163,15 @@ export function MobileLanding({ onEnter, currentTheme, gradient }: MobileLanding
                   <span className="relative flex items-center gap-2">
                     Enter Terminal
                     <ArrowRight 
-                      size={20} 
-                      className="group-hover:translate-x-1 transition-transform" 
+                      size={18} 
+                      className="sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" 
                       weight="bold" 
                     />
                   </span>
                 </Button>
               </motion.div>
 
-              <p className="text-xs text-center text-muted-foreground">
+              <p className="text-[10px] sm:text-xs text-center text-muted-foreground">
                 Tap to launch the full terminal experience
               </p>
             </motion.div>
@@ -182,9 +182,9 @@ export function MobileLanding({ onEnter, currentTheme, gradient }: MobileLanding
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
-          className="mt-8 text-center"
+          className="mt-6 sm:mt-8 text-center"
         >
-          <p className="text-xs text-muted-foreground">
+          <p className="text-[10px] sm:text-xs text-muted-foreground">
             Theme: <span className="text-primary font-semibold terminal-font">
               {currentTheme.toUpperCase()}
             </span>

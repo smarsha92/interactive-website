@@ -515,42 +515,40 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-      <div className="relative w-full max-w-5xl glass-panel rounded-xl overflow-hidden flex flex-col h-[80vh]">
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-white/10 bg-white/5">
-          <div className="flex items-center gap-3">
-            <Activity className="w-5 h-5 text-accent" />
-            <h2 className="text-xl font-bold font-mono text-white">Network Simulator v1.0</h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-2 sm:p-4">
+      <div className="relative w-full max-w-5xl glass-panel rounded-xl overflow-hidden flex flex-col h-[90vh] sm:h-[80vh]">
+        <div className="flex items-center justify-between p-3 sm:p-4 border-b border-white/10 bg-white/5">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-accent" />
+            <h2 className="text-base sm:text-xl font-bold font-mono text-white">Network Simulator <span className="hidden sm:inline">v1.0</span></h2>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition-colors">
-            <X className="w-5 h-5 text-white" />
+          <button onClick={onClose} className="p-1.5 sm:p-2 hover:bg-white/10 rounded-full transition-colors">
+            <X className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
           </button>
         </div>
 
-        {/* Controls */}
-        <div className="flex items-center justify-between p-4 bg-black/20 font-mono text-sm text-white">
-          <div className="flex gap-4">
-             <div className="flex items-center gap-2">
-               <span className="text-white/80">Topology:</span>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 p-3 sm:p-4 bg-black/20 font-mono text-xs sm:text-sm text-white">
+          <div className="flex flex-wrap gap-2 sm:gap-4">
+             <div className="flex items-center gap-1.5 sm:gap-2">
+               <span className="text-white/80 text-xs sm:text-sm">Topology:</span>
                <select 
                  value={topology}
                  onChange={(e) => setTopology(e.target.value as any)}
-                 className="bg-black/50 border border-white/30 rounded px-2 py-1 text-white focus:outline-none focus:border-accent"
+                 className="bg-black/50 border border-white/30 rounded px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs sm:text-sm text-white focus:outline-none focus:border-accent"
                >
-                 <option value="mesh" className="bg-black text-white">Mesh Network</option>
-                 <option value="star" className="bg-black text-white">Star Topology</option>
-                 <option value="ring" className="bg-black text-white">Token Ring</option>
-                 <option value="bus" className="bg-black text-white">Bus Topology</option>
+                 <option value="mesh" className="bg-black text-white">Mesh</option>
+                 <option value="star" className="bg-black text-white">Star</option>
+                 <option value="ring" className="bg-black text-white">Ring</option>
+                 <option value="bus" className="bg-black text-white">Bus</option>
                </select>
              </div>
-             <div className="flex items-center gap-2">
-               <Gauge className="w-4 h-4 text-white/80" />
-               <span className="text-white/80">Speed:</span>
+             <div className="flex items-center gap-1.5 sm:gap-2">
+               <Gauge className="w-3 h-3 sm:w-4 sm:h-4 text-white/80" />
+               <span className="text-white/80 text-xs sm:text-sm hidden sm:inline">Speed:</span>
                <select 
                  value={speed}
                  onChange={(e) => setSpeed(e.target.value as any)}
-                 className="bg-black/50 border border-white/30 rounded px-2 py-1 text-white focus:outline-none focus:border-accent"
+                 className="bg-black/50 border border-white/30 rounded px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs sm:text-sm text-white focus:outline-none focus:border-accent"
                >
                  <option value="slow" className="bg-black text-white">0.5x</option>
                  <option value="normal" className="bg-black text-white">1x</option>
@@ -559,37 +557,37 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) 
              </div>
              <button 
                onClick={() => setIsPlaying(!isPlaying)}
-               className="flex items-center gap-2 px-3 py-1 rounded bg-accent text-black font-bold hover:opacity-90"
+               className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-0.5 sm:py-1 rounded bg-accent text-black text-xs sm:text-sm font-bold hover:opacity-90"
              >
-               {isPlaying ? <Pause size={14} /> : <Play size={14} />}
-               {isPlaying ? 'PAUSE' : 'RESUME'}
+               {isPlaying ? <Pause size={12} className="sm:w-3.5 sm:h-3.5" /> : <Play size={12} className="sm:w-3.5 sm:h-3.5" />}
+               <span className="hidden sm:inline">{isPlaying ? 'PAUSE' : 'RESUME'}</span>
+               <span className="sm:hidden">{isPlaying ? '⏸' : '▶'}</span>
              </button>
              <button 
                onClick={() => initTopology(topology)}
-               className="p-1 text-white hover:text-accent transition-colors"
+               className="p-0.5 sm:p-1 text-white hover:text-accent transition-colors"
                title="Reset"
              >
-               <RefreshCw size={16} />
+               <RefreshCw size={14} className="sm:w-4 sm:h-4" />
              </button>
           </div>
           
-          <div className="flex gap-4 text-white/80 text-sm">
-            <span>PKTS_SENT: <span className="text-white font-bold">{stats.sent}</span></span>
-            <span>DELIVERED: <span className="text-accent font-bold">{stats.delivered}</span></span>
+          <div className="flex flex-wrap gap-2 sm:gap-4 text-white/80 text-[10px] sm:text-sm">
+            <span>SENT: <span className="text-white font-bold">{stats.sent}</span></span>
+            <span>DEL: <span className="text-accent font-bold">{stats.delivered}</span></span>
             {topology === 'bus' && (
               <>
                 <span className="flex items-center gap-1">
-                  <AlertTriangle size={14} className="text-red-400" />
-                  COLLISIONS: <span className="text-red-400 font-bold">{stats.collisions}</span>
+                  <AlertTriangle size={12} className="sm:w-3.5 sm:h-3.5 text-red-400" />
+                  <span className="hidden sm:inline">COLL:</span> <span className="text-red-400 font-bold">{stats.collisions}</span>
                 </span>
-                <span>RETRANSMITS: <span className="text-yellow-400 font-bold">{stats.retransmits}</span></span>
+                <span className="hidden sm:inline">RTX: <span className="text-yellow-400 font-bold">{stats.retransmits}</span></span>
               </>
             )}
-            <span className="animate-pulse text-green-400 font-bold">● LIVE</span>
+            <span className="animate-pulse text-green-400 font-bold">●</span>
           </div>
         </div>
 
-        {/* Canvas */}
         <div className="flex-1 relative bg-black/40 overflow-hidden cursor-crosshair">
           <canvas 
             ref={canvasRef} 
@@ -597,21 +595,20 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) 
             height={500} 
             className="w-full h-full object-contain"
           />
-          {/* Legend */}
-          <div className="absolute bottom-4 left-4 p-3 rounded bg-black/80 border border-white/20 text-xs font-mono pointer-events-none text-white">
-             <div className="mb-2 font-bold text-white">Packet Types</div>
-             <div className="grid grid-cols-2 gap-x-4 gap-y-1">
-               <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#61dafb]"></span>TCP</div>
-               <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#ff80bf]"></span>UDP</div>
-               <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#50fa7b]"></span>HTTP</div>
-               <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#f1fa8c]"></span>DNS</div>
+          <div className="absolute bottom-2 left-2 sm:bottom-4 sm:left-4 p-2 sm:p-3 rounded bg-black/80 border border-white/20 text-[10px] sm:text-xs font-mono pointer-events-none text-white max-w-[90vw]">
+             <div className="mb-1 sm:mb-2 font-bold text-white">Packet Types</div>
+             <div className="grid grid-cols-2 gap-x-2 sm:gap-x-4 gap-y-0.5 sm:gap-y-1">
+               <div className="flex items-center gap-1 sm:gap-2"><span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#61dafb]"></span>TCP</div>
+               <div className="flex items-center gap-1 sm:gap-2"><span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#ff80bf]"></span>UDP</div>
+               <div className="flex items-center gap-1 sm:gap-2"><span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#50fa7b]"></span>HTTP</div>
+               <div className="flex items-center gap-1 sm:gap-2"><span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#f1fa8c]"></span>DNS</div>
              </div>
              {topology === 'bus' && (
                <>
-                 <div className="mt-3 mb-2 font-bold text-white border-t border-white/20 pt-2">Bus Collision (CSMA/CD)</div>
-                 <div className="space-y-1">
-                   <div className="flex items-center gap-2"><span className="text-red-400">⚠</span>Collision Detected</div>
-                   <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#FF5F57]"></span>Backoff & Retry</div>
+                 <div className="mt-2 sm:mt-3 mb-1 sm:mb-2 font-bold text-white border-t border-white/20 pt-1 sm:pt-2">Collision (CSMA/CD)</div>
+                 <div className="space-y-0.5 sm:space-y-1">
+                   <div className="flex items-center gap-1 sm:gap-2"><span className="text-red-400">⚠</span>Detected</div>
+                   <div className="flex items-center gap-1 sm:gap-2"><span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#FF5F57]"></span>Retry</div>
                  </div>
                </>
              )}

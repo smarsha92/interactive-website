@@ -403,7 +403,7 @@ export function Terminal({
 
   return (
     <Card 
-      className={`group relative overflow-hidden transition-all duration-500 hover:shadow-[0_0_30px_rgba(100,200,255,0.08)] ${mini ? 'w-96 max-w-[calc(100vw-3rem)]' : 'w-full max-w-4xl'}`}
+      className={`group relative overflow-hidden transition-all duration-500 hover:shadow-[0_0_30px_rgba(100,200,255,0.08)] ${mini ? 'w-full max-w-md' : 'w-full max-w-[95vw] md:max-w-4xl'}`}
       style={{
         backgroundColor: `oklch(0.15 0.02 240 / ${opacity ?? initialOpacity}%)`,
         backdropFilter: `blur(${blur ?? initialBlur}px)`,
@@ -414,40 +414,40 @@ export function Terminal({
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/3 via-transparent to-accent/3" />
       </div>
-      <div className="absolute top-0 left-0 right-0 h-8 bg-card/30 flex items-center px-4 gap-2 border-b border-border/30">
-        <div className={`flex gap-2 transition-opacity duration-150 ${trafficLightHover ? 'opacity-100' : 'opacity-40'}`}>
+      <div className="absolute top-0 left-0 right-0 h-8 bg-card/30 flex items-center px-2 sm:px-4 gap-2 border-b border-border/30">
+        <div className={`flex gap-1.5 sm:gap-2 transition-opacity duration-150 ${trafficLightHover ? 'opacity-100' : 'opacity-40'}`}>
           <button
-            className="w-3 h-3 rounded-full bg-[#FF5F57] hover:brightness-110 transition-all group relative"
+            className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#FF5F57] hover:brightness-110 transition-all group relative"
             title="Close"
           >
             <X 
               size={8} 
               weight="bold" 
-              className="absolute inset-0 m-auto text-[#8B0000] opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute inset-0 m-auto text-[#8B0000] opacity-0 group-hover:opacity-100 transition-opacity hidden sm:block"
             />
           </button>
           <button
-            className="w-3 h-3 rounded-full bg-[#FFBD2E] hover:brightness-110 transition-all group relative"
+            className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#FFBD2E] hover:brightness-110 transition-all group relative"
             title="Minimize"
           >
             <Minus 
               size={8} 
               weight="bold" 
-              className="absolute inset-0 m-auto text-[#8B6914] opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute inset-0 m-auto text-[#8B6914] opacity-0 group-hover:opacity-100 transition-opacity hidden sm:block"
             />
           </button>
           <button
-            className="w-3 h-3 rounded-full bg-[#28C840] hover:brightness-110 transition-all group relative"
+            className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#28C840] hover:brightness-110 transition-all group relative"
             title="Maximize"
           >
             <Square 
               size={8} 
               weight="bold" 
-              className="absolute inset-0 m-auto text-[#0D5018] opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute inset-0 m-auto text-[#0D5018] opacity-0 group-hover:opacity-100 transition-opacity hidden sm:block"
             />
           </button>
         </div>
-        <div className="flex-1 text-center text-xs text-muted-foreground font-mono">
+        <div className="flex-1 text-center text-[10px] sm:text-xs text-muted-foreground font-mono">
           terminal
         </div>
         {!mini && (
@@ -455,13 +455,13 @@ export function Terminal({
             onClick={() => setShowSettings(!showSettings)}
             className="text-muted-foreground hover:text-primary transition-colors"
           >
-            <Sliders size={16} />
+            <Sliders size={14} className="sm:w-4 sm:h-4" />
           </button>
         )}
       </div>
 
       {showSettings && !mini && (
-        <div className="absolute top-8 right-0 w-64 bg-card/95 backdrop-blur-xl border border-border/50 rounded-bl-lg p-4 z-10 shadow-xl">
+        <div className="absolute top-8 right-0 w-64 max-w-[calc(100vw-2rem)] bg-card/95 backdrop-blur-xl border border-border/50 rounded-bl-lg p-4 z-10 shadow-xl">
           <div className="space-y-4">
             <div>
               <label className="text-xs text-muted-foreground font-mono mb-3 block">
@@ -518,7 +518,7 @@ export function Terminal({
 
       <div 
         ref={terminalRef}
-        className={`relative z-10 terminal-font text-sm p-6 pt-12 overflow-y-auto transition-all duration-300 ${mini ? 'h-64' : 'h-96'}`}
+        className={`relative z-10 terminal-font text-xs sm:text-sm p-3 sm:p-6 pt-10 sm:pt-12 overflow-y-auto transition-all duration-300 ${mini ? 'h-64' : 'h-64 sm:h-80 md:h-96'}`}
         onClick={() => inputRef.current?.focus()}
       >
         {lines.map((line, idx) => (

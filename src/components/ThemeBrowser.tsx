@@ -39,7 +39,7 @@ export function ThemeBrowser({ isOpen, onClose, onSelectTheme, currentTheme }: T
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4"
           style={{
             backgroundColor: 'color-mix(in oklch, var(--background) 80%, transparent)',
             backdropFilter: 'blur(20px)',
@@ -51,23 +51,23 @@ export function ThemeBrowser({ isOpen, onClose, onSelectTheme, currentTheme }: T
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="w-full max-w-4xl max-h-[85vh] overflow-y-auto"
+            className="w-full max-w-4xl max-h-[90vh] sm:max-h-[85vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <Card className="p-4 sm:p-6 relative">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl sm:text-2xl font-bold text-foreground">Choose Your Theme</h2>
+              <div className="flex items-center justify-between mb-4 sm:mb-6">
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-foreground">Choose Your Theme</h2>
                 <Button
                   size="sm"
                   variant="ghost"
                   onClick={onClose}
-                  className="h-7 w-7 p-0"
+                  className="h-8 w-8 sm:h-9 sm:w-9 p-0"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="w-4 h-4 sm:w-5 sm:h-5" />
                 </Button>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                 {Object.values(themes).map((theme, index) => (
                   <motion.div
                     key={theme.name}
@@ -114,7 +114,7 @@ function ThemePreviewCard({ theme, isActive, isHovered, onHover, onLeave, onClic
       onClick={onClick}
     >
       <Card
-        className={`p-3 transition-all duration-200 ${
+        className={`p-3 sm:p-4 transition-all duration-200 ${
           isActive ? 'ring-2 ring-primary' : 'hover:ring-1 hover:ring-accent'
         }`}
         style={{
@@ -123,8 +123,8 @@ function ThemePreviewCard({ theme, isActive, isHovered, onHover, onLeave, onClic
             : theme.colors.background,
         }}
       >
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="font-bold text-base" style={{ color: theme.colors.foreground }}>
+        <div className="flex items-center justify-between mb-2 sm:mb-3">
+          <h3 className="font-bold text-sm sm:text-base" style={{ color: theme.colors.foreground }}>
             {theme.label}
           </h3>
           {isActive && (
@@ -132,15 +132,15 @@ function ThemePreviewCard({ theme, isActive, isHovered, onHover, onLeave, onClic
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-              className="w-5 h-5 rounded-full flex items-center justify-center"
+              className="w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center"
               style={{ backgroundColor: theme.colors.primary }}
             >
-              <Check className="w-3 h-3" style={{ color: theme.colors.primaryForeground }} weight="bold" />
+              <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5" style={{ color: theme.colors.primaryForeground }} weight="bold" />
             </motion.div>
           )}
         </div>
 
-        <div className="grid grid-cols-4 gap-1.5">
+        <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
           <ColorSwatch color={theme.colors.primary} label="Primary" />
           <ColorSwatch color={theme.colors.accent} label="Accent" />
           <ColorSwatch color={theme.colors.secondary} label="Secondary" />
@@ -148,7 +148,7 @@ function ThemePreviewCard({ theme, isActive, isHovered, onHover, onLeave, onClic
         </div>
 
         <div
-          className="mt-2 p-1.5 rounded text-xs terminal-font"
+          className="mt-2 sm:mt-3 p-1.5 sm:p-2 rounded text-[10px] sm:text-xs terminal-font"
           style={{
             backgroundColor: theme.colors.card,
             color: theme.colors.foreground,
@@ -171,7 +171,7 @@ function ColorSwatch({ color, label }: ColorSwatchProps) {
   return (
     <div className="flex flex-col items-center gap-1">
       <div
-        className="w-full h-8 rounded transition-transform hover:scale-105"
+        className="w-full h-7 sm:h-8 rounded transition-transform hover:scale-105 active:scale-95"
         style={{
           backgroundColor: color,
         }}

@@ -10,10 +10,10 @@ interface ComingSoonProps {
 
 export function ComingSoon({ feature, onBack }: ComingSoonProps) {
   return (
-    <div className="min-h-screen flex items-center justify-center px-6 py-24 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-16 sm:py-24 relative overflow-hidden">
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary rounded-full blur-3xl" />
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-accent rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-primary rounded-full blur-3xl" />
       </div>
 
       <motion.div
@@ -22,12 +22,12 @@ export function ComingSoon({ feature, onBack }: ComingSoonProps) {
         transition={{ duration: 0.5 }}
         className="max-w-2xl w-full relative z-10"
       >
-        <Card className="p-12 text-center backdrop-blur-xl bg-card/80 border-2">
+        <Card className="p-6 sm:p-8 md:p-12 text-center backdrop-blur-xl bg-card/80 border-2">
           <motion.div
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="mb-8 flex justify-center gap-4"
+            className="mb-6 sm:mb-8 flex justify-center gap-2 sm:gap-4"
           >
             <motion.div
               animate={{ 
@@ -40,7 +40,7 @@ export function ComingSoon({ feature, onBack }: ComingSoonProps) {
                 ease: "easeInOut"
               }}
             >
-              <Rocket className="w-16 h-16 text-accent" weight="duotone" />
+              <Rocket className="w-12 h-12 sm:w-16 sm:h-16 text-accent" weight="duotone" />
             </motion.div>
             <motion.div
               animate={{ 
@@ -54,7 +54,7 @@ export function ComingSoon({ feature, onBack }: ComingSoonProps) {
                 delay: 0.3
               }}
             >
-              <Sparkle className="w-12 h-12 text-primary" weight="fill" />
+              <Sparkle className="w-8 h-8 sm:w-12 sm:h-12 text-primary" weight="fill" />
             </motion.div>
             <motion.div
               animate={{ 
@@ -68,7 +68,7 @@ export function ComingSoon({ feature, onBack }: ComingSoonProps) {
                 delay: 0.5
               }}
             >
-              <Code className="w-16 h-16 text-accent" weight="duotone" />
+              <Code className="w-12 h-12 sm:w-16 sm:h-16 text-accent" weight="duotone" />
             </motion.div>
           </motion.div>
 
@@ -76,7 +76,7 @@ export function ComingSoon({ feature, onBack }: ComingSoonProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="text-5xl md:text-6xl font-bold mb-4 text-foreground terminal-font"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 text-foreground terminal-font"
           >
             <span className="text-accent">{'>'}</span> Coming Soon
           </motion.h1>
@@ -85,7 +85,7 @@ export function ComingSoon({ feature, onBack }: ComingSoonProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-2xl md:text-3xl font-semibold mb-8 text-primary"
+            className="text-xl sm:text-2xl md:text-3xl font-semibold mb-6 sm:mb-8 text-primary"
           >
             {feature}
           </motion.h2>
@@ -94,7 +94,7 @@ export function ComingSoon({ feature, onBack }: ComingSoonProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="mb-8 terminal-font text-lg space-y-3"
+            className="mb-6 sm:mb-8 terminal-font text-sm sm:text-base md:text-lg space-y-2 sm:space-y-3"
           >
             <p className="text-muted-foreground">
               <span className="text-accent">{'>'}</span> This feature is currently under development
@@ -127,9 +127,9 @@ export function ComingSoon({ feature, onBack }: ComingSoonProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
-            className="mt-12 pt-8 border-t border-border"
+            className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-border"
           >
-            <p className="text-sm text-muted-foreground terminal-font">
+            <p className="text-xs sm:text-sm text-muted-foreground terminal-font">
               <span className="text-accent">{'>'}</span> Want to be notified? Keep exploring other features in the meantime!
             </p>
           </motion.div>
