@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Terminal as TerminalIcon, ArrowDown } from '@phosphor-icons/react';
 import { Terminal } from './Terminal';
-import { BSOD404 } from './BSOD404';
 
 interface WebsiteViewProps {
   onCommand: (command: string) => void;
@@ -12,32 +11,16 @@ interface WebsiteViewProps {
 
 export function WebsiteView({ onCommand }: WebsiteViewProps) {
   const [showMiniTerminal, setShowMiniTerminal] = useState(false);
-  const [showBSOD, setShowBSOD] = useState(false);
-  const [bsodPage, setBsodPage] = useState('');
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, page: string) => {
     e.preventDefault();
-    if (page === 'learning' || page === 'exam' || page === 'glossary') {
-      setBsodPage(page);
-      setShowBSOD(true);
-    } else if (page === 'theme') {
+    if (page === 'theme') {
       onCommand('__THEMES__');
     }
   };
 
-  const handleBSODBack = () => {
-    setShowBSOD(false);
-    setBsodPage('');
-  };
-
   return (
     <div className="min-h-screen">
-      <AnimatePresence>
-        {showBSOD && (
-          <BSOD404 onBack={handleBSODBack} pageName={bsodPage} />
-        )}
-      </AnimatePresence>
-
       <nav className="fixed top-0 left-0 right-0 z-40 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <h1 className="text-2xl font-bold text-foreground terminal-font">
