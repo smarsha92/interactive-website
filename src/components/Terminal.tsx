@@ -224,7 +224,29 @@ export function Terminal({
           'Why did the firewall break up with the router?\nToo many trust issues!',
           'How does a network engineer fix a problem?\nThey just switch to a better solution!',
           'Why was the subnet always calm?\nBecause it knew how to mask its feelings!',
-          'What\'s a network\'s favorite type of music?\nHeavy packet metal!'
+          'What\'s a network\'s favorite type of music?\nHeavy packet metal!',
+          'Why did the TCP packet go to therapy?\nIt had too many acknowledgment issues!',
+          'What\'s a hacker\'s favorite season?\nPhishing season!',
+          'Why do network cables make terrible comedians?\nTheir jokes never land, they just get terminated!',
+          'How do you comfort a JavaScript bug?\nYou console it!',
+          'Why was the WiFi signal feeling down?\nIt was having connection issues with everyone!',
+          'What did the DNS say to the HTTP?\n"I\'ll look you up sometime!"',
+          'Why did the network engineer bring a ladder to work?\nTo reach the cloud!',
+          'What do you call a router that sings?\nA broadcast!',
+          'Why don\'t routers ever lie?\nBecause they always tell the truth tables!',
+          'What\'s an IPv6 address\'s favorite game?\nHide and seek - nobody can find them!',
+          'Why was the network switch so popular?\nIt knew how to make all the right connections!',
+          'What did the Ethernet cable say to the fiber optic?\n"You\'re so transparent!"',
+          'Why did the ping command fail at comedy?\nIts timing was off!',
+          'How does a network say goodbye?\n"Socket to you later!"',
+          'Why did the VLAN throw a party?\nTo separate the traffic from the work!',
+          'What\'s a DDoS attack\'s favorite party trick?\nBringing the house down!',
+          'Why was the MAC address so unique?\nIt refused to be broadcast!',
+          'What did the load balancer say at the buffet?\n"Let me distribute these evenly!"',
+          'Why don\'t packets ever get lost in the mail?\nThey have excellent routing!',
+          'What\'s a network engineer\'s favorite exercise?\nPacket squats!',
+          'Why did the network go to school?\nTo improve its class of service!',
+          'What do you call a lazy network?\nA low-throughput individual!'
         ]
         let jokeIndex = Math.floor(Math.random() * jokes.length)
         if (jokes.length > 1 && jokeIndex === lastJokeIndex) {
