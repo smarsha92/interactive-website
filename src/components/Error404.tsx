@@ -1,19 +1,19 @@
 import { motion } from 'framer-motion';
-import { XCircle, ArrowLeft } from '@phosphor-ic
 import { XCircle, ArrowLeft } from '@phosphor-icons/react';
+import { Button } from '@/components/ui/button';
 
 interface Error404Props {
   onBack: () => void;
 }
 
-    <div className="min-h-screen flex items-center ju
-        in
+export function Error404({ onBack }: Error404Props) {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, type: 'spring' }}
-      >
-          initial={{ rotate: 0 }}
-          transition={{ duration: 0.5, del
-        >
-        </motion.div>
+        className="text-center max-w-2xl"
       >
         <motion.div
           initial={{ rotate: 0 }}
@@ -28,46 +28,35 @@ interface Error404Props {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="text-8xl md:text-9xl font-bold mb-4 text-foreground terminal-font"
+          className="text-8xl md:text-9xl font-bold mb-4 text-foreground"
         >
-        </mot
+          404
+        </motion.h1>
+
         <motion.p
-
-          classNam
-          <span className="text-accent">{
-          <span className="text-accent">
-
           initial={{ opacity: 0, y: 20 }}
-         
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="text-xl md:text-2xl text-muted-foreground mb-8"
+        >
+          <span className="text-accent">Page not found.</span> The page you're looking for doesn't exist.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
           <Button 
-            onClick=
-
-            Go Ba
+            onClick={onBack}
+            size="lg"
+            className="gap-2"
+          >
+            <ArrowLeft weight="bold" />
+            Go Back
+          </Button>
         </motion.div>
+      </motion.div>
     </div>
+  );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
