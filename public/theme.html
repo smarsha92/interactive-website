@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Browser - Terminal.web</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter&family=Noto+Serif&family=JetBrains+Mono&display=swap">
+    <style>
+        :root {
+            --background: oklch(1.00 0 0);
+            --foreground: oklch(0.15 0.005 240);
+            --accent: oklch(0.50 0.12 260);
+            --muted-foreground: oklch(0.50 0.01 240);
+            --border: oklch(0.85 0.01 240);
+            --card: oklch(1.00 0 0);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+        }
+        
+        .terminal-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 40;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--foreground);
+        }
+        
+        .logo .accent {
+            color: var(--accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .nav-links a {
+            color: var(--foreground);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        main {
+            min-height: 100vh;
+            padding: 8rem 1.5rem 3rem;
+        }
+        
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: var(--muted-foreground);
+            margin-bottom: 4rem;
+        }
+        
+        .themes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .theme-card {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .theme-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .theme-preview {
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: white;
+        }
+        
+        .theme-info {
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .theme-name {
+            font-weight: bold;
+            font-size: 1.125rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .theme-desc {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .themes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <h1 class="logo terminal-font">
+                <span class="accent">></span> Terminal.web
+            </h1>
+            <div class="nav-links terminal-font">
+                <a href="home.html">[Home]</a>
+                <a href="learning.html">[Learning]</a>
+                <a href="exam.html">[Exam]</a>
+                <a href="glossary.html">[Glossary]</a>
+                <a href="theme.html">[Theme]</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <h1>Theme Browser</h1>
+            <p class="subtitle">Choose your terminal aesthetic</p>
+            <div class="themes-grid">
+                <div class="theme-card">
+                    <div class="theme-preview" style="background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);">
+                        $ theme --set cyan
+                    </div>
+                    <div class="theme-info">
+                        <div class="theme-name">Default Cyan</div>
+                        <div class="theme-desc">Classic terminal blues</div>
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="theme-preview" style="background: linear-gradient(135deg, #0D0208 0%, #003B00 50%, #008F11 100%);">
+                        $ theme --set matrix
+                    </div>
+                    <div class="theme-info">
+                        <div class="theme-name">Matrix</div>
+                        <div class="theme-desc">Enter the code</div>
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="theme-preview" style="background: linear-gradient(135deg, #1a0f00 0%, #3d2600 50%, #5c3d00 100%);">
+                        $ theme --set amber
+                    </div>
+                    <div class="theme-info">
+                        <div class="theme-name">Amber</div>
+                        <div class="theme-desc">Warm vintage glow</div>
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="theme-preview" style="background: linear-gradient(135deg, #1a0033 0%, #2d004d 50%, #4d0080 100%);">
+                        $ theme --set purple
+                    </div>
+                    <div class="theme-info">
+                        <div class="theme-name">Purple Haze</div>
+                        <div class="theme-desc">Deep purple dreams</div>
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="theme-preview" style="background: linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #fdca40 100%);">
+                        $ theme --set sunset
+                    </div>
+                    <div class="theme-info">
+                        <div class="theme-name">Sunset</div>
+                        <div class="theme-desc">Golden hour vibes</div>
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="theme-preview" style="background: linear-gradient(135deg, #000428 0%, #004e92 50%, #1a7fa0 100%);">
+                        $ theme --set ocean
+                    </div>
+                    <div class="theme-info">
+                        <div class="theme-name">Ocean Deep</div>
+                        <div class="theme-desc">Dive into the depths</div>
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="theme-preview" style="background: linear-gradient(135deg, #ff0080 0%, #ff8c00 50%, #40e0d0 100%);">
+                        $ theme --set neon
+                    </div>
+                    <div class="theme-info">
+                        <div class="theme-name">Neon Lights</div>
+                        <div class="theme-desc">Electric energy</div>
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="theme-preview" style="background: linear-gradient(135deg, #0a3d0c 0%, #1a5d1a 50%, #2d8b2d 100%);">
+                        $ theme --set forest
+                    </div>
+                    <div class="theme-info">
+                        <div class="theme-name">Forest</div>
+                        <div class="theme-desc">Nature's terminal</div>
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="theme-preview" style="background: linear-gradient(135deg, #4a0e0e 0%, #7d1d3f 50%, #b8336a 100%);">
+                        $ theme --set rose
+                    </div>
+                    <div class="theme-info">
+                        <div class="theme-name">Rose</div>
+                        <div class="theme-desc">Elegant and refined</div>
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="theme-preview" style="background: linear-gradient(135deg, #1f1c18 0%, #8e6f3e 50%, #c9a961 100%);">
+                        $ theme --set gold
+                    </div>
+                    <div class="theme-info">
+                        <div class="theme-name">Gold</div>
+                        <div class="theme-desc">Luxury computing</div>
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="theme-preview" style="background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 50%, #80deea 100%);">
+                        $ theme --set ice
+                    </div>
+                    <div class="theme-info">
+                        <div class="theme-name">Ice</div>
+                        <div class="theme-desc">Cool and crisp</div>
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="theme-preview" style="background: linear-gradient(135deg, #2b134b 0%, #7b2cbf 50%, #ff006e 100%);">
+                        $ theme --set synthwave
+                    </div>
+                    <div class="theme-info">
+                        <div class="theme-name">Synthwave</div>
+                        <div class="theme-desc">80s retro aesthetic</div>
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="theme-preview" style="background: linear-gradient(135deg, #ff00ff 0%, #00ffff 50%, #ffff00 100%);">
+                        $ theme --set cyberpunk
+                    </div>
+                    <div class="theme-info">
+                        <div class="theme-name">Cyberpunk</div>
+                        <div class="theme-desc">High tech, low life</div>
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="theme-preview" style="background: linear-gradient(135deg, #165B33 0%, #146B3A 50%, #BB2528 100%);">
+                        $ theme --set xmas
+                    </div>
+                    <div class="theme-info">
+                        <div class="theme-name">Christmas</div>
+                        <div class="theme-desc">🎄 Festive spirit</div>
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="theme-preview" style="background: linear-gradient(135deg, #000000 0%, #ffffff 50%, #000000 100%);">
+                        $ theme --set highcontrast
+                    </div>
+                    <div class="theme-info">
+                        <div class="theme-name">High Contrast</div>
+                        <div class="theme-desc">Maximum readability</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="0; url=home.html">
+    <title>Redirecting - Terminal.web</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap">
+    <style>
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: oklch(0.15 0.02 240);
+            color: oklch(0.85 0.01 240);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        
+        .loader {
+            font-size: 1.5rem;
+        }
+        
+        .cursor {
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+        
+        a {
+            color: oklch(0.50 0.12 260);
+            text-decoration: none;
+            display: block;
+            margin-top: 1rem;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <p>$ Redirecting to home<span class="cursor">_</span></p>
+        <p style="font-size: 1rem; margin-top: 1rem; opacity: 0.7;">If not redirected, <a href="home.html">click here</a></p>
+    </div>
+</body>
+</html>

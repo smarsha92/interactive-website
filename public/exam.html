@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam - Terminal.web</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter&family=Noto+Serif&family=JetBrains+Mono&display=swap">
+    <style>
+        :root {
+            --background: oklch(0.15 0.02 240);
+            --foreground: oklch(0.85 0.01 240);
+            --accent: oklch(0.50 0.12 260);
+            --border: oklch(0.25 0.02 240);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .bsod {
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .message {
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+        
+        .error-code {
+            background: var(--border);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 2rem 0;
+            text-align: center;
+            font-size: 1.25rem;
+        }
+        
+        .back-button {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+        
+        .back-button:hover {
+            filter: brightness(1.2);
+            transform: translateY(-2px);
+        }
+        
+        .center {
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .title {
+                font-size: 1.5rem;
+            }
+            
+            body {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bsod">
+        <div class="title">PAGE_NOT_FOUND</div>
+        <div class="message">
+            <p>A problem has been detected and this page has been shut down to prevent damage to your browsing experience.</p>
+            <p style="margin-top: 1rem;">The requested page "EXAM" is currently under construction.</p>
+        </div>
+        <div class="error-code">
+            STOP: 0x00000404 (EXAM_MODULE_NOT_FOUND)
+        </div>
+        <div class="message">
+            <p>Technical information:</p>
+            <p>* * * exam.html</p>
+        </div>
+        <div class="center">
+            <a href="home.html" class="back-button">← Return to Home</a>
+        </div>
+    </div>
+</body>
+</html>

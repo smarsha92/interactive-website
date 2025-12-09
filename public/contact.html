@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Terminal.web</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter&family=Noto+Serif&family=JetBrains+Mono&display=swap">
+    <style>
+        :root {
+            --background: oklch(1.00 0 0);
+            --foreground: oklch(0.15 0.005 240);
+            --accent: oklch(0.50 0.12 260);
+            --muted-foreground: oklch(0.50 0.01 240);
+            --border: oklch(0.85 0.01 240);
+            --card: oklch(1.00 0 0);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+        }
+        
+        .terminal-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 40;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--foreground);
+        }
+        
+        .logo .accent {
+            color: var(--accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .nav-links a {
+            color: var(--foreground);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        main {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 1.5rem 3rem;
+        }
+        
+        .container {
+            max-width: 42rem;
+            width: 100%;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 2rem;
+        }
+        
+        .card p {
+            color: var(--foreground);
+            margin-bottom: 1rem;
+        }
+        
+        .card p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .card .accent {
+            color: var(--accent);
+            margin-right: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <h1 class="logo terminal-font">
+                <span class="accent">></span> Terminal.web
+            </h1>
+            <div class="nav-links terminal-font">
+                <a href="home.html">[Home]</a>
+                <a href="learning.html">[Learning]</a>
+                <a href="exam.html">[Exam]</a>
+                <a href="glossary.html">[Glossary]</a>
+                <a href="theme.html">[Theme]</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <h1>Get In Touch</h1>
+            <div class="card terminal-font">
+                <p><span class="accent">></span> Ready to explore more?</p>
+                <p><span class="accent">></span> Type "end" in the terminal to return</p>
+                <p><span class="accent">></span> Or keep scrolling to see what's possible</p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
