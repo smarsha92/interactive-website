@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { X, Play, Pause, RefreshCw, Activity, Gauge } from 'lucide-react';
-import { NetNode, Packet, PacketType, NodeType } from '../types';
+import { X, Play, Pause, RefreshCw, Activity, Gauge, AlertTriangle } from 'lucide-react';
+import { NetNode, Packet, PacketType, NodeType, Collision } from '../types';
 
 interface NetworkSimulatorProps {
   isOpen: boolean;
@@ -10,7 +10,7 @@ interface NetworkSimulatorProps {
 const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [stats, setStats] = useState({ sent: 0, delivered: 0 });
+  const [stats, setStats] = useState({ sent: 0, delivered: 0, collisions: 0, retransmits: 0 });
   const [topology, setTopology] = useState<'mesh' | 'star' | 'ring' | 'bus'>('mesh');
   const [speed, setSpeed] = useState<'slow' | 'normal' | 'fast'>('normal');
 
@@ -20,6 +20,8 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) 
   const frameRef = useRef<number>(0);
   const lastPacketTimeRef = useRef<number>(0);
   const [isInitialized, setIsInitialized] = useState(false);
+  const collisionsRef = useRef<Collision[]>([]);
+  const busySegmentsRef = useRef<Set<string>>(new Set());
 
   // Initialize Topology
   useEffect(() => {
@@ -96,7 +98,9 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) 
 
     nodesRef.current = newNodes;
     packetsRef.current = [];
-    setStats({ sent: 0, delivered: 0 });
+    collisionsRef.current = [];
+    busySegmentsRef.current.clear();
+    setStats({ sent: 0, delivered: 0, collisions: 0, retransmits: 0 });
   };
 
   // Helper to determine next routing hop
@@ -168,6 +172,68 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) 
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+
+    const detectBusCollisions = () => {
+      if (topology !== 'bus') return;
+
+      const onBusPackets = packetsRef.current.filter(
+        p => !p.waitingToSend && (p.from.startsWith('tap_') || p.to.startsWith('tap_'))
+      );
+
+      const segmentPackets = new Map<string, Packet[]>();
+      
+      onBusPackets.forEach(pkt => {
+        if (pkt.from.startsWith('tap_') && pkt.to.startsWith('tap_')) {
+          const fromIdx = parseInt(pkt.from.split('_')[1]);
+          const toIdx = parseInt(pkt.to.split('_')[1]);
+          const minIdx = Math.min(fromIdx, toIdx);
+          const maxIdx = Math.max(fromIdx, toIdx);
+          
+          for (let i = minIdx; i < maxIdx; i++) {
+            const segmentKey = `tap_${i}-tap_${i + 1}`;
+            if (!segmentPackets.has(segmentKey)) {
+              segmentPackets.set(segmentKey, []);
+            }
+            segmentPackets.get(segmentKey)!.push(pkt);
+          }
+        }
+      });
+
+      segmentPackets.forEach((packets, segment) => {
+        if (packets.length > 1) {
+          const collisionX = packets.reduce((sum, p) => sum + p.currentX, 0) / packets.length;
+          const collisionY = packets.reduce((sum, p) => sum + p.currentY, 0) / packets.length;
+
+          const collisionId = `collision_${Date.now()}_${Math.random()}`;
+          collisionsRef.current.push({
+            id: collisionId,
+            x: collisionX,
+            y: collisionY,
+            timestamp: Date.now(),
+            packetIds: packets.map(p => p.id)
+          });
+
+          packets.forEach(pkt => {
+            pkt.inCollision = true;
+            pkt.retransmitCount = (pkt.retransmitCount || 0) + 1;
+            pkt.collisionBackoff = Math.floor(Math.random() * 100) + 50;
+            pkt.waitingToSend = true;
+            
+            const sourceNode = nodesRef.current.find(n => n.id === pkt.from.replace('tap_', 'dev_'));
+            if (sourceNode) {
+              pkt.currentX = sourceNode.x;
+              pkt.currentY = sourceNode.y;
+            }
+          });
+
+          setStats(s => ({ ...s, collisions: s.collisions + 1 }));
+        }
+      });
+
+      collisionsRef.current = collisionsRef.current.filter(
+        c => Date.now() - c.timestamp < 1000
+      );
+    };
 
     const render = (time: number) => {
       if (!isPlaying) {
@@ -284,8 +350,39 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) 
         lastPacketTimeRef.current = time;
       }
 
+      // Detect collisions in bus topology
+      if (topology === 'bus') {
+        detectBusCollisions();
+      }
+
       // Update and Draw Packets
       packetsRef.current.forEach((pkt, i) => {
+        if (pkt.waitingToSend && pkt.collisionBackoff !== undefined) {
+          pkt.collisionBackoff -= 1;
+          if (pkt.collisionBackoff <= 0) {
+            pkt.waitingToSend = false;
+            pkt.inCollision = false;
+            pkt.collisionBackoff = undefined;
+            
+            const sourceNode = nodesRef.current.find(n => n.id.includes(pkt.from.split('_')[1]));
+            if (sourceNode) {
+              pkt.from = sourceNode.id;
+              pkt.to = getNextHop(sourceNode.id, pkt.finalDest, nodes);
+              pkt.currentX = sourceNode.x;
+              pkt.currentY = sourceNode.y;
+            }
+            setStats(s => ({ ...s, retransmits: s.retransmits + 1 }));
+          }
+          
+          ctx.fillStyle = '#FF5F57';
+          ctx.globalAlpha = 0.6;
+          ctx.beginPath();
+          ctx.arc(pkt.currentX, pkt.currentY, 5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.globalAlpha = 1;
+          return;
+        }
+
         const packetSpeed = speed === 'slow' ? 1.5 : speed === 'fast' ? 6 : 3;
         
         // Target coordinates
@@ -311,6 +408,32 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) 
           ctx.arc(pkt.currentX, pkt.currentY, 4, 0, Math.PI * 2);
           ctx.fill();
           ctx.shadowBlur = 0;
+        }
+      });
+
+      // Draw Collision Indicators
+      collisionsRef.current.forEach(collision => {
+        const age = Date.now() - collision.timestamp;
+        const opacity = Math.max(0, 1 - age / 1000);
+        const radius = 15 + (age / 1000) * 20;
+        
+        ctx.strokeStyle = `rgba(255, 95, 87, ${opacity})`;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(collision.x, collision.y, radius, 0, Math.PI * 2);
+        ctx.stroke();
+        
+        ctx.strokeStyle = `rgba(255, 220, 50, ${opacity * 0.7})`;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(collision.x, collision.y, radius - 5, 0, Math.PI * 2);
+        ctx.stroke();
+        
+        if (opacity > 0.5) {
+          ctx.fillStyle = `rgba(255, 95, 87, ${opacity})`;
+          ctx.font = 'bold 14px JetBrains Mono';
+          ctx.textAlign = 'center';
+          ctx.fillText('⚠', collision.x, collision.y + 5);
         }
       });
 
@@ -450,9 +573,18 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) 
              </button>
           </div>
           
-          <div className="flex gap-6 text-white/80">
+          <div className="flex gap-4 text-white/80 text-sm">
             <span>PKTS_SENT: <span className="text-white font-bold">{stats.sent}</span></span>
             <span>DELIVERED: <span className="text-accent font-bold">{stats.delivered}</span></span>
+            {topology === 'bus' && (
+              <>
+                <span className="flex items-center gap-1">
+                  <AlertTriangle size={14} className="text-red-400" />
+                  COLLISIONS: <span className="text-red-400 font-bold">{stats.collisions}</span>
+                </span>
+                <span>RETRANSMITS: <span className="text-yellow-400 font-bold">{stats.retransmits}</span></span>
+              </>
+            )}
             <span className="animate-pulse text-green-400 font-bold">● LIVE</span>
           </div>
         </div>
@@ -474,6 +606,15 @@ const NetworkSimulator: React.FC<NetworkSimulatorProps> = ({ isOpen, onClose }) 
                <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#50fa7b]"></span>HTTP</div>
                <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#f1fa8c]"></span>DNS</div>
              </div>
+             {topology === 'bus' && (
+               <>
+                 <div className="mt-3 mb-2 font-bold text-white border-t border-white/20 pt-2">Bus Collision (CSMA/CD)</div>
+                 <div className="space-y-1">
+                   <div className="flex items-center gap-2"><span className="text-red-400">⚠</span>Collision Detected</div>
+                   <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#FF5F57]"></span>Backoff & Retry</div>
+                 </div>
+               </>
+             )}
           </div>
         </div>
       </div>

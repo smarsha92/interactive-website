@@ -19,4 +19,16 @@ export interface Packet {
   type: PacketType;
   color: string;
   finalDest: string;
+  inCollision?: boolean;
+  collisionBackoff?: number;
+  retransmitCount?: number;
+  waitingToSend?: boolean;
+}
+
+export interface Collision {
+  id: string;
+  x: number;
+  y: number;
+  timestamp: number;
+  packetIds: string[];
 }
