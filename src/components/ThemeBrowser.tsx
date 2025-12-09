@@ -42,7 +42,7 @@ export function ThemeBrowser({ isOpen, onClose, onSelectTheme, currentTheme }: T
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
           style={{
             backgroundColor: 'color-mix(in oklch, var(--background) 80%, transparent)',
-            backdropFilter: 'blur(12px)',
+            backdropFilter: 'blur(20px)',
           }}
           onClick={onClose}
         >

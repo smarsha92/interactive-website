@@ -91,8 +91,6 @@ export function Terminal({
           { type: 'output' as const, text: '  random       - Apply a random theme' },
           { type: 'output' as const, text: '  highcontrast - Toggle high contrast mode' },
           { type: 'output' as const, text: '  xmas         - Enable festive Christmas theme' },
-          { type: 'output' as const, text: '  version      - Display version information' },
-          { type: 'output' as const, text: '  whoami       - Display current user information' },
           { type: 'output' as const, text: '  date         - Show current date and time' },
           { type: 'output' as const, text: '  fortune      - Get a random fortune' },
           { type: 'output' as const, text: '  joke         - Hear a networking joke' },
