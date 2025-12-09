@@ -19,10 +19,12 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
           <h1 className="text-2xl font-bold text-foreground terminal-font">
             <span className="text-accent">{'>'}</span> Terminal.web
           </h1>
-          <div className="flex gap-6">
-            <a href="#features" className="text-foreground hover:text-accent transition-colors">Features</a>
-            <a href="#about" className="text-foreground hover:text-accent transition-colors">About</a>
-            <a href="#contact" className="text-foreground hover:text-accent transition-colors">Contact</a>
+          <div className="flex gap-6 terminal-font">
+            <a href="#home" className="text-foreground hover:text-accent transition-colors">[Home]</a>
+            <a href="#learning" className="text-foreground hover:text-accent transition-colors">[Learning]</a>
+            <a href="#exam" className="text-foreground hover:text-accent transition-colors">[Exam]</a>
+            <a href="#glossary" className="text-foreground hover:text-accent transition-colors">[Glossary]</a>
+            <a href="#theme" className="text-foreground hover:text-accent transition-colors">[Theme]</a>
           </div>
         </div>
       </nav>
@@ -34,10 +36,10 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
           transition={{ duration: 0.6 }}
           className="text-center max-w-4xl"
         >
-          <h2 className="text-6xl md:text-7xl font-bold mb-6 text-foreground">
-            Retro Terminal
+          <h2 className="text-6xl md:text-7xl font-bold mb-6 text-foreground terminal-font">
+            C:\Networking\Guide{'>'} 
             <br />
-            <span className="text-accent">Meets Modern Web</span>
+            <span className="text-accent">Welcome to Networking Mastery</span>
           </h2>
           <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
             Experience the nostalgia of classic command-line interfaces
