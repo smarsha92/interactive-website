@@ -85,24 +85,42 @@ export function Terminal({
       case 'help':
         const helpLines = [
           { type: 'output' as const, text: 'Available commands:' },
+          { type: 'output' as const, text: '' },
           { type: 'output' as const, text: '  start        - Launch the full website' },
+          { type: 'output' as const, text: '' },
           { type: 'output' as const, text: '  network      - Open network packet simulator' },
+          { type: 'output' as const, text: '' },
           { type: 'output' as const, text: '  themes       - View available color themes' },
+          { type: 'output' as const, text: '' },
           { type: 'output' as const, text: '  random       - Apply a random theme' },
+          { type: 'output' as const, text: '' },
           { type: 'output' as const, text: '  highcontrast - Toggle high contrast mode' },
+          { type: 'output' as const, text: '' },
           { type: 'output' as const, text: '  xmas         - Enable festive Christmas theme' },
+          { type: 'output' as const, text: '' },
           { type: 'output' as const, text: '  date         - Show current date and time' },
+          { type: 'output' as const, text: '' },
           { type: 'output' as const, text: '  fortune      - Get a random fortune' },
+          { type: 'output' as const, text: '' },
           { type: 'output' as const, text: '  joke         - Hear a networking joke' },
+          { type: 'output' as const, text: '' },
           { type: 'output' as const, text: '  status       - Check system status' },
+          { type: 'output' as const, text: '' },
           { type: 'output' as const, text: '  about        - Learn about this terminal' },
+          { type: 'output' as const, text: '' },
           { type: 'output' as const, text: '  history      - View command history' },
+          { type: 'output' as const, text: '' },
           { type: 'output' as const, text: '  secret       - ???' },
+          { type: 'output' as const, text: '' },
           { type: 'output' as const, text: '  clear        - Clear the terminal' },
+          { type: 'output' as const, text: '' },
           { type: 'output' as const, text: '  help         - Show this help message' }
         ]
         if (mini) {
-          helpLines.splice(1, 0, { type: 'output' as const, text: '  end      - Return to main terminal' })
+          helpLines.splice(2, 0, 
+            { type: 'output' as const, text: '  end          - Return to main terminal' },
+            { type: 'output' as const, text: '' }
+          )
         }
         setLines(prev => [...prev, ...helpLines])
         break
