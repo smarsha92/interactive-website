@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/card';
 import { Terminal as TerminalIcon, ArrowDown } from '@phosphor-icons/react';
 import { Terminal } from './Terminal';
 import { Error404 } from './Error404';
+import { ComingSoon } from './ComingSoon';
 
 interface WebsiteViewProps {
   onCommand: (command: string) => void;
@@ -13,6 +14,7 @@ interface WebsiteViewProps {
 export function WebsiteView({ onCommand }: WebsiteViewProps) {
   const [showMiniTerminal, setShowMiniTerminal] = useState(false);
   const [show404, setShow404] = useState(false);
+  const [comingSoonFeature, setComingSoonFeature] = useState<string | null>(null);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, page: string) => {
     e.preventDefault();
@@ -20,11 +22,19 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
       onCommand('__THEMES__');
     } else if (page === 'learning') {
       setShow404(true);
+    } else if (page === 'exam') {
+      setComingSoonFeature('Exam');
+    } else if (page === 'glossary') {
+      setComingSoonFeature('Glossary');
     }
   };
 
   if (show404) {
     return <Error404 onBack={() => setShow404(false)} />;
+  }
+
+  if (comingSoonFeature) {
+    return <ComingSoon feature={comingSoonFeature} onBack={() => setComingSoonFeature(null)} />;
   }
 
   return (
