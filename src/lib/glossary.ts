@@ -2,23 +2,23 @@ export interface GlossaryTerm {
   term: string;
   definition: string;
   category?: string;
-  relatedTerms?: string[];
 }
+e
 
-export const glossary: GlossaryTerm[] = [
-  {
-    term: "API",
-    definition: "Application Programming Interface - a set of rules and protocols that allows different software applications to communicate with each other.",
     category: "Development",
-    relatedTerms: ["REST", "GraphQL", "Endpoint"]
+  }
+    term: "Compo
+    category: "Development",
   },
-  {
-    term: "Component",
+    term: "REST",
+    
+  }
+    term: "TypeScript"
     definition: "A reusable, self-contained piece of code that encapsulates specific functionality and can be combined with other components to build complex applications.",
     category: "Development",
     relatedTerms: ["React", "UI", "Module"]
   },
-  {
+   
     term: "REST",
     definition: "Representational State Transfer - an architectural style for designing networked applications using HTTP requests to access and manipulate data.",
     category: "Development",
@@ -31,12 +31,12 @@ export const glossary: GlossaryTerm[] = [
     relatedTerms: ["JavaScript", "Type Safety", "Compiler"]
   },
   {
-    term: "Hook",
-    definition: "A special function in React that lets you use state and other React features in functional components.",
-    category: "React",
-    relatedTerms: ["useState", "useEffect", "Component"]
-  }
-];
+  );
+
+  return glossary.filt
+
+  c
+}
 
 export function searchGlossary(query: string): GlossaryTerm[] {
   const lowerQuery = query.toLowerCase();
