@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Terminal as TerminalIcon, ArrowDown } from '@phosphor-icons/react';
+import { Terminal as TerminalIcon, ArrowDown, List, X } from '@phosphor-icons/react';
 import { Terminal } from './Terminal';
 import { Error404 } from './Error404';
 import { ComingSoon } from './ComingSoon';
@@ -15,9 +15,11 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
   const [showMiniTerminal, setShowMiniTerminal] = useState(false);
   const [show404, setShow404] = useState(false);
   const [comingSoonFeature, setComingSoonFeature] = useState<string | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, page: string) => {
     e.preventDefault();
+    setMobileMenuOpen(false);
     if (page === 'theme') {
       onCommand('__THEMES__');
     } else if (page === 'learning') {
@@ -39,9 +41,9 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
 
   return (
     <div className="min-h-screen">
-      <nav className="fixed top-0 left-0 right-0 z-40 backdrop-blur-md border-b border-border">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
-          <h1 className="text-lg sm:text-2xl font-bold text-foreground terminal-font">
+      <nav className="fixed top-0 left-0 right-0 z-40 backdrop-blur-md border-b border-border bg-background/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+          <h1 className="text-base sm:text-xl md:text-2xl font-bold text-foreground terminal-font">
             <span className="text-accent">{'>'}</span> Terminal.web
           </h1>
           <div className="hidden md:flex gap-4 lg:gap-6 terminal-font text-sm">
@@ -51,10 +53,69 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
             <a href="#glossary" onClick={(e) => handleNavClick(e, 'glossary')} className="text-foreground hover:text-accent transition-colors">[Glossary]</a>
             <a href="#theme" onClick={(e) => handleNavClick(e, 'theme')} className="text-foreground hover:text-accent transition-colors">[Theme]</a>
           </div>
-          <div className="flex md:hidden gap-3 terminal-font text-xs">
-            <a href="#theme" onClick={(e) => handleNavClick(e, 'theme')} className="text-foreground hover:text-accent transition-colors">[Theme]</a>
-          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="md:hidden p-2"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? (
+              <X className="w-5 h-5" weight="bold" />
+            ) : (
+              <List className="w-5 h-5" weight="bold" />
+            )}
+          </Button>
         </div>
+        
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="md:hidden overflow-hidden border-t border-border bg-background/95 backdrop-blur-md"
+            >
+              <div className="flex flex-col terminal-font text-sm py-2">
+                <a 
+                  href="#home" 
+                  onClick={(e) => handleNavClick(e, 'home')} 
+                  className="text-foreground hover:text-accent hover:bg-accent/10 transition-colors px-4 py-3"
+                >
+                  [Home]
+                </a>
+                <a 
+                  href="#learning" 
+                  onClick={(e) => handleNavClick(e, 'learning')} 
+                  className="text-foreground hover:text-accent hover:bg-accent/10 transition-colors px-4 py-3"
+                >
+                  [Learning]
+                </a>
+                <a 
+                  href="#exam" 
+                  onClick={(e) => handleNavClick(e, 'exam')} 
+                  className="text-foreground hover:text-accent hover:bg-accent/10 transition-colors px-4 py-3"
+                >
+                  [Exam]
+                </a>
+                <a 
+                  href="#glossary" 
+                  onClick={(e) => handleNavClick(e, 'glossary')} 
+                  className="text-foreground hover:text-accent hover:bg-accent/10 transition-colors px-4 py-3"
+                >
+                  [Glossary]
+                </a>
+                <a 
+                  href="#theme" 
+                  onClick={(e) => handleNavClick(e, 'theme')} 
+                  className="text-foreground hover:text-accent hover:bg-accent/10 transition-colors px-4 py-3"
+                >
+                  [Theme]
+                </a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       <section className="min-h-screen flex items-center justify-center px-4 sm:px-6 pt-20">
@@ -64,7 +125,7 @@ export function WebsiteView({ onCommand }: WebsiteViewProps) {
           transition={{ duration: 0.6 }}
           className="text-center max-w-4xl w-full"
         >
-          <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 text-foreground terminal-font leading-tight">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 text-foreground terminal-font leading-tight px-2">
             C:\Networking\Guide{'>'} 
             <br />
             <span className="text-accent">Welcome to Networking Mastery</span>

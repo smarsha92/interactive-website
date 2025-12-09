@@ -403,7 +403,7 @@ export function Terminal({
 
   return (
     <Card 
-      className={`group relative overflow-hidden transition-all duration-500 hover:shadow-[0_0_30px_rgba(100,200,255,0.08)] ${mini ? 'w-full max-w-md' : 'w-full max-w-[95vw] md:max-w-4xl'}`}
+      className={`group relative overflow-hidden transition-all duration-500 hover:shadow-[0_0_30px_rgba(100,200,255,0.08)] ${mini ? 'w-full max-w-md' : 'w-[96vw] max-w-[96vw] sm:max-w-[90vw] md:max-w-4xl'}`}
       style={{
         backgroundColor: `oklch(0.15 0.02 240 / ${opacity ?? initialOpacity}%)`,
         backdropFilter: `blur(${blur ?? initialBlur}px)`,
@@ -414,10 +414,10 @@ export function Terminal({
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/3 via-transparent to-accent/3" />
       </div>
-      <div className="absolute top-0 left-0 right-0 h-8 bg-card/30 flex items-center px-2 sm:px-4 gap-2 border-b border-border/30">
-        <div className={`flex gap-1.5 sm:gap-2 transition-opacity duration-150 ${trafficLightHover ? 'opacity-100' : 'opacity-40'}`}>
+      <div className="absolute top-0 left-0 right-0 h-9 sm:h-8 bg-card/30 flex items-center px-3 sm:px-4 gap-2 border-b border-border/30">
+        <div className={`flex gap-2 sm:gap-2 transition-opacity duration-150 ${trafficLightHover ? 'opacity-100' : 'opacity-40'}`}>
           <button
-            className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#FF5F57] hover:brightness-110 transition-all group relative"
+            className="w-3 h-3 sm:w-3 sm:h-3 rounded-full bg-[#FF5F57] hover:brightness-110 transition-all group relative"
             title="Close"
           >
             <X 
@@ -427,7 +427,7 @@ export function Terminal({
             />
           </button>
           <button
-            className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#FFBD2E] hover:brightness-110 transition-all group relative"
+            className="w-3 h-3 sm:w-3 sm:h-3 rounded-full bg-[#FFBD2E] hover:brightness-110 transition-all group relative"
             title="Minimize"
           >
             <Minus 
@@ -437,7 +437,7 @@ export function Terminal({
             />
           </button>
           <button
-            className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#28C840] hover:brightness-110 transition-all group relative"
+            className="w-3 h-3 sm:w-3 sm:h-3 rounded-full bg-[#28C840] hover:brightness-110 transition-all group relative"
             title="Maximize"
           >
             <Square 
@@ -447,7 +447,7 @@ export function Terminal({
             />
           </button>
         </div>
-        <div className="flex-1 text-center text-[10px] sm:text-xs text-muted-foreground font-mono">
+        <div className="flex-1 text-center text-xs sm:text-xs text-muted-foreground font-mono">
           terminal
         </div>
         {!mini && (
@@ -455,16 +455,16 @@ export function Terminal({
             onClick={() => setShowSettings(!showSettings)}
             className="text-muted-foreground hover:text-primary transition-colors"
           >
-            <Sliders size={14} className="sm:w-4 sm:h-4" />
+            <Sliders size={16} className="sm:w-4 sm:h-4" />
           </button>
         )}
       </div>
 
       {showSettings && !mini && (
-        <div className="absolute top-8 right-0 w-64 max-w-[calc(100vw-2rem)] bg-card/95 backdrop-blur-xl border border-border/50 rounded-bl-lg p-4 z-10 shadow-xl">
+        <div className="absolute top-9 sm:top-8 right-0 w-72 max-w-[calc(100vw-2rem)] bg-card/95 backdrop-blur-xl border border-border/50 rounded-bl-lg p-5 z-10 shadow-xl">
           <div className="space-y-4">
             <div>
-              <label className="text-xs text-muted-foreground font-mono mb-3 block">
+              <label className="text-sm sm:text-xs text-muted-foreground font-mono mb-3 block">
                 Accessibility
               </label>
               <Button
@@ -478,15 +478,15 @@ export function Terminal({
                 }}
                 variant={currentTheme === 'highcontrast' ? 'default' : 'outline'}
                 size="sm"
-                className="w-full justify-start gap-2"
+                className="w-full justify-start gap-2 h-10 text-sm"
               >
-                <Eye size={16} weight="bold" />
+                <Eye size={18} weight="bold" />
                 {currentTheme === 'highcontrast' ? 'Disable' : 'Enable'} High Contrast
               </Button>
             </div>
             <Separator />
             <div>
-              <label className="text-xs text-muted-foreground font-mono mb-2 block">
+              <label className="text-sm sm:text-xs text-muted-foreground font-mono mb-3 block">
                 Opacity: {opacity ?? initialOpacity}%
               </label>
               <Slider
@@ -500,7 +500,7 @@ export function Terminal({
             </div>
             <Separator />
             <div>
-              <label className="text-xs text-muted-foreground font-mono mb-2 block">
+              <label className="text-sm sm:text-xs text-muted-foreground font-mono mb-3 block">
                 Blur: {blur ?? initialBlur}px
               </label>
               <Slider
@@ -518,13 +518,13 @@ export function Terminal({
 
       <div 
         ref={terminalRef}
-        className={`relative z-10 terminal-font text-xs sm:text-sm p-3 sm:p-6 pt-10 sm:pt-12 overflow-y-auto transition-all duration-300 ${mini ? 'h-64' : 'h-64 sm:h-80 md:h-96'}`}
+        className={`relative z-10 terminal-font text-sm sm:text-sm p-4 sm:p-6 pt-11 sm:pt-12 overflow-y-auto transition-all duration-300 ${mini ? 'h-64' : 'h-[70vh] min-h-[400px] sm:h-80 md:h-96'}`}
         onClick={() => inputRef.current?.focus()}
       >
         {lines.map((line, idx) => (
           <div
             key={idx}
-            className={`mb-1 transition-all duration-300 hover:translate-x-1 hover:brightness-110 ${
+            className={`mb-1.5 leading-relaxed transition-all duration-300 hover:translate-x-1 hover:brightness-110 break-words ${
               line.type === 'input'
                 ? 'text-accent font-bold hover:drop-shadow-[0_0_4px_rgba(100,200,255,0.4)]'
                 : line.type === 'error'
@@ -536,9 +536,9 @@ export function Terminal({
           </div>
         ))}
 
-        <form onSubmit={handleSubmit} className="flex items-center group/input">
-          <span className="text-accent mr-2 transition-all duration-300 group-hover/input:drop-shadow-[0_0_4px_rgba(100,200,255,0.4)] pulsate flex items-center">
-            <CaretRight size={16} weight="bold" />
+        <form onSubmit={handleSubmit} className="flex items-center group/input mt-2">
+          <span className="text-accent mr-2 transition-all duration-300 group-hover/input:drop-shadow-[0_0_4px_rgba(100,200,255,0.4)] pulsate flex items-center flex-shrink-0">
+            <CaretRight size={18} className="sm:w-4 sm:h-4" weight="bold" />
             <span>_</span>
           </span>
           <input
@@ -547,7 +547,7 @@ export function Terminal({
             value={currentInput}
             onChange={(e) => setCurrentInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="flex-1 bg-transparent outline-none text-accent font-bold caret-accent transition-all duration-300 hover:drop-shadow-[0_0_4px_rgba(100,200,255,0.4)]"
+            className="flex-1 bg-transparent outline-none text-accent font-bold caret-accent transition-all duration-300 hover:drop-shadow-[0_0_4px_rgba(100,200,255,0.4)] text-base sm:text-sm"
             autoFocus
             spellCheck={false}
           />
