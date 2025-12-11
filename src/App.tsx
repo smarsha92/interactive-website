@@ -63,11 +63,13 @@ function App() {
     setCurrentTheme(themeName);
   };
 
-  const globalGradient = 'radial-gradient(circle at 50% 45%, #00d4ff 0%, transparent 25%), radial-gradient(ellipse at 40% 50%, #0099cc 0%, transparent 35%), radial-gradient(ellipse at 60% 50%, #6b5aff 0%, transparent 35%), radial-gradient(circle at 50% 55%, #4d3dcc 0%, transparent 30%), linear-gradient(180deg, #001428 0%, #000811 100%)'
+  const currentThemeData = themes[currentTheme || 'cyan'];
+  const globalGradient = currentThemeData?.gradient || 'radial-gradient(circle at 50% 45%, #00d4ff 0%, transparent 25%), radial-gradient(ellipse at 40% 50%, #0099cc 0%, transparent 35%), radial-gradient(ellipse at 60% 50%, #6b5aff 0%, transparent 35%), radial-gradient(circle at 50% 55%, #4d3dcc 0%, transparent 30%), linear-gradient(180deg, #001428 0%, #000811 100%)';
 
   return (
     <div className="min-h-screen bg-background text-foreground text-base font-mono relative">
       <motion.div 
+        key={`bg-${currentTheme}`}
         className="fixed inset-0 z-0"
         initial={{ opacity: 0 }}
         animate={{ 
