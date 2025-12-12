@@ -198,6 +198,35 @@ body::before {
   animation: pulsate 2s ease-in-out infinite;
 }
 
+@keyframes breathe {
+  0%, 100% { 
+    opacity: 0.88;
+    filter: brightness(0.95);
+  }
+  50% { 
+    opacity: 1;
+    filter: brightness(1.08);
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% { 
+    opacity: 0.9;
+  }
+  50% { 
+    opacity: 0.75;
+  }
+}
+
+.breathe {
+  animation: breathe 7s ease-in-out infinite;
+  will-change: opacity, filter;
+}
+
+.pulse-slow {
+  animation: pulse-slow 6s ease-in-out infinite;
+}
+
 .theme-transition {
   transition: all 0.6s ease-in-out;
 }
