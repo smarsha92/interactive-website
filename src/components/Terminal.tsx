@@ -6,6 +6,7 @@ import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import { useKV } from '@github/spark/hooks'
 import { themes } from '@/lib/themes'
+import { AnimatedTerminalText } from './AnimatedTerminalText'
 
 interface TerminalProps {
   onCommand: (command: string) => void
@@ -533,18 +534,13 @@ export function Terminal({
         onClick={() => inputRef.current?.focus()}
       >
         {lines.map((line, idx) => (
-          <div
-            key={idx}
-            className={`mb-1.5 leading-relaxed transition-all duration-300 hover:translate-x-1 hover:brightness-110 break-words ${
-              line.type === 'input'
-                ? 'text-accent font-bold hover:drop-shadow-[0_0_4px_rgba(100,200,255,0.4)]'
-                : line.type === 'error'
-                ? 'text-destructive hover:drop-shadow-[0_0_4px_rgba(255,100,100,0.4)]'
-                : 'text-primary hover:drop-shadow-[0_0_4px_rgba(100,200,255,0.25)]'
-            }`}
-          >
-            {line.text}
-          </div>
+          <AnimatedTerminalText
+            key={`${idx}-${line.text.substring(0, 20)}`}
+            text={line.text}
+            type={line.type}
+            delay={Math.min(idx * 12, 200)}
+            speed={line.text.length > 100 ? 8 : line.text.length > 50 ? 12 : 18}
+          />
         ))}
 
         <form onSubmit={handleSubmit} className="flex items-center group/input mt-2">
