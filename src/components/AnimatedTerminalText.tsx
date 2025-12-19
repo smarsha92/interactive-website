@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
-interface AnimatedTerminalTextProps {
-  text: string
   type: 'output' | 'input' | 'error'
-  delay?: number
-  speed?: number
-}
+  speed?: numb
 
-export function AnimatedTerminalText({ text, type, delay = 0, speed = 20 }: AnimatedTerminalTextProps) {
-  const [displayedText, setDisplayedText] = useState('')
+  const [display
+
+ 
+
+    }
+    setDisplayedText('')
   const [isComplete, setIsComplete] = useState(false)
 
   useEffect(() => {
@@ -19,7 +19,44 @@ export function AnimatedTerminalText({ text, type, delay = 0, speed = 20 }: Anim
       return
     }
 
-    setDisplayedText('')
+    let currentIndex = 0
+    const startTimeout = setTimeout(() => {
+      const interval = setInterval(() => {
+        if (currentIndex < text.length) {
+          setDisplayedText(text.substring(0, currentIndex + 1))
+          currentIndex++
+        } else {
+          setIsComplete(true)
+          clearInterval(interval)
+        }
+      }, speed)
+
+      return () => clearInterval(interval)
+    }, delay)
+
+    return () => clearTimeout(startTimeout)
+  }, [text, delay, speed])
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -4 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.2, delay: delay / 1000 }}
+      className={`mb-1.5 leading-relaxed transition-all duration-300 hover:translate-x-1 hover:brightness-110 break-words ${
+        type === 'input'
+          ? 'text-accent font-bold hover:drop-shadow-[0_0_4px_rgba(100,200,255,0.4)]'
+          : type === 'error'
+          ? 'text-destructive hover:drop-shadow-[0_0_4px_rgba(255,100,100,0.4)]'
+          : 'text-primary hover:drop-shadow-[0_0_4px_rgba(100,200,255,0.25)]'
+      }`}
+    >
+      {displayedText}
+      {!isComplete && text.length > 0 && (
+        <span className="inline-block w-2 h-4 ml-0.5 bg-accent/80 animate-pulse" />
+      )}
+    </motion.div>
+  )
+}
     setIsComplete(false)
 
     let currentIndex = 0
